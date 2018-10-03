@@ -24,16 +24,17 @@ public class WelcomeController {
 
     @FXML
     private void submitButtonPress(){
-        List<Name> names = new ArrayList<Name>();
-        if(nameInput.getText() != null){
-            names.add(new Name(nameInput.getText(), "FILENAME HERE"));
-            goToList(names);
+        if(nameInput.getText() != null && !nameInput.getText().trim().isEmpty()){
+            List<String> name = new ArrayList<String>();
+            name.add(nameInput.getText());
+            goToList(name);
         } else {
             // show error message that no input...
+            System.out.println("Error no input");
         }
     }
 
-    private void goToList(List<Name> names){
+    private void goToList(List<String> names){
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("List.fxml"));
             loader.setController(new ListController(names));
