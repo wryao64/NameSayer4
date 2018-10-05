@@ -15,7 +15,7 @@
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
             <Region prefHeight="200.0" prefWidth="200.0" />
-            <Button mnemonicParsing="false" text="Previous">
+            <Button id="leftButton" fx:id="leftButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton" stylesheets="@../../../../../css/NameDisplay.css">
                <font>
                   <Font size="16.0" />
                </font>
@@ -28,7 +28,7 @@
                         <Font size="28.0" />
                     </font>
                 </Label>
-            <Button mnemonicParsing="false" text="Next">
+            <Button id="rightButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton" stylesheets="@../../../../../css/NameDisplay.css">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin>
