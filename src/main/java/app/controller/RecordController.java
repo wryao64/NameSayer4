@@ -78,7 +78,7 @@ public class RecordController implements Initializable {
     }
 
     @FXML
-    private void backToNameDisplay() {
+    private void backButtonPress() {
         // go back to List page
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));

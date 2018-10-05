@@ -47,7 +47,7 @@
     <left>
         <VBox alignment="BOTTOM_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-                <Button fx:id="backButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#backToNameDisplay" text="Back">
+                <Button fx:id="backButton" alignment="BOTTOM_LEFT" mnemonicParsing="false" onAction="#backButtonPress" text="Back">
                     <font>
                         <Font size="16.0" />
                     </font>

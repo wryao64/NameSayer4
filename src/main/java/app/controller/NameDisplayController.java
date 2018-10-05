@@ -18,6 +18,7 @@ import java.util.ResourceBundle;
 public class NameDisplayController implements Initializable {
     private Stage _stage;
     private List<Name> _nameList;
+    private Name _selectedName = new Name("Placeholder", "Placeholder");
 
     public NameDisplayController(List<Name> nameList) {
         _nameList = nameList;
@@ -26,6 +27,19 @@ public class NameDisplayController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
+    }
+
+    @FXML
+    private void practiseButtonPress() {
+        // redirect to Record page
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Record.fxml"));
+            loader.setController(new RecordController(_selectedName, _nameList));
+            Parent recordView = loader.load();
+            _stage.setScene(new Scene(recordView));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
