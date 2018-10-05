@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class ListController implements Initializable {
+    private Stage _stage;
+
     private ObservableList<Name> _selectedNames = FXCollections.observableArrayList();
 
     @FXML private ListView<Name> selectedNamesList;
@@ -37,6 +39,8 @@ public class ListController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        _stage = Main.getStage();
+
         selectedNamesList.setPlaceholder(new Label("No Names To Practice :("));
         selectedNamesList.getItems().addAll(_selectedNames);
     }
@@ -84,5 +88,17 @@ public class ListController implements Initializable {
     @FXML
     private void shuffleButtonPress() {
         Collections.shuffle(_selectedNames);
+    }
+
+    @FXML
+    private void backButtonPress() {
+        // go back to Welcome page
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Welcome.fxml"));
+            Parent welcome = loader.load();
+            _stage.setScene(new Scene(welcome));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -83,13 +83,24 @@
          </padding>
       </VBox>
    </center>
-   <left>
-      <Region prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </left>
    <right>
       <Region prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </right>
+   <left>
+      <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
    <bottom>
-      <Region prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
+      <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#backButtonPress" text="Back">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
    </bottom>
 </BorderPane>
