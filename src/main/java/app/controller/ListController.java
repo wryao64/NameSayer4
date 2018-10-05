@@ -66,25 +66,6 @@ public class ListController implements Initializable {
     }
 
     @FXML
-    private void practiseButtonPress() {
-        // TODO: go to practise screen
-        if(_selectedNames.isEmpty()){
-            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR, "No names selected");
-            noSelectionAlert.showAndWait();
-        } else {
-            // get the selected items and pass it onto the new scene
-            try {
-                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
-                loader.setController(new NameDisplayController(_selectedNames));
-                Parent nameDisplay = loader.load();
-                _stage.setScene(new Scene(nameDisplay));
-            } catch(IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @FXML
     private void shuffleButtonPress() {
         Collections.shuffle(_selectedNames);
     }

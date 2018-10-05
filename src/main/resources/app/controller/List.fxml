@@ -17,7 +17,7 @@
          <children>
             <Label text="Change names to practise">
                <font>
-                  <Font size="24.0" />
+                  <Font size="28.0" />
                </font>
             </Label>
          </children>
@@ -46,14 +46,6 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="20.0" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#practiseButtonPress" text="Practise">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                        </Button>
                         <Button mnemonicParsing="false" onAction="#shuffleButtonPress" text="Shuffle">
                            <font>
                               <Font size="16.0" />
