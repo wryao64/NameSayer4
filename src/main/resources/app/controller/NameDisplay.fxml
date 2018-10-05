@@ -15,7 +15,7 @@
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
             <Region prefHeight="200.0" prefWidth="200.0" />
-            <Button id="leftButton" fx:id="leftButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton" stylesheets="@../../../../../css/NameDisplay.css">
+            <Button id="leftButton" fx:id="leftButton" mnemonicParsing="false" onAction="#backButtonPress" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton" stylesheets="@../../../../../css/NameDisplay.css">
                <font>
                   <Font size="16.0" />
                </font>
@@ -23,12 +23,12 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-                <Label text="NameToPractise">
+                <Label fx:id="nameLabel" text="NameToPractise">
                     <font>
                         <Font size="28.0" />
                     </font>
                 </Label>
-            <Button id="rightButton" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton" stylesheets="@../../../../../css/NameDisplay.css">
+            <Button id="rightButton" mnemonicParsing="false" onAction="#nextButtonPress" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton" stylesheets="@../../../../../css/NameDisplay.css">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin>
@@ -64,6 +64,14 @@
             </ListView>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
                <children>
+                  <Button mnemonicParsing="false" onAction="#playTestingButtonPress" text="PLAY TESTING">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="29.0" />
+                     </VBox.margin>
+                  </Button>
                   <Button mnemonicParsing="false" onAction="#practiseButtonPress" text="Practise">
                      <font>
                         <Font size="16.0" />

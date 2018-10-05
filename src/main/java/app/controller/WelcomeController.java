@@ -41,11 +41,11 @@ public class WelcomeController {
     @FXML
     private void submitButtonPress(){
         if(nameInput.getText() != null && !nameInput.getText().trim().isEmpty()){
-            List<String> name = new ArrayList<String>();
-            name.add(nameInput.getText());
+            List<Name> name = new ArrayList<>();
+            name.add(new Name(nameInput.getText(), null));
             goToList(name);
         } else {
-            // show error message that no input...
+            // TODO: show error message that no input...
             System.out.println("Error no input");
         }
     }
@@ -70,13 +70,13 @@ public class WelcomeController {
         } catch(IOException e) {
             System.out.println("Could not open file");
         }
+        System.out.println("Should go to next screen");
     }
 
-    private void goToList(List<String> names){
+    private void goToList(List<Name> names){
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
-//            loader.setController(new NameDisplayController(names));
-            loader.setController(new NameDisplayController(new ArrayList<Name>())); // placeholder list of names
+            loader.setController(new NameDisplayController(names));
             Parent nameView = loader.load();
             _stage.setScene(new Scene(nameView));
         } catch (IOException e){
