@@ -2,6 +2,7 @@ package app.controller;
 
 import app.Main;
 import app.Name;
+import app.NamesDatabase;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -23,23 +24,23 @@ import java.util.ResourceBundle;
 
 public class EditController implements Initializable {
     private Stage _stage;
-
     private ObservableList<Name> _selectedNames = FXCollections.observableArrayList();
+    private NamesDatabase _namesDB;
 
     @FXML private ListView<Name> selectedNamesList;
     @FXML private TextField nameInput;
 
-//    public EditController(List<String> names){
-//        for(String name : names){
-//            // TODO: Setup names inputted properly with concat
-//            Name nameToAdd = new Name(name, "FILE LOCATION");
-//            _selectedNames.add(nameToAdd);
-//        }
-//    }
+    public EditController(List<Name> names){
+        for(Name nameToAdd : names){
+            // TODO: Setup names inputted properly with concat...
+            _selectedNames.add(nameToAdd);
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
+        _namesDB = new NamesDatabase();
 
         selectedNamesList.setPlaceholder(new Label("No Names To Practice :("));
         selectedNamesList.getItems().addAll(_selectedNames);
@@ -48,8 +49,16 @@ public class EditController implements Initializable {
     @FXML
     private void addButtonPress(){
         // TODO: add the name to list of stuff to practice
-        String nameToAdd = nameInput.getText();
-        System.out.println("add: " + nameToAdd);
+        String nameStr = nameInput.getText();
+        if(nameInput.getText() != null && !nameInput.getText().trim().isEmpty()) {
+            Name nameToAdd = createName(nameStr);
+            _selectedNames.add(nameToAdd);
+            selectedNamesList.setItems(_selectedNames);
+            nameInput.setText(""); // clear TextField
+        } else {
+            // TODO: Set alert error message
+            System.out.println("Error: name is blank");
+        }
     }
 
     @FXML
@@ -81,5 +90,9 @@ public class EditController implements Initializable {
         } catch(IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Name createName(String nameStr){
+        return new Name(nameStr, _namesDB.getFile(nameStr));
     }
 }

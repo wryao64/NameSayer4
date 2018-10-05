@@ -15,12 +15,12 @@ import java.util.List;
  */
 public class Name {
     private String _name;
-    private String _dbRecording;
+    private File _dbRecording;
     private List<File> _userRecordings;
     private int _quality; // will deal with quality later...
     private int _nextRecordingIndex;
 
-    public Name(String name, String dbRecording) {
+    public Name(String name, File dbRecording) {
         _name = name;
         _dbRecording = dbRecording;
         _userRecordings = new ArrayList<File>();
@@ -89,8 +89,7 @@ public class Name {
         @Override
         protected Void call() {
             try {
-                AudioInputStream
-                        audioStream = AudioSystem.getAudioInputStream(new File(Main.DATABASE_LOCATION + "/" +_dbRecording));
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(_dbRecording);
 
                 int BUFFER_SIZE = 128000;
                 AudioFormat audioFormat = null;

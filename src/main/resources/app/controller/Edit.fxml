@@ -38,7 +38,7 @@
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
                   </TextField>
-                  <Button fx:id="addButtonPress" mnemonicParsing="false" text="+" />
+                  <Button mnemonicParsing="false" onAction="#addButtonPress" text="+" />
                </children>
             </HBox>
             <ListView fx:id="selectedNamesList" prefHeight="400.0" prefWidth="400.0" />

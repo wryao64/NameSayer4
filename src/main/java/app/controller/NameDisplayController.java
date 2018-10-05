@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 public class NameDisplayController implements Initializable {
     private Stage _stage;
     private List<Name> _nameList;
-    private Name _selectedName = new Name("Placeholder", "Placeholder");
+    private Name _selectedName = new Name("Placeholder", null);
 
     public NameDisplayController(List<Name> nameList) {
         _nameList = nameList;
@@ -46,9 +46,9 @@ public class NameDisplayController implements Initializable {
         // go back to List page
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Edit.fxml"));
-            loader.setController(new EditController());
-            Parent listView = loader.load();
-            _stage.setScene(new Scene(listView));
+            loader.setController(new EditController(_nameList));
+            Parent editView = loader.load();
+            _stage.setScene(new Scene(editView));
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -59,8 +59,8 @@ public class NameDisplayController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MicTest.fxml"));
             loader.setController(new MicTestController(_nameList));
-            Parent testMic = loader.load();
-            _stage.setScene(new Scene(testMic));
+            Parent testMicView = loader.load();
+            _stage.setScene(new Scene(testMicView));
         } catch(IOException e) {
             e.printStackTrace();
         }
