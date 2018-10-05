@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ListController implements Initializable {
+public class EditController implements Initializable {
     private Stage _stage;
 
     private ObservableList<Name> _selectedNames = FXCollections.observableArrayList();
@@ -29,7 +29,7 @@ public class ListController implements Initializable {
     @FXML private ListView<Name> selectedNamesList;
     @FXML private TextField nameInput;
 
-//    public ListController(List<String> names){
+//    public EditController(List<String> names){
 //        for(String name : names){
 //            // TODO: Setup names inputted properly with concat
 //            Name nameToAdd = new Name(name, "FILE LOCATION");

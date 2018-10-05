@@ -7,12 +7,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -47,8 +45,8 @@ public class NameDisplayController implements Initializable {
     private void editButtonPress() {
         // go back to List page
         try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("List.fxml"));
-            loader.setController(new ListController());
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Edit.fxml"));
+            loader.setController(new EditController());
             Parent listView = loader.load();
             _stage.setScene(new Scene(listView));
         } catch(IOException e) {
