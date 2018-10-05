@@ -29,13 +29,13 @@ public class ListController implements Initializable {
     @FXML private ListView<Name> selectedNamesList;
     @FXML private TextField nameInput;
 
-    public ListController(List<String> names){
-        for(String name : names){
-            // TODO: Setup names inputted properly with concat
-            Name nameToAdd = new Name(name, "FILE LOCATION");
-            _selectedNames.add(nameToAdd);
-        }
-    }
+//    public ListController(List<String> names){
+//        for(String name : names){
+//            // TODO: Setup names inputted properly with concat
+//            Name nameToAdd = new Name(name, "FILE LOCATION");
+//            _selectedNames.add(nameToAdd);
+//        }
+//    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -68,21 +68,20 @@ public class ListController implements Initializable {
     @FXML
     private void practiseButtonPress() {
         // TODO: go to practise screen
-        System.out.println("Practice not yet implemented");
-//        if(_selectedNames.isEmpty()){
-//            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR, "No names selected");
-//            noSelectionAlert.showAndWait();
-//        } else {
-//            // get the selected items and pass it onto the new scene
-//            try {
-//                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
-//                loader.setController(new NameDisplayController(_selectedNames));
-//                Parent nameDisplay = loader.load();
-//                _stage.setScene(new Scene(nameDisplay));
-//            } catch(IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        if(_selectedNames.isEmpty()){
+            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR, "No names selected");
+            noSelectionAlert.showAndWait();
+        } else {
+            // get the selected items and pass it onto the new scene
+            try {
+                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
+                loader.setController(new NameDisplayController(_selectedNames));
+                Parent nameDisplay = loader.load();
+                _stage.setScene(new Scene(nameDisplay));
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @FXML
@@ -92,11 +91,12 @@ public class ListController implements Initializable {
 
     @FXML
     private void backButtonPress() {
-        // go back to Welcome page
+        // go back to NameDisplay page
         try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Welcome.fxml"));
-            Parent welcome = loader.load();
-            _stage.setScene(new Scene(welcome));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
+            loader.setController(new NameDisplayController(_selectedNames));
+            Parent nameView = loader.load();
+            _stage.setScene(new Scene(nameView));
         } catch(IOException e) {
             e.printStackTrace();
         }

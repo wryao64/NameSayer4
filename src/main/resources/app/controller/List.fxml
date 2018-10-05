@@ -86,9 +86,6 @@
    <right>
       <Region prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </right>
-   <left>
-      <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </left>
    <bottom>
       <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
@@ -103,4 +100,7 @@
          </children>
       </HBox>
    </bottom>
+   <left>
+      <Region prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
 </BorderPane>

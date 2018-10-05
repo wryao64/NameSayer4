@@ -36,10 +36,11 @@ public class WelcomeController {
 
     private void goToList(List<String> names){
         try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("List.fxml"));
-            loader.setController(new ListController(names));
-            Parent listView = loader.load();
-            Main.getStage().setScene(new Scene(listView));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
+//            loader.setController(new NameDisplayController(names));
+            loader.setController(new NameDisplayController(new ArrayList<Name>())); // placeholder list of names
+            Parent nameView = loader.load();
+            Main.getStage().setScene(new Scene(nameView));
         } catch (IOException e){
             e.printStackTrace();
         }

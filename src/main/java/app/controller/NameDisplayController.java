@@ -39,4 +39,17 @@ public class NameDisplayController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void editButtonPress() {
+        // go back to List page
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("List.fxml"));
+            loader.setController(new ListController());
+            Parent listView = loader.load();
+            _stage.setScene(new Scene(listView));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
