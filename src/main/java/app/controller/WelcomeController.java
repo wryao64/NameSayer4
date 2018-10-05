@@ -7,8 +7,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +29,13 @@ public class WelcomeController {
 
     @FXML
     private void uploadButtonPress(){
-        // do the file uploading
-        System.out.println("Uploading file not yet implemented");
+        // opens window to choose file
+        FileChooser fc = new FileChooser();
+        configureFileChooser(fc);
+        File file = fc.showOpenDialog(_stage);
+        if (file != null) {
+            openFile(file);
+        }
     }
 
     @FXML
@@ -50,6 +59,28 @@ public class WelcomeController {
             _stage.setScene(new Scene(testMic));
         } catch(IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void configureFileChooser(final FileChooser fc) {
+        fc.setTitle("Open Name File");
+        fc.setInitialDirectory(new File(Main.ASSETS_LOCATION));
+        fc.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text File", "*.txt")
+        );
+    }
+
+    private void openFile(File file) {
+        try {
+            // load in names from file
+            BufferedReader bf = new BufferedReader(new FileReader(file));
+
+            String line;
+            while ((line = bf.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch(IOException e) {
+            System.out.println("Could not open file");
         }
     }
 
