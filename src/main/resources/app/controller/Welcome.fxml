@@ -15,26 +15,50 @@
          <children>
             <HBox alignment="CENTER" prefHeight="30.0" prefWidth="800.0">
                <children>
-                  <Label text="Practice a name:" />
+                  <Label text="Practice a name:">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
                   <TextField fx:id="nameInput">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </TextField>
                   <Button mnemonicParsing="false" onAction="#submitButtonPress" text="Ok!">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </Button>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Or upload a file:" />
+                  <Label text="Or upload a file:">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Label>
                   <Button mnemonicParsing="false" onAction="#uploadButtonPress" text="Upload">
                      <HBox.margin>
                         <Insets left="30.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#testMicButtonPressed" text="Test Microphone">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </Button>
                </children>
             </HBox>
