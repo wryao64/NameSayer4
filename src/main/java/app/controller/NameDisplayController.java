@@ -44,18 +44,6 @@ public class NameDisplayController implements Initializable {
     }
 
     @FXML
-    private void backToWelcome() {
-        // go back to Welcome page
-        try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Welcome.fxml"));
-            Parent welcomeView = loader.load();
-            _stage.setScene(new Scene(welcomeView));
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
     private void editButtonPress() {
         // go back to List page
         try {
@@ -63,6 +51,18 @@ public class NameDisplayController implements Initializable {
             loader.setController(new ListController());
             Parent listView = loader.load();
             _stage.setScene(new Scene(listView));
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void testMicButtonPress() {
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MicTest.fxml"));
+            loader.setController(new MicTestController(_nameList));
+            Parent testMic = loader.load();
+            _stage.setScene(new Scene(testMic));
         } catch(IOException e) {
             e.printStackTrace();
         }

@@ -50,18 +50,6 @@ public class WelcomeController {
         }
     }
 
-    @FXML
-    private void testMicButtonPressed() {
-        try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MicTest.fxml"));
-            loader.setController(new MicTestController());
-            Parent testMic = loader.load();
-            _stage.setScene(new Scene(testMic));
-        } catch(IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void configureFileChooser(final FileChooser fc) {
         fc.setTitle("Open Name File");
         fc.setInitialDirectory(new File(Main.ASSETS_LOCATION));

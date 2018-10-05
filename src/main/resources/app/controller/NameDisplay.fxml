@@ -54,20 +54,6 @@
     <right>
         <Region prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
     </right>
-    <bottom>
-        <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <children>
-                <Button mnemonicParsing="false" onAction="#backToWelcome" text="Back">
-                    <font>
-                        <Font size="16.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" />
-                    </HBox.margin>
-                </Button>
-            </children>
-        </HBox>
-    </bottom>
    <center>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -88,11 +74,19 @@
                   </Button>
                   <Button mnemonicParsing="false" text="Compare">
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets bottom="10.0" top="10.0" />
                      </VBox.margin>
                      <font>
                         <Font size="16.0" />
                      </font>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#testMicButtonPress" text="Test Mic">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="60.0" />
+                     </VBox.margin>
                   </Button>
                </children>
             </VBox>

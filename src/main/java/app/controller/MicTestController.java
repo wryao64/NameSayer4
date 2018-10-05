@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.Main;
+import app.Name;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -12,7 +13,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -22,11 +22,13 @@ import javafx.util.Duration;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MicTestController implements Initializable {
     private Stage _stage;
     private Timeline timeline;
+    private List<Name> _names;
 
     @FXML
     ProgressBar bar;
@@ -36,6 +38,10 @@ public class MicTestController implements Initializable {
 
     @FXML
     Button backButton;
+
+    public MicTestController(List<Name> names){
+        _names = names; // hold onto information about names to pass back
+    }
 
 
     @Override
@@ -69,9 +75,11 @@ public class MicTestController implements Initializable {
     private void backButtonPress() {
         // go back to Welcome page
         try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Welcome.fxml"));
-            Parent welcomeView = loader.load();
-            _stage.setScene(new Scene(welcomeView));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
+            NameDisplayController controller = new NameDisplayController(_names);
+            loader.setController(controller);
+            Parent nameDisplay = loader.load();
+            _stage.setScene(new Scene(nameDisplay));
         } catch (IOException e){
             e.printStackTrace();
         }
