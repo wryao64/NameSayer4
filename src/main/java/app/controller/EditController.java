@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.*;
@@ -106,8 +107,38 @@ public class EditController implements Initializable {
 
     @FXML
     private void uploadButtonPress(){
-        System.out.println("Not yet implemented");
+        // opens window to choose file
+        FileChooser fc = new FileChooser();
+        configureFileChooser(fc);
+        File file = fc.showOpenDialog(_stage);
+        if (file != null) {
+            openFile(file);
+        }
     }
+
+    private void configureFileChooser(final FileChooser fc) {
+        fc.setTitle("Open Name File");
+        fc.setInitialDirectory(new File(System.getProperty("user.home")));
+        fc.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Text File (*.txt)", "*.txt")
+        );
+    }
+
+    private void openFile(File file) {
+        try {
+            // load in names from file
+            BufferedReader bf = new BufferedReader(new FileReader(file));
+
+            String line;
+            while ((line = bf.readLine()) != null) {
+                Name newName = createName(line);
+                _selectedNames.add(newName);
+            }
+        } catch(IOException e) {
+            DialogGenerator.showErrorMessage("Could not read file :(");
+        }
+    }
+
 
     /**
      * createName creates a Name object. There is a prompt if the part of the Name is not in the database
