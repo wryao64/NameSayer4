@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.DialogGenerator;
 import app.Main;
 import app.Name;
 import app.NamesDatabase;
@@ -9,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.fxml.FXML;
@@ -61,8 +61,7 @@ public class EditController implements Initializable {
                 nameInput.setText(""); // clear TextField
             }
         } else {
-            // TODO: Set alert error message
-            System.out.println("Error: name is blank");
+            DialogGenerator.showErrorMessage("Name is blank.");
         }
     }
 
@@ -71,8 +70,7 @@ public class EditController implements Initializable {
         // get the selected item and pass it to the list of selected names
         Name selectedName = selectedNamesList.getSelectionModel().getSelectedItem();
         if(selectedName == null){
-            Alert noSelectionAlert = new Alert(Alert.AlertType.ERROR, "No name selected");
-            noSelectionAlert.showAndWait();
+            DialogGenerator.showErrorMessage("No name selected.");
         } else {
             _selectedNames.remove(selectedName);
             selectedNamesList.setItems(_selectedNames);
@@ -122,13 +120,18 @@ public class EditController implements Initializable {
         }
 
         if(namesNotInDatabase.size() > 0){
-            // todo: change to alert
-            System.out.print("These parts of the name are not in the database: " + listAsLine(namesNotInDatabase));
-            System.out.println("\nWOULD YOU STILL LIKE TO CREATE NAME? Y/N");
-            // if yes:
-
-            // if no:
-            createName = false;
+            // Build up the error message regarding missing names
+            String message = namesNotInDatabase.get(0);
+            if(namesNotInDatabase.size() == 1){
+                message = message + " is";
+            } else {
+                for(int i = 1; i < namesNotInDatabase.size(); i++){
+                    message = message + ", " + namesNotInDatabase.get(i);
+                }
+                message = message + " are";
+            }
+            message = message + " not in the database. Would you still like to create the name?";
+            createName = DialogGenerator.showOptionsDialog("Missing names in database", message, "Yes", "No");
         }
 
         if(createName){

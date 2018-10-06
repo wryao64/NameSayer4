@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.DialogGenerator;
 import app.Main;
 import app.Name;
 import javafx.fxml.FXML;
@@ -48,7 +49,7 @@ public class NameDisplayController implements Initializable {
             _selectedNameIndex--;
             onChangeSelectedName();
         } else {
-            System.out.println("Can't go back");
+            DialogGenerator.showErrorMessage("This is the first name, can't go back.");
         }
     }
 
@@ -58,7 +59,7 @@ public class NameDisplayController implements Initializable {
             _selectedNameIndex++;
             onChangeSelectedName();
         } else {
-            System.out.println("Can't go next");
+            DialogGenerator.showErrorMessage("This is the last name, can't go next.");
         }
     }
 

@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.DialogGenerator;
 import app.Main;
 import app.Name;
 import javafx.fxml.FXML;
@@ -45,8 +46,7 @@ public class WelcomeController {
             name.add(new Name(nameInput.getText(), null));
             goToList(name);
         } else {
-            // TODO: show error message that no input...
-            System.out.println("Error no input");
+            DialogGenerator.showErrorMessage("Error: Name not inputted");
         }
     }
 
@@ -68,9 +68,9 @@ public class WelcomeController {
                 System.out.println(line);
             }
         } catch(IOException e) {
-            System.out.println("Could not open file");
+            DialogGenerator.showErrorMessage("Could not read file :(");
         }
-        System.out.println("Should go to next screen");
+        System.out.println("Should go to next screen, not yet implemented");
     }
 
     private void goToList(List<Name> names){

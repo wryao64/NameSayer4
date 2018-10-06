@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.DialogGenerator;
 import app.Main;
 import app.Name;
 import javafx.animation.KeyFrame;
@@ -129,7 +130,7 @@ public class RecordController implements Initializable {
         protected void done() {
             Platform.runLater(() -> {
                 // See if user wants to listen to the recording
-                boolean hearRecording = showOptionsDialog("Play Recording", "Would you like to listen to the recording?", "Yes", "No");
+                boolean hearRecording = DialogGenerator.showOptionsDialog("Play Recording", "Would you like to listen to the recording?", "Yes", "No");
                 if (hearRecording) {
                     Media media = new Media(new File(_fileName).toURI().toString());
                     MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -137,7 +138,7 @@ public class RecordController implements Initializable {
                     timeline.playFromStart();
 
                     // See if user wants to save the recording
-                    boolean save = showOptionsDialog("Save Recording", "Would you like to save this recording?", "Yes", "No");
+                    boolean save = DialogGenerator.showOptionsDialog("Save Recording", "Would you like to save this recording?", "Yes", "No");
                     mediaPlayer.stop();
                     timeline.stop();
 
@@ -151,7 +152,7 @@ public class RecordController implements Initializable {
                     }
                 } else {
                     // See if user wants to save the recording
-                    boolean save = showOptionsDialog("Save Recording", "Would you like to save this recording?", "Yes", "No");
+                    boolean save = DialogGenerator.showOptionsDialog("Save Recording", "Would you like to save this recording?", "Yes", "No");
 
                     File recording = new File(_fileName);
                     if (save) {
@@ -165,21 +166,6 @@ public class RecordController implements Initializable {
                 recordButton.setDisable(false);
                 backButton.setDisable(false);
             });
-        }
-    }
-
-    // Should be moved to some sort of DialogGenerator class
-    public static boolean showOptionsDialog(String title, String message, String option1, String option2){
-        ButtonType option1Button = new ButtonType(option1);
-        ButtonType option2Button = new ButtonType(option2);
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, option1Button, option2Button);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.orElse(option2Button) == option1Button){
-            return true;
-        } else {
-            return false;
         }
     }
 }
