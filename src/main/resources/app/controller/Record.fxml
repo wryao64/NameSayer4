@@ -5,21 +5,31 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="border-pane" stylesheets="@../../../../../css/styles.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <center>
-        <VBox alignment="CENTER" prefHeight="480.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="480.0" prefWidth="600.0" BorderPane.alignment="TOP_CENTER">
             <children>
-                <Label fx:id="nameLabel" text="NameToBeRecorded">
-                    <font>
-                        <Font size="24.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets bottom="20.0" />
-                    </VBox.margin>
-                </Label>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                      <Label fx:id="nameLabel" text="NameToBeRecorded">
+                          <font>
+                              <Font size="24.0" />
+                          </font>
+                      </Label>
+                  <Button fx:id="listenButtonPress" alignment="CENTER" mnemonicParsing="false" onAction="#listenButtonPress" text="Listen">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
                 <ProgressBar fx:id="bar" prefWidth="200.0" progress="0.0">
                     <VBox.margin>
                         <Insets bottom="20.0" />
@@ -36,7 +46,7 @@
     <top>
         <VBox alignment="CENTER" prefHeight="120.0" prefWidth="800.0" BorderPane.alignment="CENTER">
             <children>
-                <Label alignment="CENTER" text="Record Audio">
+                <Label alignment="CENTER" text="Practice">
                     <font>
                         <Font size="36.0" />
                     </font>

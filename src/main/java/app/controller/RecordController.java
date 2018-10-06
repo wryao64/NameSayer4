@@ -69,6 +69,14 @@ public class RecordController implements Initializable {
     }
 
     @FXML
+    private void listenButtonPress(){
+        if(!_currentName.playDBRecording()){
+            DialogGenerator.showOkMessage("Name not in database",
+                    "There is nothing in the database matching \"" + _currentName.toString() + "\"");
+        }
+    }
+
+    @FXML
     private void recordButtonPress(){
         Thread thread = new Thread(new Recording());
         thread.start();
