@@ -33,6 +33,7 @@ public class NameDisplayController implements Initializable {
         // namesList should always have at least 1 item enforced by the GUI design
         _nameList = nameList;
         _selectedNameIndex = new SimpleIntegerProperty(0);
+        _selectedName = _nameList.get(0);
 
         // bind _selectedName to change with the index changing
         _selectedNameIndex.addListener((observable, oldValue, newValue) -> {
@@ -109,7 +110,10 @@ public class NameDisplayController implements Initializable {
         // the database recordings need to be setup correctly
         // right now some of the names aren't actually in the database and won't play
         System.out.println("Currently selected to play: " + _selectedName.toString());
-        _selectedName.playDBRecording();
+        if(!_selectedName.playDBRecording()){
+            DialogGenerator.showOkMessage("Name not in database",
+                    "There is nothing in the database matching \"" + _selectedName.toString() + "\"");
+        }
     }
 
     @FXML

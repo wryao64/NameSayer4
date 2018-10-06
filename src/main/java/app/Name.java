@@ -51,10 +51,15 @@ public class Name {
         return _name;
     }
 
-    public void playDBRecording(){
+    public boolean playDBRecording(){
         /* Adapted from: https://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java */
-        Thread thread = new Thread(new PlayAudio());
-        thread.start();
+        if(_dbRecording != null && _dbRecording.exists()){
+            Thread thread = new Thread(new PlayAudio());
+            thread.start();
+        } else {
+            return false;
+        }
+        return true;
     }
 
     public void addUserRecording(File recordingFile){
