@@ -5,6 +5,7 @@ import app.Main;
 import app.Name;
 import app.NamesDatabase;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -35,7 +36,6 @@ public class EditController implements Initializable {
 
     public EditController(List<Name> names){
         for(Name nameToAdd : names){
-            // TODO: Setup names inputted properly with concat...
             _selectedNames.add(nameToAdd);
         }
     }
@@ -47,6 +47,9 @@ public class EditController implements Initializable {
 
         selectedNamesList.setPlaceholder(new Label("No Names To Practice :("));
         selectedNamesList.getItems().addAll(_selectedNames);
+        _selectedNames.addListener((ListChangeListener<Name>) c -> {
+            selectedNamesList.setItems(_selectedNames);
+        });
     }
 
     @FXML
@@ -57,7 +60,6 @@ public class EditController implements Initializable {
             Name nameToAdd = createName(nameStr.trim());
             if(nameToAdd != null){
                 _selectedNames.add(nameToAdd);
-                selectedNamesList.setItems(_selectedNames);
                 nameInput.setText(""); // clear TextField
             }
         } else {
@@ -73,7 +75,6 @@ public class EditController implements Initializable {
             DialogGenerator.showErrorMessage("No name selected.");
         } else {
             _selectedNames.remove(selectedName);
-            selectedNamesList.setItems(_selectedNames);
         }
     }
 
@@ -96,6 +97,16 @@ public class EditController implements Initializable {
                 e.printStackTrace();
             }
         }
+    }
+
+    @FXML
+    private void clearButtonPress(){
+        _selectedNames.clear();
+    }
+
+    @FXML
+    private void uploadButtonPress(){
+        System.out.println("Not yet implemented");
     }
 
     /**
@@ -163,6 +174,8 @@ public class EditController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                // TODO: Get in all the user recordings
 
                 return new Name(nameStr, new File(output));
             }

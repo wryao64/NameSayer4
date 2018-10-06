@@ -39,9 +39,14 @@
                      </HBox.margin>
                   </TextField>
                   <Button mnemonicParsing="false" onAction="#addButtonPress" text="+" />
+                  <Button mnemonicParsing="false" onAction="#uploadButtonPress" text="Upload">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
             </HBox>
-            <ListView fx:id="selectedNamesList" prefHeight="400.0" prefWidth="400.0" />
+            <ListView fx:id="selectedNamesList" prefHeight="400.0" prefWidth="416.0" />
             <VBox alignment="CENTER" prefHeight="80.0" prefWidth="250.0">
                <children>
                   <HBox alignment="CENTER" prefHeight="20.0" prefWidth="200.0">
@@ -62,6 +67,14 @@
                               <Insets />
                            </HBox.margin>
                         </Button>
+                        <Button mnemonicParsing="false" onAction="#clearButtonPress" text="Clear All">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Button>
                      </children>
                      <VBox.margin>
                         <Insets top="10.0" />
@@ -76,7 +89,7 @@
       </VBox>
    </center>
    <right>
-      <Region prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <Region prefHeight="430.0" prefWidth="180.0" BorderPane.alignment="CENTER" />
    </right>
    <bottom>
       <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER">
@@ -93,6 +106,6 @@
       </HBox>
    </bottom>
    <left>
-      <Region prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <Region prefHeight="430.0" prefWidth="180.0" BorderPane.alignment="CENTER" />
    </left>
 </BorderPane>
