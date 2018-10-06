@@ -63,6 +63,10 @@ public class Name {
         return true;
     }
 
+    public File getDBRecording(){
+        return _dbRecording;
+    }
+
     public void addUserRecording(File recordingFile){
         _userRecordings.add(recordingFile);
         _nextRecordingIndex++;

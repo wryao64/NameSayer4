@@ -19,8 +19,13 @@ public class AudioPlayer extends Task<Void> {
 
     @Override
     protected Void call() {
+        playAudioFile(_audioFile);
+        return null;
+    }
+
+    protected void playAudioFile(File audioFile){
         try {
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(_audioFile);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile);
 
             int BUFFER_SIZE = 128000;
             AudioFormat audioFormat = null;
@@ -51,6 +56,9 @@ public class AudioPlayer extends Task<Void> {
         } catch (LineUnavailableException |IOException|UnsupportedAudioFileException e) {
             e.printStackTrace();
         }
-        return null;
+    }
+
+    protected File getAudioFile() {
+        return _audioFile;
     }
 }

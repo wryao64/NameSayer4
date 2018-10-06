@@ -36,7 +36,7 @@
             </Button>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#editButtonPress" text="Edit List">
+                  <Button mnemonicParsing="false" onAction="#editButtonPress" text="Setup Names">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -94,7 +94,7 @@
                               <Insets right="10.0" />
                            </HBox.margin>
                         </Label>
-                        <Spinner fx:id="repeatSpinner" max="5" min="1" initialValue="3" prefHeight="26.0" prefWidth="56.0" />
+                        <Spinner fx:id="repeatSpinner" initialValue="3" max="5" min="1" prefHeight="26.0" prefWidth="56.0" />
                      </children>
                   </HBox>
                   <Button mnemonicParsing="false" onAction="#testMicButtonPress" text="Test Mic">

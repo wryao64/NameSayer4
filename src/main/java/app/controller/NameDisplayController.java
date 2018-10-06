@@ -1,10 +1,10 @@
 package app.controller;
 
-import app.AudioPlayer;
-import app.DialogGenerator;
-import app.Main;
-import app.Name;
+import app.*;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,7 +14,6 @@ import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -132,15 +131,17 @@ public class NameDisplayController implements Initializable {
         } else if(userRecordings.getItems().size() == 0) {
             DialogGenerator.showErrorMessage("There are no practice recordings for " + _selectedName.toString());
         } else {
-            File selectedRecording = userRecordings.getSelectionModel().getSelectedItem();
-            if(selectedRecording == null){
+            File selectedUserRecording = userRecordings.getSelectionModel().getSelectedItem();
+            if(selectedUserRecording == null){
                 // default to latest recording if none selected
-                selectedRecording = _selectedName.getLatestUserRecording();
+                selectedUserRecording = _selectedName.getLatestUserRecording();
             }
-            for(int i = 0; i < repeatSpinner.getValue(); i++){
-                System.out.println("Play db recording");
-                System.out.println("Play user recording");
-            }
+
+            // Balance the audio volume
+            RepeatAudioPlayer rap = new RepeatAudioPlayer(_selectedName.getDBRecording(), selectedUserRecording,
+                    repeatSpinner.getValue());
+            Thread thread = new Thread(rap);
+            thread.start();
         }
     }
 
