@@ -1,11 +1,10 @@
 package app.controller;
 
+import app.AudioPlayer;
 import app.DialogGenerator;
 import app.Main;
 import app.Name;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +14,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -55,6 +56,7 @@ public class NameDisplayController implements Initializable {
         nameComboBox.getItems().addAll(_nameList);
         nameComboBox.getSelectionModel().select(0);
         fetchUserRecordings();
+
         // setup user recordings to show by last modified date
         userRecordings.setCellFactory(lv -> new ListCell<File>(){
             @Override
@@ -91,7 +93,7 @@ public class NameDisplayController implements Initializable {
 
     @FXML
     private void practiseButtonPress() {
-        // redirect to Record page
+        // redirect to RecordController page
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Record.fxml"));
             loader.setController(new RecordController(_selectedName, _nameList));
@@ -139,6 +141,18 @@ public class NameDisplayController implements Initializable {
     }
 
     @FXML
+    private void listenUserRecording(){
+        File selectedRecording = userRecordings.getSelectionModel().getSelectedItem();
+        if(selectedRecording == null) {
+            DialogGenerator.showErrorMessage("No practice recording selected.");
+        } else {
+            Media media = new Media(selectedRecording.toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.play();
+        }
+    }
+
+    @FXML
     private void comboBoxChange(){
         _selectedNameIndex.set(nameComboBox.getSelectionModel().getSelectedIndex());
     }
@@ -154,6 +168,6 @@ public class NameDisplayController implements Initializable {
 
         userRecordings.getItems().clear();
         userRecordings.getItems().addAll(userRecordingsList);
-        userRecordings.setPlaceholder(new Label("No recordings for " + _selectedName.toString()));
+        userRecordings.setPlaceholder(new Label("No practice recordings made."));
     }
 }

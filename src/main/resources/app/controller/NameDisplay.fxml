@@ -95,15 +95,26 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="500.0" prefWidth="200.0">
                <children>
-                  <Label text="My attemps:">
+                  <Label text="My practice recordings">
                      <font>
-                        <Font size="18.0" />
+                        <Font size="16.0" />
                      </font>
                      <padding>
                         <Insets bottom="10.0" />
                      </padding>
                   </Label>
-                  <ListView fx:id="userRecordings" prefHeight="278.0" prefWidth="200.0" />
+                  <ListView fx:id="userRecordings" prefHeight="278.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></ListView>
+                  <Button mnemonicParsing="false" onAction="#listenUserRecording" text="Listen to my recording">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </VBox>
          </children>

@@ -8,6 +8,7 @@ import java.io.IOException;
 
 /**
  * AudioPlayer is a class that plays an audio file to be used on a different thread
+ * Adapted from: https://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java
  */
 public class AudioPlayer extends Task<Void> {
     private File _audioFile;

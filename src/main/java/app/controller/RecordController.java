@@ -122,7 +122,7 @@ public class RecordController implements Initializable {
                 }
 
                 // do the recording
-                String cmd = "ffmpeg -f alsa -i default -t 5 " + _fileName;
+                String cmd = "ffmpeg -f alsa -i default -t 5 \"" + _fileName + "\"";
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
                 Process process = builder.start();
 

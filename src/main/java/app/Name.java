@@ -1,11 +1,6 @@
 package app;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
-
-import javax.sound.sampled.*;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +22,6 @@ public class Name {
         _nextRecordingIndex = 0; // will have to deal with already saved recordings
         _quality = 0; // for now 0 is unset quality
     }
-
 
     /**
      * Override equals to consider names with the same string value (name) equal
@@ -52,7 +46,6 @@ public class Name {
     }
 
     public boolean playDBRecording(){
-        /* Adapted from: https://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java */
         if(_dbRecording != null && _dbRecording.exists()){
             Thread thread = new Thread(new AudioPlayer(_dbRecording));
             thread.start();
@@ -69,10 +62,6 @@ public class Name {
 
     public int getNextRecordingIndex(){
         return _nextRecordingIndex;
-    }
-
-    public void playLatestUserRecording(){
-        System.out.println("playing recording" + _userRecordings.get(_userRecordings.size() - 1));
     }
 
     public List<File> getAllUserRecordings(){
