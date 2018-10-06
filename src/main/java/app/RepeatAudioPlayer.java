@@ -7,12 +7,11 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * AudioPlayer is a class that plays an audio file to be used on a different thread
- * Adapted from: https://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java
+ * RepeatAudioPlayer is a class that plays 2 audio files,
+ * one after the other repeatedly a specified number of times
  */
 public class RepeatAudioPlayer extends AudioPlayer {
     private File _audioFile2;
-
     private int _repeat;
 
     public RepeatAudioPlayer(File audioFile1, File audioFile2, int repeat){
