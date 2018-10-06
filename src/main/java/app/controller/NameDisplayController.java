@@ -3,12 +3,15 @@ package app.controller;
 import app.DialogGenerator;
 import app.Main;
 import app.Name;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -19,30 +22,36 @@ import java.util.ResourceBundle;
 public class NameDisplayController implements Initializable {
     private Stage _stage;
     private List<Name> _nameList;
-    private Name _selectedName;
-    private int _selectedNameIndex;
+    private SimpleIntegerProperty _selectedNameIndex;
+    private Name _selectedName; // this changes when _selectedNameIndex changes
 
-    @FXML Label nameLabel;
+    @FXML
+    private ComboBox nameComboBox;
 
 
     public NameDisplayController(List<Name> nameList) {
         // namesList should always have at least 1 item enforced by the GUI design
         _nameList = nameList;
-        _selectedName = _nameList.get(0);
-        _selectedNameIndex = 0;
+        _selectedNameIndex = new SimpleIntegerProperty(0);
+
+        // bind _selectedName to change with the index changing
+        _selectedNameIndex.addListener((observable, oldValue, newValue) -> {
+            nameComboBox.getSelectionModel().select(newValue.intValue());
+            _selectedName = _nameList.get(newValue.intValue());
+        });
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
-        onChangeSelectedName();
+        nameComboBox.getItems().addAll(_nameList);
+        nameComboBox.getSelectionModel().select(0);
     }
 
     @FXML
     private void backButtonPress(){
-        if(_selectedNameIndex > 0){
-            _selectedNameIndex--;
-            onChangeSelectedName();
+        if(_selectedNameIndex.get() > 0){
+            _selectedNameIndex.set(_selectedNameIndex.get() - 1);
         } else {
             DialogGenerator.showErrorMessage("This is the first name, can't go back.");
         }
@@ -50,9 +59,8 @@ public class NameDisplayController implements Initializable {
 
     @FXML
     private void nextButtonPress(){
-        if(_selectedNameIndex < _nameList.size() - 1){
-            _selectedNameIndex++;
-            onChangeSelectedName();
+        if(_selectedNameIndex.get() < _nameList.size() - 1){
+            _selectedNameIndex.set(_selectedNameIndex.get() + 1);
         } else {
             DialogGenerator.showErrorMessage("This is the last name, can't go next.");
         }
@@ -100,11 +108,12 @@ public class NameDisplayController implements Initializable {
     private void playTestingButtonPress(){
         // the database recordings need to be setup correctly
         // right now some of the names aren't actually in the database and won't play
+        System.out.println("Currently selected to play: " + _selectedName.toString());
         _selectedName.playDBRecording();
     }
 
-    private void onChangeSelectedName(){
-        _selectedName = _nameList.get(_selectedNameIndex);
-        nameLabel.setText(_selectedName.toString());
+    @FXML
+    private void comboBoxChange(){
+        _selectedNameIndex.set(nameComboBox.getSelectionModel().getSelectedIndex());
     }
 }
