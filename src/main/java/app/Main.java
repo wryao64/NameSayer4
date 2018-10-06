@@ -1,10 +1,12 @@
 package app;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +33,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         _stage = primaryStage;
+        _stage.setOnCloseRequest(event -> onClose());
         setUpEnvironment();
 
         primaryStage.setTitle("NameSayer");
@@ -78,5 +81,16 @@ public class Main extends Application {
 //                e.printStackTrace();
 //            }
 //        }
+    }
+
+    /**
+     * Any cleanup when the program exits
+     */
+    private void onClose(){
+        // Delete the composite recordings
+        File dir = new File(COMPOSITE_LOCATION);
+        for(File file: dir.listFiles()){
+            file.delete();
+        }
     }
 }
