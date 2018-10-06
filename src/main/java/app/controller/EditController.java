@@ -1,9 +1,6 @@
 package app.controller;
 
-import app.DialogGenerator;
-import app.Main;
-import app.Name;
-import app.NamesDatabase;
+import app.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -143,11 +140,14 @@ public class EditController implements Initializable {
     /**
      * createName creates a Name object. There is a prompt if the part of the Name is not in the database
      * asking the user what they want to do ?????
+     *
+     * TODO: PARTS OF THIS SHOULD BE REFACTORED TO THE NAME CLASS
+     * TODO: (right now it works ok as this is the only time the app makes names)
+     *
      * @param nameStr The name to create a Name object from
      * @return a Name object with the name and audio file setup, null if Name not setup
      */
     private Name createName(String nameStr){
-
         List<String> namesInDatabase = new ArrayList<>();
         List<String> namesNotInDatabase = new ArrayList<>();
         boolean createName = true;
@@ -180,10 +180,12 @@ public class EditController implements Initializable {
         }
 
         if(createName){
+            Name name;
             if(namesInDatabase.size() == 1){
-                return new Name(nameStr, _namesDB.getFile(nameStr));
+                // just a single database name so no need for audio concat
+                name = new Name(nameStr, _namesDB.getFile(nameStr));
             } else {
-                // create filename for concated audio
+                // multiple database names, do the concat
                 String output = Main.COMPOSITE_LOCATION + "/" + listAsLine(namesInDatabase) + Main.AUDIO_FILETYPE;
 
                 // create a text file of the names to add
@@ -205,11 +207,25 @@ public class EditController implements Initializable {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                // TODO: Get in all the user recordings
-
-                return new Name(nameStr, new File(output));
+                name = new Name(nameStr, new File(output));
             }
+
+            // Load in any previous user recordings
+            File userDir = new File(Main.RECORDING_LOCATION + "/" + name.toString());
+            if(userDir.exists()){
+                // add in all user recordings that match naming convention
+                File[] listOfUserRecordings = userDir.listFiles();
+                for(int j = 0; j < listOfUserRecordings.length; j++) {
+                    File userRecording = listOfUserRecordings[j];
+                    String format = ".*\\/" + name + "[0-9]+" + Main.AUDIO_FILETYPE + "$";
+                    if(userRecording.toString().matches(format)){
+                        name.addUserRecording(userRecording);
+                    }
+                }
+            }
+
+            return name;
+
         } else {
             return null;
         }
