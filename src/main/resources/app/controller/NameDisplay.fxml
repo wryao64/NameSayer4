@@ -23,7 +23,7 @@
                   <Insets right="20.0" />
                </HBox.margin>
             </Button>
-                <Label fx:id="nameLabel" stylesheets="@../../../../../css/styles.css" text="NameToPractise">
+                <Label fx:id="nameLabel" text="NameToPractise">
                     <font>
                         <Font size="28.0" />
                     </font>
@@ -38,7 +38,7 @@
             </Button>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#editButtonPress" stylesheets="@../../../../../css/styles.css" text="Edit List">
+                  <Button mnemonicParsing="false" onAction="#editButtonPress" text="Edit List">
                      <font>
                         <Font size="16.0" />
                      </font>

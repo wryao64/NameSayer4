@@ -6,7 +6,12 @@ https://codepen.io/knod/pen/YqLgwR
 */
 
 .arrowButton {
+    -fx-border-color:#0dd0e1;
     -fx-padding: 0.25em;
+}
+
+.arrowButton:hover {
+    -fx-color:#0dd0e1;
 }
 
 #rightButton {

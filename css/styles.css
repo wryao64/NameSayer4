@@ -8,8 +8,13 @@ Color palette: https://www.color-hex.com/color-palette/66147
 }
 
 .button {
-    -fx-background-radius:12px;
+    -fx-background-radius:16px;
     -fx-color:#0975b8;
+}
+
+.button:hover {
+    /*-fx-text-fill:#0dd0e1;*/
+    -fx-color:#0dd0e1;
 }
 
 .label {
