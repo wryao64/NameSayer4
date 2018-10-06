@@ -40,22 +40,20 @@ public class NameDisplayController implements Initializable {
         // namesList should always have at least 1 item enforced by the GUI design
         _nameList = nameList;
         _selectedNameIndex = new SimpleIntegerProperty(0);
-        _selectedName = _nameList.get(0);
+        _selectedName = _nameList.get(_selectedNameIndex.intValue());
+    }
 
-        // bind _selectedName to change with the index changing
-        _selectedNameIndex.addListener((observable, oldValue, newValue) -> {
-            nameComboBox.getSelectionModel().select(newValue.intValue());
-            _selectedName = _nameList.get(newValue.intValue());
-            fetchUserRecordings();
-        });
+    public NameDisplayController(List<Name> nameList, Name currentName) {
+        _nameList = nameList;
+        _selectedNameIndex = new SimpleIntegerProperty((_nameList.indexOf(currentName)));
+        _selectedName = _nameList.get(_selectedNameIndex.intValue());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
         nameComboBox.getItems().addAll(_nameList);
-        nameComboBox.getSelectionModel().select(0);
-        fetchUserRecordings();
+        nameComboBox.getSelectionModel().select(_selectedNameIndex.intValue());
 
         // setup user recordings to show by last modified date
         userRecordings.setCellFactory(lv -> new ListCell<File>(){
@@ -70,6 +68,13 @@ public class NameDisplayController implements Initializable {
                     setText(sdf.format(ms));
                 }
             }
+        });
+
+        // bind _selectedName to change with the index changing
+        _selectedNameIndex.addListener((observable, oldValue, newValue) -> {
+            nameComboBox.getSelectionModel().select(newValue.intValue());
+            _selectedName = _nameList.get(newValue.intValue());
+            fetchUserRecordings();
         });
     }
 

@@ -91,7 +91,7 @@ public class RecordController implements Initializable {
         // go back to List page
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
-            loader.setController(new NameDisplayController(_selectedNames));
+            loader.setController(new NameDisplayController(_selectedNames, _currentName));
             Parent listView = loader.load();
             _stage.setScene(new Scene(listView));
         } catch(IOException e) {
