@@ -141,7 +141,7 @@ public class NameDisplayController implements Initializable {
         System.out.println("Currently selected to play: " + _selectedName.toString());
         if(!_selectedName.playDBRecording()){
             DialogGenerator.showOkMessage("Name not in database",
-                    "There is nothing in the database matching \"" + _selectedName.toString() + "\"");
+                    "There are no names in the database matching \"" + _selectedName.toString() + "\"");
         }
     }
 
