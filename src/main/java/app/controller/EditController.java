@@ -84,14 +84,17 @@ public class EditController implements Initializable {
 
     @FXML
     private void backButtonPress() {
-        // go back to NameDisplay page
-        try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
-            loader.setController(new NameDisplayController(_selectedNames));
-            Parent nameView = loader.load();
-            _stage.setScene(new Scene(nameView));
-        } catch(IOException e) {
-            e.printStackTrace();
+        if(_selectedNames.isEmpty()){
+            DialogGenerator.showErrorMessage("Please select at least one name.");
+        } else {
+            try {
+                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
+                loader.setController(new NameDisplayController(_selectedNames));
+                Parent nameView = loader.load();
+                _stage.setScene(new Scene(nameView));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

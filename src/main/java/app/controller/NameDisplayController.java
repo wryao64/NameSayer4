@@ -26,15 +26,10 @@ public class NameDisplayController implements Initializable {
 
 
     public NameDisplayController(List<Name> nameList) {
+        // namesList should always have at least 1 item enforced by the GUI design
         _nameList = nameList;
-        if(_nameList.size() > 0){
-            _selectedName = _nameList.get(0);
-            _selectedNameIndex = 0;
-        } else {
-            // deal with no selected name
-            // right now this wont happen because of the GUI design... if the list forces user to pick a name
-            System.out.println("Make the editing force the user to pick a name so this wont happen :)");
-        }
+        _selectedName = _nameList.get(0);
+        _selectedNameIndex = 0;
     }
 
     @Override
