@@ -31,7 +31,7 @@ public class NamesDatabase {
         File[] listOfNames = namesDir.listFiles();
 
         // for now names have no spaces and only alphabetical characters
-        String patternString = "_([A-z]+)" + Main.RECORDING_FILETYPE + "$";
+        String patternString = "_([A-z]+)" + Main.AUDIO_FILETYPE + "$";
         Pattern pattern = Pattern.compile(patternString);
 
         for (int i = 0; i < listOfNames.length; i++) {

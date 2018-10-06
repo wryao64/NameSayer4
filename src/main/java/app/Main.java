@@ -11,10 +11,11 @@ import java.io.IOException;
 
 public class Main extends Application {
 
-    public static final String RECORDING_FILETYPE = ".wav";
+    public static final String AUDIO_FILETYPE = ".wav";
     public static final String ASSETS_LOCATION = new File("assets").getAbsolutePath();
     public static final String DATABASE_LOCATION = new File(ASSETS_LOCATION + "/names").getAbsolutePath();
     public static final String RECORDING_LOCATION = new File(ASSETS_LOCATION + "/user").getAbsolutePath();
+    public static final String COMPOSITE_LOCATION = new File(ASSETS_LOCATION + "/composite_names").getAbsolutePath();
 //    public static final String QUALITY_RECORDING_FILE = new File("quality.txt").getAbsolutePath();
 
     private static Stage _stage;
@@ -50,6 +51,7 @@ public class Main extends Application {
         File assets = new File(ASSETS_LOCATION);
         File dbDirectory = new File(DATABASE_LOCATION);
         File userDirectory = new File(RECORDING_LOCATION);
+        File compositeDirectory = new File(COMPOSITE_LOCATION);
 //        File quality = new File(QUALITY_RECORDING_FILE);
 
         if(!assets.exists()){
@@ -63,6 +65,11 @@ public class Main extends Application {
         if(!userDirectory.exists()){
             userDirectory.mkdir();
         }
+
+        if(!compositeDirectory.exists()){
+            compositeDirectory.mkdir();
+        }
+
 //      deal with quality later
 //        if(!quality.exists()){
 //            try {

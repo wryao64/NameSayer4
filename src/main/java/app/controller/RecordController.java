@@ -104,7 +104,7 @@ public class RecordController implements Initializable {
                     directory.mkdir();
                 }
 
-                _fileName = directory.toString()+ "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + Main.RECORDING_FILETYPE;
+                _fileName = directory.toString()+ "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + Main.AUDIO_FILETYPE;
 
                 File recording = new File(_fileName);
                 // Safety check delete any previous recording with the same name

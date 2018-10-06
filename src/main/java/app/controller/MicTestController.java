@@ -95,7 +95,7 @@ public class MicTestController implements Initializable {
             try {
                 // make a directory in the user location for this name if there isnt one
                 File directory = new File(Main.RECORDING_LOCATION + "/");
-                _fileName = directory.toString() + "/test" +  Main.RECORDING_FILETYPE;
+                _fileName = directory.toString() + "/test" +  Main.AUDIO_FILETYPE;
 
                 File recording = new File(_fileName);
                 // Safety check delete any previous recording with the same name
