@@ -54,7 +54,7 @@ public class Name {
     public boolean playDBRecording(){
         /* Adapted from: https://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java */
         if(_dbRecording != null && _dbRecording.exists()){
-            Thread thread = new Thread(new PlayAudio());
+            Thread thread = new Thread(new AudioPlayer(_dbRecording));
             thread.start();
         } else {
             return false;
@@ -86,48 +86,5 @@ public class Name {
     public int getQuality(){
         return _quality;
     }
-
-    /**
-     * PlayAudio is a class that plays audio to be used on a different thread
-     */
-    private class PlayAudio extends Task<Void> {
-        @Override
-        protected Void call() {
-            try {
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(_dbRecording);
-
-                int BUFFER_SIZE = 128000;
-                AudioFormat audioFormat = null;
-                SourceDataLine sourceLine = null;
-
-                audioFormat = audioStream.getFormat();
-
-                sourceLine = AudioSystem.getSourceDataLine(audioFormat);
-                sourceLine.open(audioFormat);
-                sourceLine.start();
-
-                int nBytesRead = 0;
-                byte[] abData = new byte[BUFFER_SIZE];
-                while (nBytesRead != -1) {
-                    try {
-                        nBytesRead =
-                                audioStream.read(abData, 0, abData.length);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (nBytesRead >= 0) {
-                        int nBytesWritten = sourceLine.write(abData, 0, nBytesRead);
-                    }
-                }
-                sourceLine.drain();
-                sourceLine.close();
-            } catch (LineUnavailableException |IOException|UnsupportedAudioFileException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
-
 
 }
