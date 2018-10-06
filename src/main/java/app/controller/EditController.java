@@ -52,16 +52,17 @@ public class EditController implements Initializable {
 
     @FXML
     private void addButtonPress(){
-        // TODO: add the name to list of stuff to practice
-        String nameStr = nameInput.getText();
-        if(nameInput.getText() != null && !nameInput.getText().trim().isEmpty()) {
-            Name nameToAdd = createName(nameStr.trim());
-            if(nameToAdd != null){
+        String nameStr = nameInput.getText().trim();
+        if(nameStr == null || nameStr.isEmpty()) {
+            DialogGenerator.showErrorMessage("Name is blank.");
+        } else if(_selectedNames.contains(new Name(nameStr, null))) {
+            DialogGenerator.showErrorMessage("Name has already been added.");
+        } else {
+            Name nameToAdd = createName(nameStr);
+            if (nameToAdd != null) {
                 _selectedNames.add(nameToAdd);
                 nameInput.setText(""); // clear TextField
             }
-        } else {
-            DialogGenerator.showErrorMessage("Name is blank.");
         }
     }
 
