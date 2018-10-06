@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -23,7 +24,7 @@
     <center>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-                <Label fx:id="nameLabel" text="Press to Test">
+                <Label fx:id="nameLabel" text="Click Start to Test">
                     <font>
                         <Font size="24.0" />
                     </font>
@@ -36,14 +37,26 @@
                         <Insets bottom="10.0" top="10.0" />
                     </VBox.margin>
                 </ProgressBar>
-                <Button fx:id="testButton" alignment="CENTER" mnemonicParsing="false" onAction="#testButtonPressed" text="Test">
-                    <font>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                      <Button fx:id="startButton" alignment="CENTER" mnemonicParsing="false" onAction="#startButtonPress" text="Start">
+                          <font>
+                              <Font size="16.0" />
+                          </font>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                      </Button>
+                  <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopButtonPress" text="Stop">
+                     <font>
                         <Font size="16.0" />
-                    </font>
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                </Button>
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             </children>
         </VBox>
     </center>
