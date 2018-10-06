@@ -45,8 +45,16 @@ public class Name {
         return _name;
     }
 
-    public boolean playDBRecording(){
+    public boolean dbRecordingExists(){
         if(_dbRecording != null && _dbRecording.exists()){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean playDBRecording(){
+        if(dbRecordingExists()){
             Thread thread = new Thread(new AudioPlayer(_dbRecording));
             thread.start();
         } else {
@@ -58,6 +66,10 @@ public class Name {
     public void addUserRecording(File recordingFile){
         _userRecordings.add(recordingFile);
         _nextRecordingIndex++;
+    }
+
+    public File getLatestUserRecording(){
+        return _userRecordings.get(_userRecordings.size() - 1);
     }
 
     public int getNextRecordingIndex(){

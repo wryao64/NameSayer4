@@ -10,13 +10,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,8 +31,8 @@ public class NameDisplayController implements Initializable {
     private Name _selectedName; // this changes when _selectedNameIndex changes
 
     @FXML private ComboBox nameComboBox;
-
     @FXML private ListView<File> userRecordings;
+    @FXML private Spinner<Integer> repeatSpinner;
 
     public NameDisplayController(List<Name> nameList) {
         // namesList should always have at least 1 item enforced by the GUI design
@@ -54,6 +52,7 @@ public class NameDisplayController implements Initializable {
         _stage = Main.getStage();
         nameComboBox.getItems().addAll(_nameList);
         nameComboBox.getSelectionModel().select(_selectedNameIndex.intValue());
+        fetchUserRecordings();
 
         // setup user recordings to show by last modified date
         userRecordings.setCellFactory(lv -> new ListCell<File>(){
@@ -122,6 +121,29 @@ public class NameDisplayController implements Initializable {
         }
     }
 
+    /**
+     * Compares the user recordings and the database one by playing them repeatedly
+     */
+    @FXML
+    private void compareButtonPress(){
+        if(!_selectedName.dbRecordingExists()){
+            DialogGenerator.showErrorMessage("There are no names in the database matching \""
+                    + _selectedName.toString() + "\"");
+        } else if(userRecordings.getItems().size() == 0) {
+            DialogGenerator.showErrorMessage("There are no practice recordings for " + _selectedName.toString());
+        } else {
+            File selectedRecording = userRecordings.getSelectionModel().getSelectedItem();
+            if(selectedRecording == null){
+                // default to latest recording if none selected
+                selectedRecording = _selectedName.getLatestUserRecording();
+            }
+            for(int i = 0; i < repeatSpinner.getValue(); i++){
+                System.out.println("Play db recording");
+                System.out.println("Play user recording");
+            }
+        }
+    }
+
     @FXML
     private void testMicButtonPress() {
         try {
@@ -138,10 +160,9 @@ public class NameDisplayController implements Initializable {
     private void playTestingButtonPress(){
         // the database recordings need to be setup correctly
         // right now some of the names aren't actually in the database and won't play
-        System.out.println("Currently selected to play: " + _selectedName.toString());
         if(!_selectedName.playDBRecording()){
-            DialogGenerator.showOkMessage("Name not in database",
-                    "There are no names in the database matching \"" + _selectedName.toString() + "\"");
+            DialogGenerator.showErrorMessage("There are no names in the database matching \""
+                    + _selectedName.toString() + "\"");
         }
     }
 
@@ -173,6 +194,6 @@ public class NameDisplayController implements Initializable {
 
         userRecordings.getItems().clear();
         userRecordings.getItems().addAll(userRecordingsList);
-        userRecordings.setPlaceholder(new Label("No practice recordings made."));
+        userRecordings.setPlaceholder(new Label("No practice recordings"));
     }
 }
