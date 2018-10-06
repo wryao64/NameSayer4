@@ -11,12 +11,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane id="bPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="border-pane" stylesheets="@../../../../../css/styles.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
             <Region prefHeight="200.0" prefWidth="200.0" />
-            <Button id="leftButton" fx:id="leftButton" mnemonicParsing="false" onAction="#backButtonPress" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton" stylesheets="@../../../../../css/NameDisplay.css">
+            <Button id="leftButton" mnemonicParsing="false" onAction="#backButtonPress" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton" stylesheets="@../../../../../css/NameDisplay.css">
                <font>
                   <Font size="16.0" />
                </font>
