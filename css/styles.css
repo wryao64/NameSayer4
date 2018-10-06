@@ -1,0 +1,17 @@
+/*
+Color palette: https://www.color-hex.com/color-palette/66147
+
+*/
+
+.border-pane {
+    -fx-background-color:#1f3f64;
+}
+
+.button {
+    -fx-background-radius:12px;
+    -fx-color:#0975b8;
+}
+
+.label {
+    -fx-text-fill:#0dd0e1;
+}
