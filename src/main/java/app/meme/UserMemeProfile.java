@@ -62,7 +62,7 @@ public class UserMemeProfile {
         File file;
         while(true){
             // (int)(Math.random() * ((max - min) + 1)) + min gets random int in a range
-            int randIndex = (int)(Math.random() * ((memesFiles.length - 0) + 1)) + 0;
+            int randIndex = (int)(Math.random() * ((memesFiles.length - 1 - 0) + 1)) + 0;
             file = memesFiles[randIndex];
             try {
                 // check it is an image and fresh
