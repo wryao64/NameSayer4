@@ -39,6 +39,7 @@ hs_err_pid*
 .idea/**/shelf
 .idea/**/*.iml
 .idea/**/modules.xml
+.idea/**/.name
 
 # Generated files
 .idea/**/contentModel.xml
