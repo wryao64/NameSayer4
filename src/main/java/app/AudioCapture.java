@@ -14,10 +14,6 @@ import javax.sound.sampled.*;
 public class AudioCapture {
     private TargetDataLine _line;
 
-    public AudioCapture() {
-
-    }
-
     public Task callACTask() {
         setUpDataLine();
         return new AudioCaptureTask(_line);

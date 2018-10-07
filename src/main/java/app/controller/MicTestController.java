@@ -24,7 +24,6 @@ public class MicTestController implements Initializable {
     private List<Name> _names;
 
     private boolean _capturing = false;
-    private AudioCapture _audioCapture;
     private Task _audioCapTask;
 
     @FXML
@@ -57,7 +56,7 @@ public class MicTestController implements Initializable {
             stopButton.setDisable(false);
             backButton.setDisable(true);
 
-            _audioCapture = new AudioCapture();
+            AudioCapture _audioCapture = new AudioCapture();
             _audioCapTask = _audioCapture.callACTask();
 
             _audioCapTask.valueProperty().addListener((o, oldVal, newVal) -> {
