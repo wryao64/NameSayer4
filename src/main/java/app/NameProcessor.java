@@ -1,5 +1,7 @@
 package app;
 
+import javafx.concurrent.Task;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -11,7 +13,6 @@ public class NameProcessor {
     private static final String LIST_FILE = Main.COMPOSITE_LOCATION + "/mylist.txt";
 
     private NamesDatabase _namesDB = new NamesDatabase();
-
 
     /**
      * createName creates a Name object. There is a prompt if the part of the Name is not in the database
@@ -58,7 +59,10 @@ public class NameProcessor {
                 // just a single database name so no need for audio concat
                 name = new Name(nameStr, _namesDB.getFile(nameStr));
 
-                trimAudio(name);
+                //TODO: ------------------------------------------------------------- SINGLE NAME TRIM
+                AudioProcessTask aPTask = new AudioProcessTask(name);
+                new Thread(aPTask).start();
+
                 // changes the Name object to reference the trimmed audio
                 String trimmedAudioStr = getTrimmedAudioLocation(name.toString());
                 name = new Name(nameStr, new File(trimmedAudioStr));
@@ -79,26 +83,10 @@ public class NameProcessor {
 
                 // TODO: normalise audio
 
-                // trims silence for each individual part of the name
-                for (String namePart : namesInDatabase) {
-                    name = new Name(namePart, _namesDB.getFile(namePart));
-                    String trimmedAudioStr = getTrimmedAudioLocation(namePart);
+                //TODO: ------------------------------------------------------------- COMPOSITE NAME TRIM
+                AudioProcessTask aPTask = new AudioProcessTask(namesInDatabase, output);
+                new Thread(aPTask).start();
 
-                    trimAudio(name);
-                    // changes the Name object to reference the trimmed audio
-                    name = new Name(namePart, new File(trimmedAudioStr));
-                }
-
-                // TODO: add silence between names -- I don't think we need to
-
-                // do the concat TODO: multithread this
-                String cmd = "ffmpeg -f concat -safe 0 -i " + LIST_FILE + " -c copy " + output;
-                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-                try {
-                    Process process = builder.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                 name = new Name(nameStr, new File(output));
             }
 
@@ -129,26 +117,6 @@ public class NameProcessor {
             line = line + str;
         }
         return line;
-    }
-
-    /**
-     * Gets rid of the silences on either end of the name audio
-     * @param name
-     */
-    private void trimAudio(Name name) {
-        String trimmedAudioStr = getTrimmedAudioLocation(name.toString());
-
-        //TODO: multithread this
-        String trimCmd = "ffmpeg -hide_banner -i " + name.getDBRecording().toString() +
-                " -af silenceremove=1:0:-55dB:1:5:-55dB:0:peak " + trimmedAudioStr;
-
-        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
-        try {
-            Process process = builder.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
     }
 
     private void createConcatTextFile(List<String> list){
@@ -199,4 +167,70 @@ public class NameProcessor {
             e.printStackTrace();
         }
     }
+
+    private class AudioProcessTask extends Task<Void> {
+        boolean _composite = false;
+        Name _name;
+        List<String> _nameList;
+        String _outputLocStr;
+
+
+        // for single name
+        public AudioProcessTask(Name name) {
+            _name = name;
+        }
+
+        // for composite name
+        public AudioProcessTask(List<String> nameList, String outputLocStr) {
+            _composite = true;
+            _nameList = nameList;
+            _outputLocStr = outputLocStr;
+        }
+
+        @Override
+        protected Void call() throws Exception {
+            if (!_composite) {
+                String trimmedAudioStr = getTrimmedAudioLocation(_name.toString());
+
+                String trimCmd = "ffmpeg -hide_banner -i " + _name.getDBRecording().toString() +
+                        " -af silenceremove=1:0:-55dB:1:5:-55dB:0:peak " + trimmedAudioStr;
+
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
+
+                Process process = builder.start();
+                process.waitFor();
+            } else {
+                String trimCmd = "";
+
+                // trims all parts of the name in the same command
+                for (String namePart : _nameList) {
+                    _name = new Name(namePart, _namesDB.getFile(namePart));
+                    String trimmedAudioStr = getTrimmedAudioLocation(namePart);
+
+                    String trimCmdPart = "ffmpeg -hide_banner -i " + _name.getDBRecording().toString() +
+                            " -af silenceremove=1:0:-55dB:1:5:-55dB:0:peak " + trimmedAudioStr;
+
+                    if (trimCmd != "") {
+                        trimCmd = trimCmd + " && " + trimCmdPart;
+                    } else {
+                        trimCmd = trimCmdPart;
+                    }
+                }
+
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
+                Process process = builder.start();
+                process.waitFor();
+
+                // concatenates all parts of the name together
+                String cmd = "ffmpeg -f concat -safe 0 -i " + LIST_FILE + " -c copy " + _outputLocStr;
+                builder = new ProcessBuilder("/bin/bash", "-c", cmd);
+
+                process = builder.start();
+                process.waitFor();
+            }
+
+            return null;
+        }
+    }
+
 }
