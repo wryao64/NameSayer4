@@ -219,13 +219,15 @@ public class NameDisplayController implements Initializable {
     private void setQualityFlagButtonText(){
         NamesDatabase namesDB = new NamesDatabase();
         if(!namesDB.checkExists(_selectedName.toString())){
+            qualityFlagButton.setText("Cannot mark quality");
             qualityFlagButton.setDisable(true);
-            qualityFlagButton.setText("Not in database");
         } else {
             qualityFlagButton.setDisable(false);
             if(_selectedName.isBadQuality()) {
+                qualityFlagButton.setTooltip(new Tooltip("The name is currently marked as bad quality"));
                 qualityFlagButton.setText("Mark as Good");
             } else {
+                qualityFlagButton.setTooltip(new Tooltip("The name is currently marked as good quality"));
                 qualityFlagButton.setText("Mark as Bad");
             }
         }
