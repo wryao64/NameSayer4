@@ -58,16 +58,22 @@
    <center>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0">
+            <VBox alignment="CENTER" prefHeight="500.0" prefWidth="260.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#playTestingButtonPress" styleClass="vertical-button" text="Listen">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets bottom="10.0" />
-                     </VBox.margin>
-                  </Button>
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="383.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#playTestingButtonPress" styleClass="vertical-button" text="Listen">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="qualityFlagButton" mnemonicParsing="false" onAction="#qualityButtonPress" text="Mark as bad">
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                   <Button mnemonicParsing="false" onAction="#practiseButtonPress" styleClass="vertical-button" text="Practise">
                      <font>
                         <Font size="16.0" />

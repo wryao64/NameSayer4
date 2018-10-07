@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Represents the Names Database loaded in from the database location
+ */
 public class NamesDatabase {
     private HashMap<String,File> _namesDB;
 

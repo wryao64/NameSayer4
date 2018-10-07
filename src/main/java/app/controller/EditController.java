@@ -17,10 +17,15 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EditController implements Initializable {
     private static final String LIST_FILE = Main.COMPOSITE_LOCATION + "/mylist.txt";
@@ -116,7 +121,6 @@ public class EditController implements Initializable {
             } catch(IOException e){
                 DialogGenerator.showErrorMessage("Could not read file :(");
             }
-
         }
     }
 
@@ -189,6 +193,28 @@ public class EditController implements Initializable {
             if(namesInDatabase.size() == 1){
                 // just a single database name so no need for audio concat
                 name = new Name(nameStr, _namesDB.getFile(nameStr));
+
+
+                // load in any previous quality
+                File badQualityFile = new File(Main.QUALITY_FILE);
+                if(badQualityFile.exists()){
+                    try {
+                        // get the quality file as a list of strings
+                        Path qualityPath = badQualityFile.toPath();
+                        List<String> qualityLines = new ArrayList<>(Files.readAllLines(qualityPath, StandardCharsets.UTF_8));
+
+                        // check if the name is bad quality
+                        for (int k = 0; k < qualityLines.size(); k++) {
+                            String line = qualityLines.get(k);
+                            if(line.equals(name.getDBRecording().getName())) {
+                                name.toggleQuality();
+                                break;
+                            }
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             } else {
                 // multiple database names, do the concat
                 String output = Main.COMPOSITE_LOCATION + "/" + listAsLine(namesInDatabase) + Main.AUDIO_FILETYPE;

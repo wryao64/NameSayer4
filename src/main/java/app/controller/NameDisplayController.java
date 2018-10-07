@@ -2,9 +2,6 @@ package app.controller;
 
 import app.*;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,7 +15,11 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -28,10 +29,12 @@ public class NameDisplayController implements Initializable {
     private List<Name> _nameList;
     private SimpleIntegerProperty _selectedNameIndex;
     private Name _selectedName; // this changes when _selectedNameIndex changes
+    private NamesDatabase _namesDB; // just build it once :) namesDB checking could be refactored to names class
 
     @FXML private ComboBox nameComboBox;
     @FXML private ListView<File> userRecordings;
     @FXML private Spinner<Integer> repeatSpinner;
+    @FXML private Button qualityFlagButton;
 
     public NameDisplayController(List<Name> nameList) {
         // namesList should always have at least 1 item enforced by the GUI design
@@ -50,8 +53,14 @@ public class NameDisplayController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
         nameComboBox.getItems().addAll(_nameList);
-        nameComboBox.getSelectionModel().select(_selectedNameIndex.intValue());
-        fetchUserRecordings();
+
+        // bind _selectedName to change with the index changing
+        _selectedNameIndex.addListener((observable, oldValue, newValue) -> {
+            nameComboBox.getSelectionModel().select(newValue.intValue());
+            _selectedName = _nameList.get(newValue.intValue());
+            fetchUserRecordings();
+            setQualityFlagButtonText();
+        });
 
         // setup user recordings to show by last modified date
         userRecordings.setCellFactory(lv -> new ListCell<File>(){
@@ -68,12 +77,10 @@ public class NameDisplayController implements Initializable {
             }
         });
 
-        // bind _selectedName to change with the index changing
-        _selectedNameIndex.addListener((observable, oldValue, newValue) -> {
-            nameComboBox.getSelectionModel().select(newValue.intValue());
-            _selectedName = _nameList.get(newValue.intValue());
-            fetchUserRecordings();
-        });
+        // initial setup
+        nameComboBox.getSelectionModel().select(_selectedNameIndex.intValue());
+        fetchUserRecordings();
+        setQualityFlagButtonText();
     }
 
     @FXML
@@ -176,6 +183,51 @@ public class NameDisplayController implements Initializable {
             Media media = new Media(selectedRecording.toURI().toString());
             MediaPlayer mediaPlayer = new MediaPlayer(media);
             mediaPlayer.play();
+        }
+    }
+
+    @FXML
+    private void qualityButtonPress(){
+        try {
+            _selectedName.toggleQuality();
+            setQualityFlagButtonText();
+
+            // load in quality file
+            Path qualityPath = new File(Main.QUALITY_FILE).toPath();
+            List<String> quality = new ArrayList<>(Files.readAllLines(qualityPath, StandardCharsets.UTF_8));
+
+            if(_selectedName.isBadQuality()){
+                // record onto the quality file
+                quality.add(_selectedName.getDBRecording().getName());
+            } else {
+                // remove from the quality file if exists
+                for (int i = 0; i < quality.size(); i++) {
+                    if(quality.get(i).equals(_selectedName.getDBRecording().getName())){
+                        quality.remove(i);
+                    }
+                }
+            }
+
+            // write to quality file
+            Collections.sort(quality);
+            Files.write(qualityPath, quality, StandardCharsets.UTF_8);
+        } catch(IOException e){
+            DialogGenerator.showErrorMessage("Error writing to quality file");
+        }
+    }
+
+    private void setQualityFlagButtonText(){
+        NamesDatabase namesDB = new NamesDatabase();
+        if(!namesDB.checkExists(_selectedName.toString())){
+            qualityFlagButton.setDisable(true);
+            qualityFlagButton.setText("Not in database");
+        } else {
+            qualityFlagButton.setDisable(false);
+            if(_selectedName.isBadQuality()) {
+                qualityFlagButton.setText("Mark as Good");
+            } else {
+                qualityFlagButton.setText("Mark as Bad");
+            }
         }
     }
 

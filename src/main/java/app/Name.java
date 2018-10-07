@@ -12,7 +12,7 @@ public class Name {
     private String _name;
     private File _dbRecording;
     private List<File> _userRecordings;
-    private int _quality; // will deal with quality later...
+    private boolean _isBadQuality;
     private int _nextRecordingIndex;
 
     public Name(String name, File dbRecording) {
@@ -20,7 +20,7 @@ public class Name {
         _dbRecording = dbRecording;
         _userRecordings = new ArrayList<File>();
         _nextRecordingIndex = 0; // will have to deal with already saved recordings
-        _quality = 0; // for now 0 is unset quality
+        _isBadQuality = false; // default quality to good
     }
 
     /**
@@ -84,12 +84,12 @@ public class Name {
         return _userRecordings;
     }
 
-    public void setQuality(int quality){
-        _quality = quality;
+    public void toggleQuality(){
+        _isBadQuality = !_isBadQuality;
     }
 
-    public int getQuality(){
-        return _quality;
+    public boolean isBadQuality(){
+        return _isBadQuality;
     }
 
 }

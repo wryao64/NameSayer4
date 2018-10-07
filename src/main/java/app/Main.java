@@ -18,7 +18,7 @@ public class Main extends Application {
     public static final String DATABASE_LOCATION = new File(ASSETS_LOCATION + "/names").getAbsolutePath();
     public static final String RECORDING_LOCATION = new File(ASSETS_LOCATION + "/user").getAbsolutePath();
     public static final String COMPOSITE_LOCATION = new File(ASSETS_LOCATION + "/composite_names").getAbsolutePath();
-//    public static final String QUALITY_RECORDING_FILE = new File("quality.txt").getAbsolutePath();
+    public static final String QUALITY_FILE = new File("badQualityRecordings.txt").getAbsolutePath();
 
     private static Stage _stage;
 
@@ -55,7 +55,7 @@ public class Main extends Application {
         File dbDirectory = new File(DATABASE_LOCATION);
         File userDirectory = new File(RECORDING_LOCATION);
         File compositeDirectory = new File(COMPOSITE_LOCATION);
-//        File quality = new File(QUALITY_RECORDING_FILE);
+        File quality = new File(QUALITY_FILE);
 
         if(!assets.exists()){
             assets.mkdir();
@@ -73,14 +73,13 @@ public class Main extends Application {
             compositeDirectory.mkdir();
         }
 
-//      deal with quality later
-//        if(!quality.exists()){
-//            try {
-//                quality.createNewFile();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+        if(!quality.exists()){
+            try {
+                quality.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
