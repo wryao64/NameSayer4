@@ -17,10 +17,6 @@ import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -29,7 +25,6 @@ public class EditController implements Initializable {
 
     private Stage _stage;
     private ObservableList<Name> _selectedNames = FXCollections.observableArrayList();
-    private NameProcessor nameProcessor = new NameProcessor();
 
     @FXML private ListView<Name> selectedNamesList;
     @FXML private TextField nameInput;
@@ -40,7 +35,8 @@ public class EditController implements Initializable {
      * @param name A name to add as a string
      */
     public EditController(String name){
-        Name nameToAdd = nameProcessor.createName(name);
+        NameProcessor np = new NameProcessor();
+        Name nameToAdd = np.createName(name);
         if(nameToAdd != null){
             _selectedNames.add(nameToAdd);
         }
@@ -87,7 +83,8 @@ public class EditController implements Initializable {
     }
 
     private void addName(String name){
-        Name nameToAdd = nameProcessor.createName(name);
+        NameProcessor np = new NameProcessor();
+        Name nameToAdd = np.createName(name);
         if (nameToAdd != null) {
             _selectedNames.add(nameToAdd);
             nameInput.setText(""); // clear TextField
@@ -160,7 +157,8 @@ public class EditController implements Initializable {
             String line;
             BufferedReader bf = new BufferedReader(new FileReader(file));
             while ((line = bf.readLine()) != null) {
-                Name newName = nameProcessor.createName(line);
+                NameProcessor np = new NameProcessor();
+                Name newName = np.createName(line);
                 if(newName != null){
                     _selectedNames.add(newName);
                 }

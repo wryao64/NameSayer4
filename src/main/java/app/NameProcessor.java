@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NameProcessor {
-    private static final String LIST_FILE = Main.COMPOSITE_LOCATION + "/mylist.txt";
+    private String listFile;
 
     private NamesDatabase _namesDB = new NamesDatabase();
 
@@ -22,6 +22,7 @@ public class NameProcessor {
      * @return a Name object with the name and audio file setup, null if Name not setup
      */
     public Name createName(String nameStr){
+        listFile = Main.COMPOSITE_LOCATION + "/";
         List<String> namesInDatabase = new ArrayList<>();
         List<String> namesNotInDatabase = new ArrayList<>();
         boolean createName = true;
@@ -77,6 +78,7 @@ public class NameProcessor {
                 String output = Main.COMPOSITE_LOCATION + "/" + listAsLine(namesInDatabase) + Main.AUDIO_FILETYPE;
 
                 // create a text file of the names to add
+                listFile += listAsLine(namesInDatabase) + ".txt";
                 createConcatTextFile(namesInDatabase);
 
                 // TODO:check if not already a composite name of the same type
@@ -121,8 +123,8 @@ public class NameProcessor {
 
     private void createConcatTextFile(List<String> list){
         try {
-            PrintWriter writer = new PrintWriter(LIST_FILE, "UTF-8");
-//            System.out.println("LIST FILE IS: " + LIST_FILE); // for testing
+            PrintWriter writer = new PrintWriter(listFile, "UTF-8");
+//            System.out.println("LIST FILE IS: " + listFile); // for testing
             for(String str : list){
                 String fileStr = getTrimmedAudioLocation(str);
 //                writer.println("file " + "'" + _namesDB.getFile(str).getAbsolutePath() + "'");
@@ -222,7 +224,7 @@ public class NameProcessor {
                 process.waitFor();
 
                 // concatenates all parts of the name together
-                String cmd = "ffmpeg -y -f concat -safe 0 -i " + LIST_FILE + " -c copy " + _outputLocStr;
+                String cmd = "ffmpeg -y -f concat -safe 0 -i " + listFile + " -c copy " + _outputLocStr;
                 builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 
                 process = builder.start();
