@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.*;
+import app.meme.UserMemeProfile;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -25,6 +26,9 @@ public class EditController implements Initializable {
 
     private Stage _stage;
     private ObservableList<Name> _selectedNames = FXCollections.observableArrayList();
+
+    private NamesDatabase _namesDB = new NamesDatabase();
+    private UserMemeProfile user;
 
     @FXML private ListView<Name> selectedNamesList;
     @FXML private TextField nameInput;
@@ -63,7 +67,9 @@ public class EditController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
-        selectedNamesList.setPlaceholder(new Label("No Names To Practice :("));
+        Label tempLabel = new Label("No Names To Practise :(");
+        tempLabel.setId("temp-label");
+        selectedNamesList.setPlaceholder(tempLabel);
         selectedNamesList.getItems().addAll(_selectedNames);
         _selectedNames.addListener((ListChangeListener<Name>) c -> {
             selectedNamesList.setItems(_selectedNames);
