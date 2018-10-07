@@ -17,7 +17,7 @@ To help it appeal to students, there are features like:
 - rewards for practising names in the form of memes!
 
 NameSayer is an app to help you practise how to pronounce names.
-Names come from a database (that can be found in the assets/names directory)
+Names come from a database (that can be found in the assets/names directory).
 
 Features include:
 - You can upload a text file of names (may be buggy)
@@ -37,7 +37,7 @@ Sometimes names might not be in the database. You can still create a name but ma
 
 Once you are practising names, you can scroll through using the arrows or the list of names at the top.
 You can listen to how they are pronounced (if avaliable in the database). For names that use a single recording from the database and are not concatenated, you can flag the recording as being of bad quality. This information will also be saved to a file called "badQualityRecordings.txt" in the same directory as the app.
-You can compare your recordings with the how the name is pronounced by pressing 'Compare'. The name pronounciation will be played along with your recording and this will be repeated the amount of times you set it to be.
+You can compare your recordings with the how the name is pronounced by pressing 'Compare'. The name pronunciation will be played along with your recording and this will be repeated the amount of times you set it to be.
 
 You can also test if your mic works by pressing 'Test Mic'. There is a meter to show your mic input.
 
@@ -49,7 +49,7 @@ Sometimes studying and practising names gets boring so the app has rewards to ch
 
 Memes will randomly drop when you listen, record and practise! You will be notified once you get a new meme and you can view the memes you have collected by clicking the 'Meme Rewards' button while practising.
 
-You could really go into the folders and find the memes but that would take away the fun :(
+You could go into the folders and find the memes but that would take away the fun :(
 
 Thanks if you read all the way down to here, love your work <3.
 
