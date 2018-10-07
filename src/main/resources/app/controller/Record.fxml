@@ -20,7 +20,7 @@
                               <Font size="24.0" />
                           </font>
                       </Label>
-                  <Button fx:id="listenButtonPress" alignment="CENTER" mnemonicParsing="false" onAction="#listenButtonPress" text="Listen">
+                  <Button fx:id="listenButton" alignment="CENTER" mnemonicParsing="false" onAction="#listenButtonPress" text="Listen">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -35,11 +35,18 @@
                         <Insets bottom="20.0" />
                     </VBox.margin>
                 </ProgressBar>
-                <Button fx:id="recordButton" alignment="CENTER" mnemonicParsing="false" onAction="#recordButtonPress" text="Record">
-                    <font>
-                        <Font size="16.0" />
-                    </font>
-                </Button>
+            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                      <Button fx:id="recordButton" alignment="CENTER" mnemonicParsing="false" onAction="#recordButtonPress" text="Record">
+                          <font>
+                              <Font size="16.0" />
+                          </font>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                      </Button>
+               </children>
+            </HBox>
             </children>
         </VBox>
     </center>

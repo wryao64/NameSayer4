@@ -1,11 +1,9 @@
 package app.controller;
 
+import app.AudioCapture;
 import app.DialogGenerator;
 import app.Main;
 import app.Name;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -17,18 +15,18 @@ import javafx.scene.control.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class RecordController implements Initializable {
     private Stage _stage;
-    private Timeline timeline;
+
+    private boolean _capturing = false;
+    private Task _audioCapTask;
 
     private Name _currentName;
     private List<Name> _selectedNames;
@@ -37,7 +35,13 @@ public class RecordController implements Initializable {
     private Label nameLabel;
 
     @FXML
+    private Button listenButton;
+
+    @FXML
     private Button recordButton;
+
+//    @FXML
+//    private Button stopButton;
 
     @FXML
     private Button backButton;
@@ -54,18 +58,7 @@ public class RecordController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
         nameLabel.setText(_currentName.toString());
-
-        // set up for the progress bar
-        timeline = new Timeline(
-                new KeyFrame(
-                        Duration.ZERO,
-                        new KeyValue(bar.progressProperty(), 0)
-                ),
-                new KeyFrame(
-                        Duration.seconds(5),
-                        new KeyValue(bar.progressProperty(), 1)
-                )
-        );
+//        stopButton.setDisable(true);
     }
 
     @FXML
@@ -78,13 +71,36 @@ public class RecordController implements Initializable {
 
     @FXML
     private void recordButtonPress(){
+        AudioCapture _audioCapture = new AudioCapture();
+        _audioCapTask = _audioCapture.callACTask();
+
+        _audioCapTask.valueProperty().addListener((o, oldVal, newVal) -> {
+            bar.progressProperty().setValue((double) newVal / 100);
+        });
+
+        new Thread(_audioCapTask).start();
+        _capturing = true;
+
         Thread thread = new Thread(new Recording());
         thread.start();
-        timeline.playFromStart();
 
+        listenButton.setDisable(true);
         recordButton.setDisable(true);
+//        stopButton.setDisable(false);
         backButton.setDisable(true);
     }
+
+    // can't stop recording
+//    @FXML
+//    private void stopButtonPress() {
+//        _audioCapTask.cancel();
+//        bar.setProgress(0);
+//        _capturing = false;
+//
+//        recordButton.setDisable(false);
+//        stopButton.setDisable(true);
+//        backButton.setDisable(false);
+//    }
 
     @FXML
     private void backButtonPress() {
@@ -137,18 +153,20 @@ public class RecordController implements Initializable {
         @Override
         protected void done() {
             Platform.runLater(() -> {
+                _audioCapTask.cancel();
+                bar.setProgress(0);
+                _capturing = false;
+
                 // See if user wants to listen to the recording
                 boolean hearRecording = DialogGenerator.showOptionsDialog("Play Recording", "Would you like to listen to the recording?", "Yes", "No");
                 if (hearRecording) {
                     Media media = new Media(new File(_fileName).toURI().toString());
                     MediaPlayer mediaPlayer = new MediaPlayer(media);
                     mediaPlayer.play();
-                    timeline.playFromStart();
 
                     // See if user wants to save the recording
                     boolean save = DialogGenerator.showOptionsDialog("Save Recording", "Would you like to save this recording?", "Yes", "No");
                     mediaPlayer.stop();
-                    timeline.stop();
 
                     File recording = new File(_fileName);
                     if(save) {
@@ -171,6 +189,7 @@ public class RecordController implements Initializable {
                         recording.delete();
                     }
                 }
+                listenButton.setDisable(false);
                 recordButton.setDisable(false);
                 backButton.setDisable(false);
             });
