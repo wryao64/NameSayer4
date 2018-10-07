@@ -110,7 +110,13 @@ public class EditController implements Initializable {
         configureFileChooser(fc);
         File file = fc.showOpenDialog(_stage);
         if (file != null) {
-            openFile(file);
+            try {
+                openFile(file);
+                DialogGenerator.showOkMessage("File Loaded","Names from " + file.getName() + " have been read in.");
+            } catch(IOException e){
+                DialogGenerator.showErrorMessage("Could not read file :(");
+            }
+
         }
     }
 
@@ -122,18 +128,16 @@ public class EditController implements Initializable {
         );
     }
 
-    private void openFile(File file) {
-        try {
-            // load in names from file
-            BufferedReader bf = new BufferedReader(new FileReader(file));
+    private void openFile(File file) throws IOException{
+        // load in names from file
+        BufferedReader bf = new BufferedReader(new FileReader(file));
 
-            String line;
-            while ((line = bf.readLine()) != null) {
-                Name newName = createName(line);
+        String line;
+        while ((line = bf.readLine()) != null) {
+            Name newName = createName(line);
+            if(newName != null){
                 _selectedNames.add(newName);
             }
-        } catch(IOException e) {
-            DialogGenerator.showErrorMessage("Could not read file :(");
         }
     }
 
