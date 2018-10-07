@@ -21,7 +21,7 @@
                      </font></Label>
                   <TextField fx:id="nameInput">
                      <HBox.margin>
-                        <Insets left="30.0" />
+                        <Insets left="10.0" />
                      </HBox.margin>
                      <font>
                         <Font size="16.0" />
@@ -29,7 +29,7 @@
                   </TextField>
                   <Button mnemonicParsing="false" onAction="#submitButtonPress" text="Ok!">
                      <HBox.margin>
-                        <Insets left="20.0" />
+                        <Insets left="10.0" />
                      </HBox.margin>
                      <font>
                         <Font size="16.0" />
@@ -39,18 +39,23 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Label text="Or upload a file:">
+                  <Label text="Or ">
                      <font>
                         <Font size="16.0" />
                      </font></Label>
                   <Button mnemonicParsing="false" onAction="#uploadButtonPress" text="Upload">
                      <HBox.margin>
-                        <Insets left="30.0" />
+                        <Insets />
                      </HBox.margin>
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
+                  <Label text=" a file!">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
          </children>

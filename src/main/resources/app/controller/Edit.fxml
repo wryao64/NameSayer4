@@ -15,7 +15,7 @@
    <top>
       <VBox alignment="CENTER" prefHeight="120.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Change names to practise">
+            <Label fx:id="title" text="Change names to practise">
                <font>
                   <Font size="28.0" />
                </font>
@@ -94,12 +94,12 @@
    <bottom>
       <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#backButtonPress" text="Back">
+            <Button mnemonicParsing="false" onAction="#backButtonPress" text="Practise">
                <font>
                   <Font size="16.0" />
                </font>
                <HBox.margin>
-                  <Insets bottom="10.0" left="10.0" />
+                  <Insets bottom="20.0" left="20.0" />
                </HBox.margin>
             </Button>
          </children>

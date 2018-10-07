@@ -2,7 +2,6 @@ package app.controller;
 
 import app.DialogGenerator;
 import app.Main;
-import app.Name;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,12 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class WelcomeController {
     private Stage _stage;
@@ -41,12 +36,17 @@ public class WelcomeController {
 
     @FXML
     private void submitButtonPress(){
-        if(nameInput.getText() != null && !nameInput.getText().trim().isEmpty()){
-            List<Name> name = new ArrayList<>();
-            name.add(new Name(nameInput.getText(), null));
-            goToList(name);
+        if(nameInput.getText().trim() != null && !nameInput.getText().trim().isEmpty()){
+            try {
+                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Edit.fxml"));
+                loader.setController(new EditController(nameInput.getText().trim()));
+                Parent editView = loader.load();
+                _stage.setScene(new Scene(editView));
+            } catch (IOException e){
+                DialogGenerator.showErrorMessage("Error processing name");
+            }
         } else {
-            DialogGenerator.showErrorMessage("Error: Name not inputted");
+            DialogGenerator.showErrorMessage("Error: Name not inputted.");
         }
     }
 
@@ -60,25 +60,10 @@ public class WelcomeController {
 
     private void openFile(File file) {
         try {
-            // load in names from file
-            BufferedReader bf = new BufferedReader(new FileReader(file));
-
-            String line;
-            while ((line = bf.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch(IOException e) {
-            DialogGenerator.showErrorMessage("Could not read file :(");
-        }
-        System.out.println("Should go to next screen, not yet implemented");
-    }
-
-    private void goToList(List<Name> names){
-        try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
-            loader.setController(new NameDisplayController(names));
-            Parent nameView = loader.load();
-            _stage.setScene(new Scene(nameView));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Edit.fxml"));
+            loader.setController(new EditController(file));
+            Parent editView = loader.load();
+            _stage.setScene(new Scene(editView));
         } catch (IOException e){
             e.printStackTrace();
         }

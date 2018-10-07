@@ -53,7 +53,7 @@
     <top>
         <VBox alignment="CENTER" prefHeight="120.0" prefWidth="800.0" BorderPane.alignment="CENTER">
             <children>
-                <Label alignment="CENTER" text="Practice">
+                <Label alignment="CENTER" text="Create Practice Recordings">
                     <font>
                         <Font size="36.0" />
                     </font>

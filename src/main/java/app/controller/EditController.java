@@ -24,19 +24,41 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class EditController implements Initializable {
     private static final String LIST_FILE = Main.COMPOSITE_LOCATION + "/mylist.txt";
 
     private Stage _stage;
     private ObservableList<Name> _selectedNames = FXCollections.observableArrayList();
-    private NamesDatabase _namesDB;
+    private NamesDatabase _namesDB = new NamesDatabase();
 
     @FXML private ListView<Name> selectedNamesList;
     @FXML private TextField nameInput;
+    @FXML private Label title;
 
+    /**
+     * EditController constructor from a single string (for coming from Welcome screen)
+     * @param name A name to add as a string
+     */
+    public EditController(String name){
+        Name nameToAdd = createName(name);
+        if(nameToAdd != null){
+            _selectedNames.add(nameToAdd);
+        }
+    }
+
+    /**
+     * EditController constructor from file of names (for coming from Welcome screen)
+     * @param file A text file with names
+     */
+    public EditController(File file){
+        openFile(file);
+    }
+
+    /**
+     * EditController constructor with a list of names
+     * @param names A list of names
+     */
     public EditController(List<Name> names){
         for(Name nameToAdd : names){
             _selectedNames.add(nameToAdd);
@@ -46,8 +68,6 @@ public class EditController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
-        _namesDB = new NamesDatabase();
-
         selectedNamesList.setPlaceholder(new Label("No Names To Practice :("));
         selectedNamesList.getItems().addAll(_selectedNames);
         _selectedNames.addListener((ListChangeListener<Name>) c -> {
@@ -63,11 +83,15 @@ public class EditController implements Initializable {
         } else if(_selectedNames.contains(new Name(nameStr, null))) {
             DialogGenerator.showErrorMessage("Name has already been added.");
         } else {
-            Name nameToAdd = createName(nameStr);
-            if (nameToAdd != null) {
-                _selectedNames.add(nameToAdd);
-                nameInput.setText(""); // clear TextField
-            }
+            addName(nameStr);
+        }
+    }
+
+    private void addName(String name){
+        Name nameToAdd = createName(name);
+        if (nameToAdd != null) {
+            _selectedNames.add(nameToAdd);
+            nameInput.setText(""); // clear TextField
         }
     }
 
@@ -92,14 +116,18 @@ public class EditController implements Initializable {
         if(_selectedNames.isEmpty()){
             DialogGenerator.showErrorMessage("Please select at least one name.");
         } else {
-            try {
-                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
-                loader.setController(new NameDisplayController(_selectedNames));
-                Parent nameView = loader.load();
-                _stage.setScene(new Scene(nameView));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            goToNameDisplay(_selectedNames);
+        }
+    }
+
+    private void goToNameDisplay(List<Name> selectedNames){
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
+            loader.setController(new NameDisplayController(selectedNames));
+            Parent nameView = loader.load();
+            _stage.setScene(new Scene(nameView));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -115,12 +143,7 @@ public class EditController implements Initializable {
         configureFileChooser(fc);
         File file = fc.showOpenDialog(_stage);
         if (file != null) {
-            try {
-                openFile(file);
-                DialogGenerator.showOkMessage("File Loaded","Names from " + file.getName() + " have been read in.");
-            } catch(IOException e){
-                DialogGenerator.showErrorMessage("Could not read file :(");
-            }
+            openFile(file);
         }
     }
 
@@ -132,16 +155,20 @@ public class EditController implements Initializable {
         );
     }
 
-    private void openFile(File file) throws IOException{
+    private void openFile(File file) {
         // load in names from file
-        BufferedReader bf = new BufferedReader(new FileReader(file));
-
-        String line;
-        while ((line = bf.readLine()) != null) {
-            Name newName = createName(line);
-            if(newName != null){
-                _selectedNames.add(newName);
+        try{
+            String line;
+            BufferedReader bf = new BufferedReader(new FileReader(file));
+            while ((line = bf.readLine()) != null) {
+                Name newName = createName(line);
+                if(newName != null){
+                    _selectedNames.add(newName);
+                }
             }
+            DialogGenerator.showOkMessage("File Loaded","Names from " + file.getName() + " have been read in.");
+        } catch(IOException e){
+            DialogGenerator.showErrorMessage("Could not read file :(");
         }
     }
 
@@ -273,7 +300,7 @@ public class EditController implements Initializable {
     private void createConcatTextFile(List<String> list){
         try {
             PrintWriter writer = new PrintWriter(LIST_FILE, "UTF-8");
-            System.out.println("LIST FILE IS: " + LIST_FILE);
+//            System.out.println("LIST FILE IS: " + LIST_FILE); // for testing
             for(String str : list){
                 writer.println("file " + "'" + _namesDB.getFile(str).getAbsolutePath() + "'");
             }
