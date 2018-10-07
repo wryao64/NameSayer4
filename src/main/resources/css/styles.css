@@ -20,3 +20,7 @@ Color palette: https://www.color-hex.com/color-palette/66147
 .label {
     -fx-text-fill:#ecf0f1;
 }
+
+#temp-label {
+    -fx-text-fill:#0b355c !important;
+}
