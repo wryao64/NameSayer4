@@ -177,8 +177,9 @@ public class EditController implements Initializable {
     }
 
     /**
-     * createName creates a Name object. There is a prompt if the part of the Name is not in the database
-     * asking the user what they want to do ?????
+     * createName creates a Name object.
+     * There is a prompt if the part of the Name is not in the database
+     * asking the user what they want to do
      *
      * TODO: PARTS OF THIS SHOULD BE REFACTORED TO THE NAME CLASS
      * TODO: (right now it works ok as this is the only time the app makes names)

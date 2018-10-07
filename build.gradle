@@ -2,6 +2,14 @@ plugins {
     id 'java'
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'app.Main'
+        )
+    }
+}
+
 group 'ns'
 version '1.0-SNAPSHOT'
 
