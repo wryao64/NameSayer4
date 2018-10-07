@@ -17,7 +17,14 @@
     <top>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-            <Region prefHeight="200.0" prefWidth="200.0" />
+            <Button mnemonicParsing="false" onAction="#memeButtonPress" prefWidth="150.0" text="Meme Rewards">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets right="20.0" />
+               </HBox.margin>
+            </Button>
             <Button id="leftButton" mnemonicParsing="false" onAction="#backButtonPress" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton">
                <font>
                   <Font size="16.0" />
@@ -35,18 +42,14 @@
                   <Font size="16.0" />
                </font>
             </Button>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                  <Button mnemonicParsing="false" onAction="#editButtonPress" text="Setup Names">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets right="20.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
+            <Button mnemonicParsing="false" onAction="#editButtonPress" prefHeight="32.0" prefWidth="150.0" text="Setup Names">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" right="20.0" />
+               </HBox.margin>
+            </Button>
             </children>
         </HBox>
     </top>
@@ -63,7 +66,7 @@
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="383.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#playTestingButtonPress" styleClass="vertical-button" text="Listen">
+                        <Button mnemonicParsing="false" onAction="#listenButtonPress" styleClass="vertical-button" text="Listen">
                            <font>
                               <Font size="16.0" />
                            </font>

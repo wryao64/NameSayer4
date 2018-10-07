@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.*;
+import app.meme.UserMemeProfile;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -31,6 +32,7 @@ public class EditController implements Initializable {
     private Stage _stage;
     private ObservableList<Name> _selectedNames = FXCollections.observableArrayList();
     private NamesDatabase _namesDB = new NamesDatabase();
+    private UserMemeProfile user;
 
     @FXML private ListView<Name> selectedNamesList;
     @FXML private TextField nameInput;
