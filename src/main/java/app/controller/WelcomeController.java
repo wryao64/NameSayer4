@@ -52,7 +52,7 @@ public class WelcomeController {
 
     private void configureFileChooser(final FileChooser fc) {
         fc.setTitle("Open Name File");
-        fc.setInitialDirectory(new File(Main.ASSETS_LOCATION));
+        fc.setInitialDirectory(new File(System.getProperty("user.home")));
         fc.getExtensionFilters().add(
                 new FileChooser.ExtensionFilter("Text File", "*.txt")
         );
