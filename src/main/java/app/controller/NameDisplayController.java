@@ -270,6 +270,8 @@ public class NameDisplayController implements Initializable {
 
         userRecordings.getItems().clear();
         userRecordings.getItems().addAll(userRecordingsList);
-        userRecordings.setPlaceholder(new Label("No practice recordings"));
+        Label tempLabel = new Label("No practice recordings");
+        tempLabel.setId("temp-label");
+        userRecordings.setPlaceholder(tempLabel);
     }
 }

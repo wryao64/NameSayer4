@@ -70,7 +70,9 @@ public class EditController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
-        selectedNamesList.setPlaceholder(new Label("No Names To Practice :("));
+        Label tempLabel = new Label("No Names To Practice :(");
+        tempLabel.setId("temp-label");
+        selectedNamesList.setPlaceholder(tempLabel);
         selectedNamesList.getItems().addAll(_selectedNames);
         _selectedNames.addListener((ListChangeListener<Name>) c -> {
             selectedNamesList.setItems(_selectedNames);
