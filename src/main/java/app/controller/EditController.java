@@ -221,9 +221,9 @@ public class EditController implements Initializable {
                 name = new Name(nameStr, _namesDB.getFile(nameStr));
 
                 trimAudio(name);
-                // changes the Name object to reference the trimmed recording.\
-                // TODO: Could create a method for this instead; depends on where we're storing it though
-                name = new Name(nameStr, new File(Main.COMPOSITE_LOCATION + "/" + name.toString()+ Main.AUDIO_FILETYPE));
+                // changes the Name object to reference the trimmed audio
+                String trimmedAudioStr = getTrimmedAudioLocation(name.toString());
+                name = new Name(nameStr, new File(trimmedAudioStr));
 
                 // load in any previous quality
                 File badQualityFile = new File(Main.QUALITY_FILE);
@@ -241,9 +241,17 @@ public class EditController implements Initializable {
 
                 // TODO: normalise audio
 
-                // TODO: trim silence
+                // trims silence for each individual part of the name
+                for (String namePart : namesInDatabase) {
+                    name = new Name(namePart, _namesDB.getFile(namePart));
+                    String trimmedAudioStr = getTrimmedAudioLocation(namePart);
 
-                // TODO: add silence between names
+                    trimAudio(name);
+                    // changes the Name object to reference the trimmed audio
+                    name = new Name(namePart, new File(trimmedAudioStr));
+                }
+
+                // TODO: add silence between names -- I don't think we need to
 
                 // do the concat TODO: multithread this
                 String cmd = "ffmpeg -f concat -safe 0 -i " + LIST_FILE + " -c copy " + output;
@@ -277,6 +285,11 @@ public class EditController implements Initializable {
         }
     }
 
+    /**
+     * Checks if the name is marked as bad quality and changes the quality button accordingly
+     * @param badQualityFile
+     * @param name
+     */
     private void getQuality(File badQualityFile, Name name) {
         try {
             // get the quality file as a list of strings
@@ -304,12 +317,16 @@ public class EditController implements Initializable {
         return line;
     }
 
+    /**
+     * Gets rid of the silences on either end of the name audio
+     * @param name
+     */
     private void trimAudio(Name name) {
-        String outputStr = Main.COMPOSITE_LOCATION + "/" + name.toString() + Main.AUDIO_FILETYPE;
+        String trimmedAudioStr = getTrimmedAudioLocation(name.toString());
 
         //TODO: multithread this
         String trimCmd = "ffmpeg -hide_banner -i " + name.getDBRecording().toString() +
-                " -af silenceremove=1:0:-55dB:1:5:-55dB:0:peak " + outputStr;
+                " -af silenceremove=1:0:-55dB:1:5:-55dB:0:peak " + trimmedAudioStr;
 
         ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
         try {
@@ -325,11 +342,23 @@ public class EditController implements Initializable {
             PrintWriter writer = new PrintWriter(LIST_FILE, "UTF-8");
 //            System.out.println("LIST FILE IS: " + LIST_FILE); // for testing
             for(String str : list){
-                writer.println("file " + "'" + _namesDB.getFile(str).getAbsolutePath() + "'");
+                String fileStr = getTrimmedAudioLocation(str);
+//                writer.println("file " + "'" + _namesDB.getFile(str).getAbsolutePath() + "'");
+                writer.println("file " + "'" + fileStr + "'");
             }
             writer.close();
         } catch (FileNotFoundException|UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Gets the location of the trimmed name audio
+     * @param name
+     * @return the trimmed audio location string
+     */
+    private String getTrimmedAudioLocation(String name) {
+        String trimmedAudioStr = Main.COMPOSITE_LOCATION + "/" + name + Main.AUDIO_FILETYPE;
+        return trimmedAudioStr;
     }
 }
