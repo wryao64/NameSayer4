@@ -172,7 +172,6 @@ public class EditController implements Initializable {
         }
     }
 
-
     /**
      * createName creates a Name object. There is a prompt if the part of the Name is not in the database
      * asking the user what they want to do ?????
@@ -221,26 +220,15 @@ public class EditController implements Initializable {
                 // just a single database name so no need for audio concat
                 name = new Name(nameStr, _namesDB.getFile(nameStr));
 
+                trimAudio(name);
+                // changes the Name object to reference the trimmed recording.\
+                // TODO: Could create a method for this instead; depends on where we're storing it though
+                name = new Name(nameStr, new File(Main.COMPOSITE_LOCATION + "/" + name.toString()+ Main.AUDIO_FILETYPE));
 
                 // load in any previous quality
                 File badQualityFile = new File(Main.QUALITY_FILE);
                 if(badQualityFile.exists()){
-                    try {
-                        // get the quality file as a list of strings
-                        Path qualityPath = badQualityFile.toPath();
-                        List<String> qualityLines = new ArrayList<>(Files.readAllLines(qualityPath, StandardCharsets.UTF_8));
-
-                        // check if the name is bad quality
-                        for (int k = 0; k < qualityLines.size(); k++) {
-                            String line = qualityLines.get(k);
-                            if(line.equals(name.getDBRecording().getName())) {
-                                name.toggleQuality();
-                                break;
-                            }
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    getQuality(badQualityFile, name);
                 }
             } else {
                 // multiple database names, do the concat
@@ -289,12 +277,47 @@ public class EditController implements Initializable {
         }
     }
 
+    private void getQuality(File badQualityFile, Name name) {
+        try {
+            // get the quality file as a list of strings
+            Path qualityPath = badQualityFile.toPath();
+            List<String> qualityLines = new ArrayList<>(Files.readAllLines(qualityPath, StandardCharsets.UTF_8));
+
+            // check if the name is bad quality
+            for (int k = 0; k < qualityLines.size(); k++) {
+                String line = qualityLines.get(k);
+                if(line.equals(name.getDBRecording().getName())) {
+                    name.toggleQuality();
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private String listAsLine(List<String> list){
         String line = "";
         for(String str : list){
             line = line + str;
         }
         return line;
+    }
+
+    private void trimAudio(Name name) {
+        String outputStr = Main.COMPOSITE_LOCATION + "/" + name.toString() + Main.AUDIO_FILETYPE;
+
+        //TODO: multithread this
+        String trimCmd = "ffmpeg -hide_banner -i " + name.getDBRecording().toString() +
+                " -af silenceremove=1:0:-55dB:1:5:-55dB:0:peak " + outputStr;
+
+        ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
+        try {
+            Process process = builder.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void createConcatTextFile(List<String> list){
