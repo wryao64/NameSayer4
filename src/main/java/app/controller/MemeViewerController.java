@@ -52,7 +52,7 @@ public class MemeViewerController implements Initializable {
 
         if(currentMemeIndex.intValue() == 0){
             title.setText("Here's a starter meme!");
-            aboutText.setText("More memes will randomly drop when you record, listen and practice more names!");
+            aboutText.setText("More memes will randomly drop when you record, listen and practise more names!");
         } else {
             title.setText("Here's your fresh meme!");
             aboutText.setText("");

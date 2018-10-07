@@ -70,7 +70,7 @@ public class EditController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
-        Label tempLabel = new Label("No Names To Practice :(");
+        Label tempLabel = new Label("No Names To Practise :(");
         tempLabel.setId("temp-label");
         selectedNamesList.setPlaceholder(tempLabel);
         selectedNamesList.getItems().addAll(_selectedNames);

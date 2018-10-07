@@ -144,7 +144,7 @@ public class NameDisplayController implements Initializable {
             DialogGenerator.showErrorMessage("There are no names in the database matching \""
                     + _selectedName.toString() + "\"");
         } else if(userRecordings.getItems().size() == 0) {
-            DialogGenerator.showErrorMessage("There are no practice recordings for " + _selectedName.toString());
+            DialogGenerator.showErrorMessage("There are no practise recordings for " + _selectedName.toString());
         } else {
             Main.getUser().tryDropMeme();
             File selectedUserRecording = userRecordings.getSelectionModel().getSelectedItem();
@@ -186,7 +186,7 @@ public class NameDisplayController implements Initializable {
     private void listenUserRecording(){
         File selectedRecording = userRecordings.getSelectionModel().getSelectedItem();
         if(selectedRecording == null) {
-            DialogGenerator.showErrorMessage("No practice recording selected.");
+            DialogGenerator.showErrorMessage("No practise recording selected.");
         } else {
             Media media = new Media(selectedRecording.toURI().toString());
             MediaPlayer mediaPlayer = new MediaPlayer(media);
@@ -270,7 +270,7 @@ public class NameDisplayController implements Initializable {
 
         userRecordings.getItems().clear();
         userRecordings.getItems().addAll(userRecordingsList);
-        Label tempLabel = new Label("No practice recordings");
+        Label tempLabel = new Label("No practise recordings");
         tempLabel.setId("temp-label");
         userRecordings.setPlaceholder(tempLabel);
     }
