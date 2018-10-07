@@ -2,7 +2,7 @@
 assets/*
 
 # quality file
-quality.txt
+badQualityRecordings.txt
 
 # Compiled class file
 *.class
