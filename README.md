@@ -49,5 +49,7 @@ Sometimes studying and practicing names gets boring so the app has rewards to ch
 
 Memes will randomly drop and you listen, record and practice! You will be notified once you get a new meme and you can view the memes you have collected by clicking the Meme Rewards button while practicing.
 
+You could really go into the folders and find the memes but that would take away the fun :(
+
 Thanks if you read all the way down to here, love your work <3.
 
