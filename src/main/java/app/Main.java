@@ -1,5 +1,6 @@
 package app;
 
+import app.meme.UserMemeProfile;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -22,12 +23,20 @@ public class Main extends Application {
 
     private static Stage _stage;
 
+    // ngl did not want to pass the user everywhere and change a lot of code so made it static :)
+    // means there can only be 1 user
+    private static UserMemeProfile _user;
+
     public static void main(String[] args) {
         launch(args);
     }
 
     public static Stage getStage() {
         return _stage;
+    }
+
+    public static UserMemeProfile getUser() {
+            return _user;
     }
 
     @Override
@@ -48,6 +57,9 @@ public class Main extends Application {
         }
 
         primaryStage.show();
+
+        // create the user to track their memes :)
+        _user = new UserMemeProfile();
     }
 
     private void setUpEnvironment(){

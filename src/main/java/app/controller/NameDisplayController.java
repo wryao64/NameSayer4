@@ -1,6 +1,7 @@
 package app.controller;
 
 import app.*;
+import app.meme.UserMemeProfile;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +26,10 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class NameDisplayController implements Initializable {
+
     private Stage _stage;
+    private UserMemeProfile _user;
+
     private List<Name> _nameList;
     private SimpleIntegerProperty _selectedNameIndex;
     private Name _selectedName; // this changes when _selectedNameIndex changes
@@ -52,6 +56,8 @@ public class NameDisplayController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
+        _user = Main.getUser();
+
         nameComboBox.getItems().addAll(_nameList);
 
         // bind _selectedName to change with the index changing
@@ -60,6 +66,7 @@ public class NameDisplayController implements Initializable {
             _selectedName = _nameList.get(newValue.intValue());
             fetchUserRecordings();
             setQualityFlagButtonText();
+            Main.getUser().tryDropMeme();
         });
 
         // setup user recordings to show by last modified date
@@ -103,6 +110,7 @@ public class NameDisplayController implements Initializable {
 
     @FXML
     private void practiseButtonPress() {
+        Main.getUser().tryDropMeme();
         // redirect to RecordController page
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Record.fxml"));
@@ -138,6 +146,7 @@ public class NameDisplayController implements Initializable {
         } else if(userRecordings.getItems().size() == 0) {
             DialogGenerator.showErrorMessage("There are no practice recordings for " + _selectedName.toString());
         } else {
+            Main.getUser().tryDropMeme();
             File selectedUserRecording = userRecordings.getSelectionModel().getSelectedItem();
             if(selectedUserRecording == null){
                 // default to latest recording if none selected
@@ -165,9 +174,8 @@ public class NameDisplayController implements Initializable {
     }
 
     @FXML
-    private void playTestingButtonPress(){
-        // the database recordings need to be setup correctly
-        // right now some of the names aren't actually in the database and won't play
+    private void listenButtonPress(){
+        Main.getUser().tryDropMeme();
         if(!_selectedName.playDBRecording()){
             DialogGenerator.showErrorMessage("There are no names in the database matching \""
                     + _selectedName.toString() + "\"");
@@ -183,6 +191,7 @@ public class NameDisplayController implements Initializable {
             Media media = new Media(selectedRecording.toURI().toString());
             MediaPlayer mediaPlayer = new MediaPlayer(media);
             mediaPlayer.play();
+            Main.getUser().tryDropMeme();
         }
     }
 
@@ -213,6 +222,18 @@ public class NameDisplayController implements Initializable {
             Files.write(qualityPath, quality, StandardCharsets.UTF_8);
         } catch(IOException e){
             DialogGenerator.showErrorMessage("Error writing to quality file");
+        }
+    }
+
+    @FXML
+    private void memeButtonPress(){
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MemeViewer.fxml"));
+            loader.setController(new MemeViewerController(_user,_nameList));
+            Parent memeView = loader.load();
+            _stage.setScene(new Scene(memeView));
+        } catch(IOException e) {
+            e.printStackTrace();
         }
     }
 

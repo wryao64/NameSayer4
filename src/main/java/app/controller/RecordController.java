@@ -63,6 +63,7 @@ public class RecordController implements Initializable {
 
     @FXML
     private void listenButtonPress(){
+        Main.getUser().tryDropMeme();
         if(!_currentName.playDBRecording()){
             DialogGenerator.showOkMessage("Name not in database",
                     "There is nothing in the database matching \"" + _currentName.toString() + "\"");
