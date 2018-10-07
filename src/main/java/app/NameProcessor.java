@@ -192,7 +192,7 @@ public class NameProcessor {
             if (!_composite) {
                 String trimmedAudioStr = getTrimmedAudioLocation(_name.toString());
 
-                String trimCmd = "ffmpeg -hide_banner -i " + _name.getDBRecording().toString() +
+                String trimCmd = "ffmpeg -y -hide_banner -i " + _name.getDBRecording().toString() +
                         " -af silenceremove=1:0:-55dB:1:5:-55dB:0:peak " + trimmedAudioStr;
 
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
@@ -207,7 +207,7 @@ public class NameProcessor {
                     _name = new Name(namePart, _namesDB.getFile(namePart));
                     String trimmedAudioStr = getTrimmedAudioLocation(namePart);
 
-                    String trimCmdPart = "ffmpeg -hide_banner -i " + _name.getDBRecording().toString() +
+                    String trimCmdPart = "ffmpeg -y -hide_banner -i " + _name.getDBRecording().toString() +
                             " -af silenceremove=1:0:-55dB:1:5:-55dB:0:peak " + trimmedAudioStr;
 
                     if (trimCmd != "") {
@@ -222,7 +222,7 @@ public class NameProcessor {
                 process.waitFor();
 
                 // concatenates all parts of the name together
-                String cmd = "ffmpeg -f concat -safe 0 -i " + LIST_FILE + " -c copy " + _outputLocStr;
+                String cmd = "ffmpeg -y -f concat -safe 0 -i " + LIST_FILE + " -c copy " + _outputLocStr;
                 builder = new ProcessBuilder("/bin/bash", "-c", cmd);
 
                 process = builder.start();
