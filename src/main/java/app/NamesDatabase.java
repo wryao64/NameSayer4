@@ -1,7 +1,10 @@
 package app;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -52,6 +55,10 @@ public class NamesDatabase {
             }
         }
 //        testPrintDatabase(); // For testing
+    }
+
+    public List<String> getAllNames(){
+        return new ArrayList<>(_namesDB.keySet());
     }
 
     // TODO: delete later when testing not needed
