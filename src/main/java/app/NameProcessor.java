@@ -195,7 +195,7 @@ public class NameProcessor {
                 String trimmedAudioStr = getTrimmedAudioLocation(_name.toString());
 
                 String trimCmd = "ffmpeg -y -hide_banner -i " + _name.getDBRecording().toString() +
-                        " -af silenceremove=1:0:-55dB:1:5:-55dB:0:peak " + trimmedAudioStr;
+                        " -af silenceremove=1:0:-55dB:1:5:-55dB:0 " + trimmedAudioStr;
 
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
 
@@ -210,7 +210,7 @@ public class NameProcessor {
                     String trimmedAudioStr = getTrimmedAudioLocation(namePart);
 
                     String trimCmdPart = "ffmpeg -y -hide_banner -i " + _name.getDBRecording().toString() +
-                            " -af silenceremove=1:0:-55dB:1:5:-55dB:0:peak " + trimmedAudioStr;
+                            " -af silenceremove=1:0:-55dB:1:5:-55dB:0 " + trimmedAudioStr;
 
                     if (trimCmd != "") {
                         trimCmd = trimCmd + " && " + trimCmdPart;
