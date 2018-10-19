@@ -75,7 +75,7 @@ public class NamesDatabase {
         // filter suggestions
         suggestions = suggestions
                 .stream()
-                .filter(s -> s.startsWith(latestName))
+                .filter(s -> s.toLowerCase().startsWith(latestName.toLowerCase()))
                 .collect(Collectors.toList());
 
         // add on the previous names
