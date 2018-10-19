@@ -76,13 +76,8 @@ public class EditController implements Initializable {
         });
 
         // setup autocomplete
-        List<String> suggestedNames = _namesDB.getAllNames();
-        Collections.sort(suggestedNames);
-        TextFields.bindAutoCompletion(nameInput, textField -> {
-            return suggestedNames.stream().filter(elem -> {
-                return elem.toLowerCase().startsWith(textField.getUserText().toLowerCase());
-            }).collect(Collectors.toList());
-        });
+        TextFields.bindAutoCompletion(nameInput,
+                textField -> _namesDB.getSuggestedNames(nameInput.getText()));
     }
 
     @FXML

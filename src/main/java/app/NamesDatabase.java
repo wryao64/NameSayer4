@@ -1,12 +1,12 @@
 package app;
 
+import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * Represents the Names Database loaded in from the database location
@@ -59,6 +59,45 @@ public class NamesDatabase {
 
     public List<String> getAllNames(){
         return new ArrayList<>(_namesDB.keySet());
+    }
+
+    public List<String> getSuggestedNames(String name) {
+        int latestIndex = findLatestSpaceInString(name);
+        final String latestName;
+        if(latestIndex == 0 ){
+            latestName = name;
+        } else {
+            latestName = name.substring(latestIndex+1);
+        }
+
+        List<String> suggestions = getAllNames();
+
+        // filter suggestions
+        suggestions = suggestions
+                .stream()
+                .filter(s -> s.startsWith(latestName))
+                .collect(Collectors.toList());
+
+        // add on the previous names
+        if(latestIndex != 0){
+            String prevName = name.substring(0, latestIndex + 1);
+            for(int i = 0; i < suggestions.size(); i++){
+                suggestions.set(i, prevName + suggestions.get(i));
+            }
+        }
+
+        Collections.sort(suggestions);
+        return suggestions;
+    }
+
+    private int findLatestSpaceInString(String str){
+        int index = 0;
+        for(int i = 0; i < str.length(); i++){
+            if(str.charAt(i) == ' ' || str.charAt(i) == '-'){
+                index = i;
+            }
+        }
+        return index;
     }
 
     // TODO: delete later when testing not needed
