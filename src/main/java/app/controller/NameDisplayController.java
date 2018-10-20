@@ -13,6 +13,10 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.SourceDataLine;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -206,16 +210,15 @@ public class NameDisplayController extends Controller {
     private void listenUserRecording(){
         File selectedRecording = userRecordings.getSelectionModel().getSelectedItem();
         if(selectedRecording == null) {
-            DialogGenerator.showErrorMessage("No practise recording selected.");
+            DialogGenerator.showOkMessage("No recording selected", "Please select a recording to listen to.");
         } else {
             this.setButtonDisable();
 
-            Media media = new Media(selectedRecording.toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.play();
-            Main.getUser().tryDropMeme();
+            AudioPlayer ap = new AudioPlayer(selectedRecording);
+            Thread thread = new Thread(ap);
+            thread.start();
 
-            mediaPlayer.setOnStopped(() -> {
+            ap.setOnSucceeded(e -> {
                 this.setButtonDisable();
             });
         }
