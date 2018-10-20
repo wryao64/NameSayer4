@@ -22,7 +22,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class RecordController implements Initializable {
+public class RecordController extends Controller {
     private Stage _stage;
 
     private boolean _capturing = false;
@@ -31,23 +31,19 @@ public class RecordController implements Initializable {
     private Name _currentName;
     private List<Name> _selectedNames;
 
-    @FXML
-    private Label nameLabel;
+    @FXML private Label nameLabel;
+    @FXML private Button listenButton;
+    @FXML private Button recordButton;
+    @FXML private Button backButton;
+    @FXML ProgressBar bar;
 
-    @FXML
-    private Button listenButton;
-
-    @FXML
-    private Button recordButton;
-
-//    @FXML
-//    private Button stopButton;
-
-    @FXML
-    private Button backButton;
-
-    @FXML
-    ProgressBar bar;
+    @Override
+    public void setButtonDisable() {
+        _buttonDisabled = !_buttonDisabled;
+        listenButton.setDisable(_buttonDisabled);
+        recordButton.setDisable(_buttonDisabled);
+        backButton.setDisable(_buttonDisabled);
+    }
 
     public RecordController(Name name, List<Name> nameList) {
         _currentName = name;
@@ -63,8 +59,9 @@ public class RecordController implements Initializable {
 
     @FXML
     private void listenButtonPress(){
+        this.setButtonDisable();
         Main.getUser().tryDropMeme();
-        if(!_currentName.playDBRecording()){
+        if(!_currentName.playDBRecording(this)){
             DialogGenerator.showOkMessage("Name not in database",
                     "There is nothing in the database matching \"" + _currentName.toString() + "\"");
         }
@@ -72,6 +69,8 @@ public class RecordController implements Initializable {
 
     @FXML
     private void recordButtonPress(){
+        this.setButtonDisable();
+
         AudioCapture _audioCapture = new AudioCapture();
         _audioCapTask = _audioCapture.callACTask();
 
@@ -84,11 +83,6 @@ public class RecordController implements Initializable {
 
         Thread thread = new Thread(new Recording());
         thread.start();
-
-        listenButton.setDisable(true);
-        recordButton.setDisable(true);
-//        stopButton.setDisable(false);
-        backButton.setDisable(true);
     }
 
     // can't stop recording

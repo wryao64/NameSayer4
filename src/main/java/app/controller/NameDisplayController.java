@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class NameDisplayController implements Initializable {
+public class NameDisplayController extends Controller {
 
     private Stage _stage;
     private UserMemeProfile _user;
@@ -39,6 +39,25 @@ public class NameDisplayController implements Initializable {
     @FXML private ListView<File> userRecordings;
     @FXML private Spinner<Integer> repeatSpinner;
     @FXML private Button qualityFlagButton;
+    @FXML private Button memeButton;
+    @FXML private Button setupButton;
+    @FXML private Button listenButton;
+    @FXML private Button practiseButton;
+    @FXML private Button compareButton;
+    @FXML private Button testMicButton;
+    @FXML private Button listenUserButton;
+
+    @Override
+    public void setButtonDisable() {
+        _buttonDisabled = !_buttonDisabled;
+        memeButton.setDisable(_buttonDisabled);
+        setupButton.setDisable(_buttonDisabled);
+        listenButton.setDisable(_buttonDisabled);
+        practiseButton.setDisable(_buttonDisabled);
+        compareButton.setDisable(_buttonDisabled);
+        testMicButton.setDisable(_buttonDisabled);
+        listenUserButton.setDisable(_buttonDisabled);
+    }
 
     public NameDisplayController(List<Name> nameList) {
         // namesList should always have at least 1 item enforced by the GUI design
@@ -175,8 +194,9 @@ public class NameDisplayController implements Initializable {
 
     @FXML
     private void listenButtonPress(){
+        this.setButtonDisable();
         Main.getUser().tryDropMeme();
-        if(!_selectedName.playDBRecording()){
+        if(!_selectedName.playDBRecording(this)){
             DialogGenerator.showErrorMessage("There are no names in the database matching \""
                     + _selectedName.toString() + "\"");
         }

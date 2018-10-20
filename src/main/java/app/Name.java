@@ -1,5 +1,9 @@
 package app;
 
+import app.controller.Controller;
+import app.controller.NameDisplayController;
+import javafx.fxml.Initializable;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,10 +57,15 @@ public class Name {
         }
     }
 
-    public boolean playDBRecording(){
+    public boolean playDBRecording(Controller controller){
         if(dbRecordingExists()){
-            Thread thread = new Thread(new AudioPlayer(_dbRecording));
+            AudioPlayer ap = new AudioPlayer(_dbRecording);
+            Thread thread = new Thread(ap);
             thread.start();
+
+            ap.setOnSucceeded(e -> {
+                controller.setButtonDisable();
+            });
         } else {
             return false;
         }
