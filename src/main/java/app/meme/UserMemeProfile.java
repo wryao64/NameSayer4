@@ -2,7 +2,10 @@ package app.meme;
 
 import app.DialogGenerator;
 import app.Main;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
+import org.controlsfx.control.Notifications;
+
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
@@ -46,7 +49,12 @@ public class UserMemeProfile {
                 memeDropRate = INITIAL_MEME_DROP_RATE; // resetti spagetti
                 memes.add(getFreshRandomMeme());
                 freshestMemeIndex++;
-                DialogGenerator.showOkMessage("You got a new meme", "Hey there buddy you actually just won a meme. Go reward yourself and check it out :)");
+                Notifications.create()
+                        .position(Pos.BOTTOM_CENTER)
+                        .darkStyle()
+                        .title("Meme reward!")
+                        .text("Congrats you just won a meme!")
+                        .showConfirm();
             } else {
                 // hold this L feelsBadMan
                 memeDropRate = memeDropRate + MEME_GAINS_RATE; // go gym get big

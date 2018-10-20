@@ -15,12 +15,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.io.*;
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class EditController implements Initializable {
 
@@ -74,6 +74,10 @@ public class EditController implements Initializable {
         _selectedNames.addListener((ListChangeListener<Name>) c -> {
             selectedNamesList.setItems(_selectedNames);
         });
+
+        // setup autocomplete
+        TextFields.bindAutoCompletion(nameInput,
+                textField -> _namesDB.getSuggestedNames(nameInput.getText()));
     }
 
     @FXML
