@@ -5,12 +5,9 @@ import app.meme.UserMemeProfile;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -206,16 +203,15 @@ public class NameDisplayController extends Controller {
     private void listenUserRecording(){
         File selectedRecording = userRecordings.getSelectionModel().getSelectedItem();
         if(selectedRecording == null) {
-            DialogGenerator.showErrorMessage("No practise recording selected.");
+            DialogGenerator.showOkMessage("No recording selected", "Please select a recording to listen to.");
         } else {
             this.setButtonDisable();
 
-            Media media = new Media(selectedRecording.toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.play();
-            Main.getUser().tryDropMeme();
+            AudioPlayer ap = new AudioPlayer(selectedRecording);
+            Thread thread = new Thread(ap);
+            thread.start();
 
-            mediaPlayer.setOnStopped(() -> {
+            ap.setOnSucceeded(e -> {
                 this.setButtonDisable();
             });
         }
