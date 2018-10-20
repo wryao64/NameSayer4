@@ -11,22 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="border-pane" stylesheets="@../../css/styles.css" xmlns:fx="http://javafx.com/fxml/1">
-   <top>
-      <VBox alignment="CENTER" prefHeight="120.0" prefWidth="800.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="title" text="Change names to practise">
-               <font>
-                  <Font size="28.0" />
-               </font>
-            </Label>
-         </children>
-      </VBox>
-   </top>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="border-pane" stylesheets="@../../css/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
    <center>
       <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="400.0">
                <children>
                   <Label text="Name: ">
                      <font>
@@ -37,75 +26,101 @@
                      <HBox.margin>
                         <Insets left="5.0" right="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </TextField>
-                  <Button mnemonicParsing="false" onAction="#addButtonPress" text="+" />
-                  <Button mnemonicParsing="false" onAction="#uploadButtonPress" text="Upload">
+                  <Button mnemonicParsing="false" onAction="#addButtonPress" text="+">
+                     <font>
+                        <Font size="16.0" />
+                     </font></Button>
+                  <Button mnemonicParsing="false" onAction="#uploadButtonPress" text="Upload File">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
                   </Button>
                </children>
             </HBox>
-            <ListView fx:id="selectedNamesList" prefHeight="400.0" prefWidth="416.0" />
-            <VBox alignment="CENTER" prefHeight="80.0" prefWidth="250.0">
+            <HBox prefWidth="200.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="20.0" prefWidth="200.0">
+                  <VBox alignment="CENTER" prefHeight="80.0" prefWidth="250.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#shuffleButtonPress" text="Shuffle">
                            <font>
                               <Font size="16.0" />
                            </font>
-                           <HBox.margin>
-                              <Insets left="20.0" right="20.0" />
-                           </HBox.margin>
+                           <VBox.margin>
+                              <Insets bottom="20.0" top="20.0" />
+                           </VBox.margin>
                         </Button>
                         <Button mnemonicParsing="false" onAction="#removeButtonPress" text="Remove">
                            <font>
                               <Font size="16.0" />
                            </font>
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
+                           <VBox.margin>
+                              <Insets bottom="20.0" top="20.0" />
+                           </VBox.margin>
                         </Button>
                         <Button mnemonicParsing="false" onAction="#clearButtonPress" text="Clear All">
                            <font>
                               <Font size="16.0" />
                            </font>
-                           <HBox.margin>
-                              <Insets left="20.0" />
-                           </HBox.margin>
+                           <VBox.margin>
+                              <Insets bottom="20.0" top="20.0" />
+                           </VBox.margin>
                         </Button>
                      </children>
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </HBox>
+                  </VBox>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <ListView fx:id="selectedNamesList" prefHeight="400.0" prefWidth="300.0">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </ListView>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="10.0" right="10.0" top="20.0" />
+                     </padding>
+                  </VBox>
                </children>
-            </VBox>
+            </HBox>
          </children>
-         <padding>
-            <Insets left="50.0" right="35.0" />
-         </padding>
       </VBox>
    </center>
    <right>
-      <Region prefHeight="430.0" prefWidth="180.0" BorderPane.alignment="CENTER" />
+      <Region prefHeight="430.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
    </right>
    <bottom>
-      <HBox alignment="BOTTOM_LEFT" prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="800.0" BorderPane.alignment="CENTER" />
+   </bottom>
+   <left>
+      <Region prefHeight="430.0" prefWidth="150.0" BorderPane.alignment="CENTER" />
+   </left>
+   <top>
+      <HBox alignment="CENTER" prefHeight="100.0" BorderPane.alignment="CENTER">
          <children>
+            <Region prefHeight="200.0" prefWidth="100.0" />
+            <Label fx:id="title" text="Change names to practise">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
             <Button mnemonicParsing="false" onAction="#backButtonPress" text="Practise">
                <font>
-                  <Font size="16.0" />
+                  <Font size="18.0" />
                </font>
                <HBox.margin>
-                  <Insets bottom="20.0" left="20.0" />
+                  <Insets left="40.0" />
                </HBox.margin>
             </Button>
          </children>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
       </HBox>
-   </bottom>
-   <left>
-      <Region prefHeight="430.0" prefWidth="180.0" BorderPane.alignment="CENTER" />
-   </left>
+   </top>
 </BorderPane>

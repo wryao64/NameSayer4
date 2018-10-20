@@ -13,46 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane id="bPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="border-pane" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
-    <top>
-        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-            <children>
-            <Button fx:id="memeButton" mnemonicParsing="false" onAction="#memeButtonPress" prefWidth="150.0" text="Meme Rewards">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </Button>
-            <Button id="leftButton" mnemonicParsing="false" onAction="#backButtonPress" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <HBox.margin>
-                  <Insets right="20.0" />
-               </HBox.margin>
-            </Button>
-            <ComboBox fx:id="nameComboBox" onAction="#comboBoxChange" prefHeight="50.0" prefWidth="300.0" />
-            <Button id="rightButton" mnemonicParsing="false" onAction="#nextButtonPress" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton">
-               <HBox.margin>
-                  <Insets left="20.0" />
-               </HBox.margin>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Button>
-            <Button fx:id="setupButton" mnemonicParsing="false" onAction="#editButtonPress" prefHeight="32.0" prefWidth="150.0" text="Setup Names">
-               <font>
-                  <Font size="16.0" />
-               </font>
-               <HBox.margin>
-                  <Insets left="20.0" right="20.0" />
-               </HBox.margin>
-            </Button>
-            </children>
-        </HBox>
-    </top>
+<BorderPane id="bPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="border-pane" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <left>
         <Region prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
     </left>
@@ -60,35 +21,21 @@
         <Region prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
     </right>
    <center>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>
             <VBox alignment="CENTER" prefHeight="500.0" prefWidth="260.0">
                <children>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="383.0">
-                     <children>
-                        <Button fx:id="listenButton" mnemonicParsing="false" onAction="#listenButtonPress" styleClass="vertical-button" text="Listen">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="qualityFlagButton" mnemonicParsing="false" onAction="#qualityButtonPress" text="Mark as bad">
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
                   <Button fx:id="practiseButton" mnemonicParsing="false" onAction="#practiseButtonPress" styleClass="vertical-button" text="Practise Recording">
                      <font>
                         <Font size="16.0" />
                      </font>
                      <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
+                        <Insets bottom="10.0" top="20.0" />
                      </VBox.margin>
                   </Button>
                   <Button fx:id="compareButton" mnemonicParsing="false" onAction="#compareButtonPress" text="Compare">
                      <VBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="30.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
                      </VBox.margin>
                      <font>
                         <Font size="16.0" />
@@ -136,7 +83,7 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                      <font>
-                        <Font size="14.0" />
+                        <Font size="15.0" />
                      </font>
                   </Button>
                </children>
@@ -148,4 +95,70 @@
       <URL value="@../../css/styles.css" />
       <URL value="@../../css/NameDisplay.css" />
    </stylesheets>
+   <top>
+      <VBox alignment="CENTER" prefHeight="160.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="80.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="memeButton" mnemonicParsing="false" onAction="#memeButtonPress" prefWidth="150.0" text="Meme Rewards">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button id="leftButton" mnemonicParsing="false" onAction="#backButtonPress" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <ComboBox fx:id="nameComboBox" onAction="#comboBoxChange" prefHeight="50.0" prefWidth="300.0" />
+                  <Button id="rightButton" mnemonicParsing="false" onAction="#nextButtonPress" prefHeight="30.0" prefWidth="30.0" styleClass="arrowButton">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="setupButton" mnemonicParsing="false" onAction="#editButtonPress" prefHeight="32.0" prefWidth="150.0" text="Setup Names">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="listenButton" mnemonicParsing="false" onAction="#listenButtonPress" styleClass="vertical-button" text="Listen">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="qualityFlagButton" mnemonicParsing="false" onAction="#qualityButtonPress" text="Mark as bad">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </top>
 </BorderPane>
