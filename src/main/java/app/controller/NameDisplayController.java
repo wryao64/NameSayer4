@@ -208,10 +208,16 @@ public class NameDisplayController extends Controller {
         if(selectedRecording == null) {
             DialogGenerator.showErrorMessage("No practise recording selected.");
         } else {
+            this.setButtonDisable();
+
             Media media = new Media(selectedRecording.toURI().toString());
             MediaPlayer mediaPlayer = new MediaPlayer(media);
             mediaPlayer.play();
             Main.getUser().tryDropMeme();
+
+            mediaPlayer.setOnStopped(() -> {
+                this.setButtonDisable();
+            });
         }
     }
 
