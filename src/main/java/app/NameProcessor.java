@@ -195,7 +195,7 @@ public class NameProcessor {
                 String trimmedAudioStr = getTrimmedAudioLocation(_name.toString());
 
                 // changes the volume of the audio
-                String volumeCmd = "ffmpeg -y -i " + _name.getDBRecording().toString() + " -filter:a \"volume=5\" " + trimmedAudioStr;
+                String volumeCmd = "ffmpeg -y -i " + _name.getDBRecording().toString() + " -filter:a \"volume=10dB\" " + trimmedAudioStr;
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", volumeCmd);
 
                 Process process = builder.start();
@@ -217,7 +217,7 @@ public class NameProcessor {
                     _name = new Name(namePart, _namesDB.getFile(namePart));
                     String trimmedAudioStr = getTrimmedAudioLocation(namePart);
 
-                    String volumeCmdPart = "ffmpeg -y -i " + _name.getDBRecording().toString() + " -filter:a \"volume=5\" " + trimmedAudioStr;
+                    String volumeCmdPart = "ffmpeg -y -i " + _name.getDBRecording().toString() + " -filter:a \"volume=10dB\" " + trimmedAudioStr;
                     String trimCmdPart = "ffmpeg -y -hide_banner -i " + trimmedAudioStr +
                             " -af silenceremove=1:0:-55dB:1:5:-55dB:0 " + trimmedAudioStr;
 
@@ -229,7 +229,6 @@ public class NameProcessor {
                         trimCmd = trimCmdPart;
                     }
                 }
-                System.out.println(volumeCmd);
 
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", volumeCmd);
                 Process process = builder.start();
