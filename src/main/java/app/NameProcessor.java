@@ -194,33 +194,48 @@ public class NameProcessor {
             if (!_composite) {
                 String trimmedAudioStr = getTrimmedAudioLocation(_name.toString());
 
-                String trimCmd = "ffmpeg -y -hide_banner -i " + _name.getDBRecording().toString() +
-                        " -af silenceremove=1:0:-55dB:1:5:-55dB:0 " + trimmedAudioStr;
-
-                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
+                // changes the volume of the audio
+                String volumeCmd = "ffmpeg -y -i " + _name.getDBRecording().toString() + " -filter:a \"volume=10dB\" " + trimmedAudioStr;
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", volumeCmd);
 
                 Process process = builder.start();
                 process.waitFor();
+
+                // trims the silence
+                String trimCmd = "ffmpeg -y -hide_banner -i " + trimmedAudioStr +
+                        " -af silenceremove=1:0:-55dB:1:5:-55dB:0 " + trimmedAudioStr;
+                builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
+
+                process = builder.start();
+                process.waitFor();
             } else {
+                String volumeCmd = "";
                 String trimCmd = "";
 
-                // trims all parts of the name in the same command
+                // normalises and trims all parts of the name in the same command
                 for (String namePart : _nameList) {
                     _name = new Name(namePart, _namesDB.getFile(namePart));
                     String trimmedAudioStr = getTrimmedAudioLocation(namePart);
 
-                    String trimCmdPart = "ffmpeg -y -hide_banner -i " + _name.getDBRecording().toString() +
+                    String volumeCmdPart = "ffmpeg -y -i " + _name.getDBRecording().toString() + " -filter:a \"volume=10dB\" " + trimmedAudioStr;
+                    String trimCmdPart = "ffmpeg -y -hide_banner -i " + trimmedAudioStr +
                             " -af silenceremove=1:0:-55dB:1:5:-55dB:0 " + trimmedAudioStr;
 
                     if (trimCmd != "") {
+                        volumeCmd = volumeCmd + " && " + volumeCmdPart;
                         trimCmd = trimCmd + " && " + trimCmdPart;
                     } else {
+                        volumeCmd = volumeCmdPart;
                         trimCmd = trimCmdPart;
                     }
                 }
 
-                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", volumeCmd);
                 Process process = builder.start();
+                process.waitFor();
+
+                builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
+                process = builder.start();
                 process.waitFor();
 
                 // concatenates all parts of the name together
