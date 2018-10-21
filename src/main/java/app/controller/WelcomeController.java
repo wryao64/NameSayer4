@@ -2,6 +2,7 @@ package app.controller;
 
 import app.DialogGenerator;
 import app.Main;
+import app.NamesDatabase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,6 +23,12 @@ public class WelcomeController {
 
     public void initialize() {
         _stage = Main.getStage();
+
+        NamesDatabase namesDB = new NamesDatabase();
+
+        // setup autocomplete
+        TextFields.bindAutoCompletion(nameInput,
+                textField -> namesDB.getSuggestedNames(nameInput.getText()));
     }
 
     @FXML
