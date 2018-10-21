@@ -16,7 +16,7 @@ public class NamesDatabase {
     private HashMap<String,File> _namesDB;
 
     public boolean checkExists(String name){
-        return _namesDB.containsKey(name);
+        return _namesDB.containsKey(name.toLowerCase());
     }
 
     public File getFile(String name){
@@ -47,15 +47,9 @@ public class NamesDatabase {
             Matcher matcher = pattern.matcher(nameFile.getName());
             while(matcher.find()){
                 String name = matcher.group(1);
-
-                // TODO: Deal with duplicate names
-
-                // TODO: Quality handling might go here (if its database related not really...)
-
-                _namesDB.put(name, nameFile);
+                _namesDB.put(name.toLowerCase(), nameFile);
             }
         }
-//        testPrintDatabase(); // For testing
     }
 
     public List<String> getAllNames(){
@@ -99,15 +93,5 @@ public class NamesDatabase {
             }
         }
         return index;
-    }
-
-    // TODO: delete later when testing not needed
-    private void testPrintDatabase(){
-        System.out.println("\n======================================================");
-        System.out.println("\nTest Printing Database:\n");
-        for (String name : _namesDB.keySet()){
-            System.out.println(name + " : " + _namesDB.get(name).getName());
-        }
-        System.out.println("======================================================\n");
     }
 }
