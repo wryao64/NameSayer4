@@ -23,8 +23,6 @@ public class Main extends Application {
 
     private static Stage _stage;
 
-    // ngl did not want to pass the user everywhere and change a lot of code so made it static :)
-    // means there can only be 1 user
     private static UserMemeProfile _user;
 
     public static void main(String[] args) {

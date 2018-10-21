@@ -1,6 +1,5 @@
 package app.meme;
 
-import app.DialogGenerator;
 import app.Main;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -15,9 +14,6 @@ import java.util.List;
 /**
  * Keeps track of user's meme collection (rewards system)
  * Memes are shamelessly stolen from Reddit among other sources.
- * hi brother cheers from iraq.
- * Now this is epic.
- * BOTTOM TEXT.
  */
 public class UserMemeProfile {
     private static final double INITIAL_MEME_DROP_RATE = 0.03;
@@ -34,19 +30,19 @@ public class UserMemeProfile {
         memeDropRate = INITIAL_MEME_DROP_RATE;
         memesFolder = new File(MEMES_FOLDER);
 
-        // choose a starter meme (Charmander btw)
+        // get a meme to start with
         memes.add(getFreshRandomMeme());
         freshestMemeIndex = 0;
     }
 
     public void tryDropMeme(){
-        // check not outta memes
+        // check there are still memes
         if(!(memes.size() == memesFolder.listFiles().length) ) {
             // roll a random number
             double chance = Math.random();
             if (memeDropRate > chance) {
-                // winner winner chicken dinner
-                memeDropRate = INITIAL_MEME_DROP_RATE; // resetti spagetti
+                // user has won a meme
+                memeDropRate = INITIAL_MEME_DROP_RATE;
                 memes.add(getFreshRandomMeme());
                 freshestMemeIndex++;
                 Notifications.create()
@@ -56,8 +52,7 @@ public class UserMemeProfile {
                         .text("Congrats you just won a meme!")
                         .showConfirm();
             } else {
-                // hold this L feelsBadMan
-                memeDropRate = memeDropRate + MEME_GAINS_RATE; // go gym get big
+                memeDropRate = memeDropRate + MEME_GAINS_RATE;
             }
         }
     }
