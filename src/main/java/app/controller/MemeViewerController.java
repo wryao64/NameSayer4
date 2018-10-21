@@ -2,7 +2,7 @@ package app.controller;
 
 import app.Main;
 import app.name.Name;
-import app.meme.UserMemeProfile;
+import app.dog.UserPetCollection;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,18 +26,18 @@ public class MemeViewerController implements Initializable {
     @FXML Label aboutText;
 
     private SimpleIntegerProperty currentMemeIndex;
-    private UserMemeProfile _user;
+    private UserPetCollection _user;
     private List<Name> namesToPassBack;
 
-    public MemeViewerController(UserMemeProfile user, List<Name> names){
+    public MemeViewerController(UserPetCollection user, List<Name> names){
         _user = user;
-        currentMemeIndex = new SimpleIntegerProperty(user.getFreshestMemeIndex());
+        currentMemeIndex = new SimpleIntegerProperty(user.getLatestIndex());
         namesToPassBack = names;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // bind currentMemeIndex to change the meme and stuff
+        // bind currentMemeIndex to change the dog and stuff
         currentMemeIndex.addListener((observable, oldValue, newValue) -> {
             showMeme();
             nextButtonDisablerCheck();
@@ -51,10 +51,10 @@ public class MemeViewerController implements Initializable {
         previousButtonDisableCheck();
 
         if(currentMemeIndex.intValue() == 0){
-            title.setText("Here's a starter meme!");
+            title.setText("Here's a starter dog!");
             aboutText.setText("More memes will randomly drop when you record, listen and practise more names!");
         } else {
-            title.setText("Here's your fresh meme!");
+            title.setText("Here's your fresh dog!");
             aboutText.setText("");
         }
     }
@@ -81,13 +81,13 @@ public class MemeViewerController implements Initializable {
         currentMemeIndex.set(currentMemeIndex.intValue() - 1);
     }
 
-    // show a meme on the ImageView
+    // show a dog on the ImageView
     private void showMeme(){
-        imageView.setImage(_user.getMemeAtIndex(currentMemeIndex.intValue()));
+        imageView.setImage(_user.getPicAtIndex(currentMemeIndex.intValue()));
     }
 
     private void nextButtonDisablerCheck(){
-        if(currentMemeIndex.intValue() == _user.getFreshestMemeIndex()){
+        if(currentMemeIndex.intValue() == _user.getLatestIndex()){
             nextButton.setDisable(true);
         } else {
             nextButton.setDisable(false);

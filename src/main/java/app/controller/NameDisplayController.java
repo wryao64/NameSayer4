@@ -3,7 +3,7 @@ package app.controller;
 import app.*;
 import app.audio.AudioPlayer;
 import app.audio.RepeatAudioPlayer;
-import app.meme.UserMemeProfile;
+import app.dog.UserPetCollection;
 import app.name.Name;
 import app.name.NamesDatabase;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 public class NameDisplayController implements Initializable {
 
     private Stage _stage;
-    private UserMemeProfile _user;
+    private UserPetCollection _user;
 
     private List<Name> _nameList;
     private SimpleIntegerProperty _selectedNameIndex;
@@ -74,7 +74,7 @@ public class NameDisplayController implements Initializable {
             _selectedName = _nameList.get(newValue.intValue());
             fetchUserRecordings();
             checkButtons();
-            _user.tryDropMeme();
+            _user.tryDropPetPic();
         });
 
         // setup user recordings to show by last modified date
@@ -139,7 +139,7 @@ public class NameDisplayController implements Initializable {
 
     @FXML
     private void practiseButtonPress() {
-        _user.tryDropMeme();
+        _user.tryDropPetPic();
         // redirect to RecordController page
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Record.fxml"));
@@ -175,7 +175,7 @@ public class NameDisplayController implements Initializable {
         } else if(userRecordings.getItems().size() == 0) {
             DialogGenerator.showErrorMessage("There are no practise recordings for " + _selectedName.toString());
         } else {
-            _user.tryDropMeme();
+            _user.tryDropPetPic();
             File selectedUserRecording = userRecordings.getSelectionModel().getSelectedItem();
             if(selectedUserRecording == null){
                 // default to latest recording if none selected
@@ -205,7 +205,7 @@ public class NameDisplayController implements Initializable {
 
     @FXML
     private void listenButtonPress(){
-        _user.tryDropMeme();
+        _user.tryDropPetPic();
 
         togglePlayingButtons();
         AudioPlayer ap = new AudioPlayer(_selectedName.getDBRecording());

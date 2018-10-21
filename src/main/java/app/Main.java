@@ -1,6 +1,6 @@
 package app;
 
-import app.meme.UserMemeProfile;
+import app.dog.UserPetCollection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,7 +21,7 @@ public class Main extends Application {
 
     private static Stage _stage;
 
-    private static UserMemeProfile _user;
+    private static UserPetCollection _user;
 
     public static void main(String[] args) {
         launch(args);
@@ -31,7 +31,7 @@ public class Main extends Application {
         return _stage;
     }
 
-    public static UserMemeProfile getUser() {
+    public static UserPetCollection getUser() {
             return _user;
     }
 
@@ -55,7 +55,7 @@ public class Main extends Application {
         primaryStage.show();
 
         // create the user to track their memes :)
-        _user = new UserMemeProfile();
+        _user = new UserPetCollection();
     }
 
     private void setUpEnvironment(){
