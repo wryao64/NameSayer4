@@ -1,10 +1,6 @@
-package app;
+package app.audio;
 
-import javafx.concurrent.Task;
-
-import javax.sound.sampled.*;
 import java.io.File;
-import java.io.IOException;
 
 /**
  * RepeatAudioPlayer is a class that plays 2 audio files,

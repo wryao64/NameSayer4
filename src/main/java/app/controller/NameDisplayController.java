@@ -1,10 +1,15 @@
 package app.controller;
 
 import app.*;
+import app.audio.AudioPlayer;
+import app.audio.RepeatAudioPlayer;
 import app.meme.UserMemeProfile;
+import app.name.Name;
+import app.name.NamesDatabase;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,16 +18,12 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class NameDisplayController extends Controller {
+public class NameDisplayController extends AudioPlayerController implements Initializable {
 
     private Stage _stage;
     private UserMemeProfile _user;

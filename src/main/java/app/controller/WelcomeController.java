@@ -2,7 +2,7 @@ package app.controller;
 
 import app.DialogGenerator;
 import app.Main;
-import app.NamesDatabase;
+import app.name.NamesDatabase;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

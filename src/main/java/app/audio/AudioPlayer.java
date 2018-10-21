@@ -1,4 +1,4 @@
-package app;
+package app.audio;
 
 import javafx.concurrent.Task;
 

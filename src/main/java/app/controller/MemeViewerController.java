@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.Main;
-import app.Name;
+import app.name.Name;
 import app.meme.UserMemeProfile;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;

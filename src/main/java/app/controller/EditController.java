@@ -2,8 +2,9 @@ package app.controller;
 
 import app.*;
 import app.meme.UserMemeProfile;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import app.name.Name;
+import app.name.NameProcessor;
+import app.name.NamesDatabase;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -23,7 +24,6 @@ import org.controlsfx.control.textfield.TextFields;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class EditController implements Initializable {
 

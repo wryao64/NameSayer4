@@ -1,9 +1,9 @@
 package app.controller;
 
-import app.AudioCapture;
+import app.audio.AudioCapture;
 import app.DialogGenerator;
 import app.Main;
-import app.Name;
+import app.name.Name;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -24,7 +24,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class RecordController extends Controller {
+public class RecordController extends AudioPlayerController implements Initializable {
     private Stage _stage;
     private String _fileName;
     private File _recordingFile;

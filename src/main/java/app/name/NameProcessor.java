@@ -1,5 +1,7 @@
-package app;
+package app.name;
 
+import app.DialogGenerator;
+import app.Main;
 import javafx.concurrent.Task;
 
 import java.io.*;
@@ -8,7 +10,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class NameProcessor {
     private String listFile;

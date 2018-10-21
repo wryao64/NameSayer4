@@ -1,10 +1,10 @@
-package app;
+package app.name;
 
-import app.controller.Controller;
-import app.controller.NameDisplayController;
-import javafx.fxml.Initializable;
+import app.audio.AudioPlayer;
+import app.DialogGenerator;
+import app.Main;
+import app.controller.AudioPlayerController;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -63,7 +63,7 @@ public class Name {
         }
     }
 
-    public boolean playDBRecording(Controller controller){
+    public boolean playDBRecording(AudioPlayerController controller){
         if(dbRecordingExists()){
             AudioPlayer ap = new AudioPlayer(_dbRecording);
             Thread thread = new Thread(ap);

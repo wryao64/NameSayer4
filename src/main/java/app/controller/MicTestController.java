@@ -1,8 +1,8 @@
 package app.controller;
 
-import app.AudioCapture;
+import app.audio.AudioCapture;
 import app.Main;
-import app.Name;
+import app.name.Name;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
