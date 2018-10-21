@@ -86,10 +86,11 @@ public class EditController implements Initializable {
         if(nameStr == null || nameStr.isEmpty()) {
             DialogGenerator.showErrorMessage("Name is blank.");
         } else if(_selectedNames.contains(new Name(nameStr, null))) {
-            DialogGenerator.showErrorMessage("Name has already been added.");
+            DialogGenerator.showErrorMessage(nameStr + " has already been added.");
         } else {
             addName(nameStr);
         }
+        nameInput.setText(""); // clear TextField
     }
 
     private void addName(String name){
@@ -97,7 +98,6 @@ public class EditController implements Initializable {
         Name nameToAdd = np.createName(name);
         if (nameToAdd != null) {
             _selectedNames.add(nameToAdd);
-            nameInput.setText(""); // clear TextField
         }
     }
 
@@ -167,10 +167,9 @@ public class EditController implements Initializable {
             String line;
             BufferedReader bf = new BufferedReader(new FileReader(file));
             while ((line = bf.readLine()) != null) {
-                NameProcessor np = new NameProcessor();
-                Name newName = np.createName(line);
-                if(newName != null){
-                    _selectedNames.add(newName);
+                // make sure no duplicate names are added
+                if(! _selectedNames.contains( new Name( line, null) ) ){
+                    addName(line);
                 }
             }
             DialogGenerator.showOkMessage("File Loaded","Names from " + file.getName() + " have been read in.");
