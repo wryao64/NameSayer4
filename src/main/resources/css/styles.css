@@ -4,17 +4,17 @@ Color palette: https://www.color-hex.com/color-palette/66147
 */
 
 .border-pane {
-    -fx-background-color:#1f3f64;
+    -fx-background-color:#212121;
 }
 
 .button {
     -fx-background-radius:16px;
-    -fx-color:#0975b8;
+    -fx-color:#2980b9;
 }
 
 .button:hover {
-    /*-fx-text-fill:#0dd0e1;*/
-    -fx-color:#0dd0e1;
+    -fx-color:#3498db;
+    -fx-text-fill:#ffffff;
 }
 
 .label {
@@ -22,5 +22,31 @@ Color palette: https://www.color-hex.com/color-palette/66147
 }
 
 #temp-label {
-    -fx-text-fill:#0b355c !important;
+    -fx-text-fill:#000000;
+}
+
+.pageChangeButton {
+    -fx-text-fill:#ffffff;
+    -fx-color:#27ae60;
+}
+
+.pageChangeButton:hover {
+    -fx-color:#2ecc71;
+}
+
+.yellowButton {
+    -fx-color:#8e44ad;
+}
+
+.yellowButton:hover {
+    -fx-color:#feca57;
+}
+
+.redButton {
+    -fx-color:#e74c3c;
+    -fx-text-fill:#ffffff;
+}
+
+.redButton:hover {
+    -fx-color:#c0392b;
 }
