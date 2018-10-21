@@ -2,6 +2,7 @@ package app;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 
 import java.util.Optional;
 
@@ -21,6 +22,10 @@ public class DialogGenerator {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, message, option1Button, option2Button);
         alert.setTitle(title);
         alert.setHeaderText(null);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add("../resources/css/styles.css");
+
         Optional<ButtonType> result = alert.showAndWait();
         if (result.orElse(option2Button) == option1Button){
             return true;
@@ -38,6 +43,10 @@ public class DialogGenerator {
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add("../resources/css/styles.css");
+
         alert.showAndWait();
     }
 
@@ -51,6 +60,10 @@ public class DialogGenerator {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
+
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add("../resources/css/styles.css");
+
         alert.showAndWait();
     }
 }
