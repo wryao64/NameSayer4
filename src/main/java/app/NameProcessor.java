@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class NameProcessor {
     private String listFile;
@@ -192,61 +193,85 @@ public class NameProcessor {
         @Override
         protected Void call() throws Exception {
             if (!_composite) {
+                String originalStr = _name.getDBRecording().toString();
                 String trimmedAudioStr = getTrimmedAudioLocation(_name.toString());
 
-                // changes the volume of the audio
-                String volumeCmd = "ffmpeg -y -i " + _name.getDBRecording().toString() + " -filter:a \"volume=10dB\" " + trimmedAudioStr;
-                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", volumeCmd);
-
-                Process process = builder.start();
-                process.waitFor();
+                this.normaliseAudio(originalStr, trimmedAudioStr);
 
                 // trims the silence
                 String trimCmd = "ffmpeg -y -hide_banner -i " + trimmedAudioStr +
                         " -af silenceremove=1:0:-55dB:1:5:-55dB:0 " + trimmedAudioStr;
-                builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
-
-                process = builder.start();
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
+                Process process = builder.start();
                 process.waitFor();
             } else {
-                String volumeCmd = "";
                 String trimCmd = "";
 
-                // normalises and trims all parts of the name in the same command
+                // trims all parts of the name in the same command
                 for (String namePart : _nameList) {
                     _name = new Name(namePart, _namesDB.getFile(namePart));
                     String trimmedAudioStr = getTrimmedAudioLocation(namePart);
 
-                    String volumeCmdPart = "ffmpeg -y -i " + _name.getDBRecording().toString() + " -filter:a \"volume=10dB\" " + trimmedAudioStr;
+                    this.normaliseAudio(_name.getDBRecording().toString(), trimmedAudioStr);
+
                     String trimCmdPart = "ffmpeg -y -hide_banner -i " + trimmedAudioStr +
                             " -af silenceremove=1:0:-55dB:1:5:-55dB:0 " + trimmedAudioStr;
 
                     if (trimCmd != "") {
-                        volumeCmd = volumeCmd + " && " + volumeCmdPart;
                         trimCmd = trimCmd + " && " + trimCmdPart;
                     } else {
-                        volumeCmd = volumeCmdPart;
                         trimCmd = trimCmdPart;
                     }
                 }
 
-                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", volumeCmd);
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
                 Process process = builder.start();
-                process.waitFor();
-
-                builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
-                process = builder.start();
                 process.waitFor();
 
                 // concatenates all parts of the name together
                 String cmd = "ffmpeg -y -f concat -safe 0 -i " + listFile + " -c copy " + _outputLocStr;
                 builder = new ProcessBuilder("/bin/bash", "-c", cmd);
-
                 process = builder.start();
                 process.waitFor();
             }
 
             return null;
+        }
+
+        private void normaliseAudio(String originalStr, String normStr) {
+            int targetVol = 0;
+
+            // finds the mean volume of the audio
+            String normCmd = "ffmpeg -i " + originalStr + " -filter:a volumedetect -f null /dev/null 2>&1 | grep mean_volume";
+            ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", normCmd);
+            Process process = null;
+            try {
+                process = builder.start();
+                process.waitFor();
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                String meanVol = br.readLine();
+
+                // finds the value of mean volume of the audio from given output
+                int start = meanVol.indexOf(':') + 1;
+                int end = meanVol.indexOf('.');
+                meanVol = meanVol.substring(start, end).trim();
+                System.out.println(meanVol);
+
+                // finds the difference between the target volume and audio volume
+                int diff = targetVol - Integer.parseInt(meanVol);
+                System.out.println(diff);
+
+                // changes the volume of the audio
+                String volumeCmd = "ffmpeg -y -i " + originalStr + " -filter:a \"volume=" + diff + "dB\" " + normStr;
+                builder = new ProcessBuilder("/bin/bash", "-c", volumeCmd);
+                process = builder.start();
+                process.waitFor();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
