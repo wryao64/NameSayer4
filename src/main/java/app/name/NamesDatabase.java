@@ -2,7 +2,6 @@ package app.name;
 
 import app.Main;
 
-import java.awt.*;
 import java.io.File;
 import java.util.*;
 import java.util.List;
