@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class NameDisplayController extends AudioPlayerController implements Initializable {
+public class NameDisplayController implements Initializable {
 
     private Stage _stage;
     private UserMemeProfile _user;
@@ -32,6 +32,7 @@ public class NameDisplayController extends AudioPlayerController implements Init
     private SimpleIntegerProperty _selectedNameIndex;
     private Name _selectedName; // this changes when _selectedNameIndex changes
     private NamesDatabase _namesDB = new NamesDatabase();
+    private boolean _buttonDisabled = false;
 
     @FXML private ComboBox nameComboBox;
     @FXML private ListView<File> userRecordings;
@@ -46,19 +47,6 @@ public class NameDisplayController extends AudioPlayerController implements Init
     @FXML private Button listenUserButton;
     @FXML private Button prevButton;
     @FXML private Button nextButton;
-
-
-    @Override
-    public void setButtonDisable() {
-        _buttonDisabled = !_buttonDisabled;
-        memeButton.setDisable(_buttonDisabled);
-        setupButton.setDisable(_buttonDisabled);
-        listenButton.setDisable(_buttonDisabled);
-        practiseButton.setDisable(_buttonDisabled);
-        compareButton.setDisable(_buttonDisabled);
-        testMicButton.setDisable(_buttonDisabled);
-        listenUserButton.setDisable(_buttonDisabled);
-    }
 
     public NameDisplayController(List<Name> nameList) {
         // namesList should always have at least 1 item enforced by the GUI design
@@ -85,11 +73,8 @@ public class NameDisplayController extends AudioPlayerController implements Init
             nameComboBox.getSelectionModel().select(newValue.intValue());
             _selectedName = _nameList.get(newValue.intValue());
             fetchUserRecordings();
-            setQualityFlagButtonText();
-            nextButtonCheck();
-            prevButtonCheck();
-            listenButtonCheck();
-            Main.getUser().tryDropMeme();
+            checkButtons();
+            _user.tryDropMeme();
         });
 
         // setup user recordings to show by last modified date
@@ -110,10 +95,28 @@ public class NameDisplayController extends AudioPlayerController implements Init
         // initial setup
         nameComboBox.getSelectionModel().select(_selectedNameIndex.intValue());
         fetchUserRecordings();
+        checkButtons();
+    }
+
+    private void checkButtons(){
         setQualityFlagButtonText();
         nextButtonCheck();
         prevButtonCheck();
         listenButtonCheck();
+        listenUserButtonCheck();
+    }
+
+    private void togglePlayingButtons(){
+        _buttonDisabled = !_buttonDisabled;
+        compareButton.setDisable(_buttonDisabled);
+
+        if(_buttonDisabled){
+            listenButton.setDisable(_buttonDisabled);
+            listenUserButton.setDisable(_buttonDisabled);
+        } else {
+            listenButtonCheck();
+            listenUserButtonCheck();
+        }
     }
 
     @FXML
@@ -136,7 +139,7 @@ public class NameDisplayController extends AudioPlayerController implements Init
 
     @FXML
     private void practiseButtonPress() {
-        Main.getUser().tryDropMeme();
+        _user.tryDropMeme();
         // redirect to RecordController page
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Record.fxml"));
@@ -172,16 +175,17 @@ public class NameDisplayController extends AudioPlayerController implements Init
         } else if(userRecordings.getItems().size() == 0) {
             DialogGenerator.showErrorMessage("There are no practise recordings for " + _selectedName.toString());
         } else {
-            Main.getUser().tryDropMeme();
+            _user.tryDropMeme();
             File selectedUserRecording = userRecordings.getSelectionModel().getSelectedItem();
             if(selectedUserRecording == null){
                 // default to latest recording if none selected
                 selectedUserRecording = _selectedName.getLatestUserRecording();
             }
-
-            // Balance the audio volume
+            togglePlayingButtons();
+            // TODO: Balance the audio volume
             RepeatAudioPlayer rap = new RepeatAudioPlayer(_selectedName.getDBRecording(), selectedUserRecording,
                     repeatSpinner.getValue());
+            rap.setOnSucceeded(e -> togglePlayingButtons());
             Thread thread = new Thread(rap);
             thread.start();
         }
@@ -201,12 +205,13 @@ public class NameDisplayController extends AudioPlayerController implements Init
 
     @FXML
     private void listenButtonPress(){
-        this.setButtonDisable();
-        Main.getUser().tryDropMeme();
-        if(!_selectedName.playDBRecording(this)){
-            DialogGenerator.showErrorMessage("There are no names in the database matching \""
-                    + _selectedName.toString() + "\"");
-        }
+        _user.tryDropMeme();
+
+        togglePlayingButtons();
+        AudioPlayer ap = new AudioPlayer(_selectedName.getDBRecording());
+        ap.setOnSucceeded(e -> this.togglePlayingButtons());
+        Thread thread = new Thread(ap);
+        thread.start();
     }
 
     private void listenButtonCheck(){
@@ -223,17 +228,21 @@ public class NameDisplayController extends AudioPlayerController implements Init
     private void listenUserRecording(){
         File selectedRecording = userRecordings.getSelectionModel().getSelectedItem();
         if(selectedRecording == null) {
-            DialogGenerator.showOkMessage("No recording selected", "Please select a recording to listen to.");
+            selectedRecording = _selectedName.getLatestUserRecording();
+        }
+
+        this.togglePlayingButtons();
+        AudioPlayer ap = new AudioPlayer(selectedRecording);
+        ap.setOnSucceeded(e -> this.togglePlayingButtons());
+        Thread thread = new Thread(ap);
+        thread.start();
+    }
+
+    private void listenUserButtonCheck(){
+        if(_selectedName.getAllUserRecordings().size() == 0){
+            listenUserButton.setDisable(true);
         } else {
-            this.setButtonDisable();
-
-            AudioPlayer ap = new AudioPlayer(selectedRecording);
-            Thread thread = new Thread(ap);
-            thread.start();
-
-            ap.setOnSucceeded(e -> {
-                this.setButtonDisable();
-            });
+            listenUserButton.setDisable(false);
         }
     }
 
