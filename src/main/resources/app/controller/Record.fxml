@@ -9,44 +9,57 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="border-pane" stylesheets="@../../css/styles.css" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="border-pane" stylesheets="@../../css/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
     <center>
         <VBox alignment="CENTER" prefHeight="480.0" prefWidth="600.0" BorderPane.alignment="TOP_CENTER">
             <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                      <Label fx:id="nameLabel" text="NameToBeRecorded">
-                          <font>
-                              <Font size="24.0" />
-                          </font>
-                      </Label>
-                  <Button fx:id="listenButton" alignment="CENTER" mnemonicParsing="false" onAction="#listenButtonPress" text="Listen">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Label fx:id="nameLabel" text="NameToBeRecorded">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Label>
+                        <Button fx:id="listenButton" alignment="CENTER" mnemonicParsing="false" onAction="#listenButtonPress" text="Listen">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Button>
+                    </children>
+                </HBox>
                 <ProgressBar fx:id="bar" prefWidth="200.0" progress="0.0">
                     <VBox.margin>
                         <Insets bottom="20.0" />
                     </VBox.margin>
                 </ProgressBar>
-            <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-               <children>
-                      <Button fx:id="recordButton" alignment="CENTER" mnemonicParsing="false" onAction="#recordButtonPress" text="Record">
-                          <font>
-                              <Font size="16.0" />
-                          </font>
-                     <HBox.margin>
-                        <Insets right="10.0" />
-                     </HBox.margin>
-                      </Button>
-               </children>
-            </HBox>
+                <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Button fx:id="recordButton" alignment="CENTER" mnemonicParsing="false" onAction="#recordButtonPress" text="Record">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="playButton" alignment="CENTER" mnemonicParsing="false" onAction="#playButtonPress" text="Play">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                            <HBox.margin>
+                                <Insets left="10.0" right="10.0" />
+                            </HBox.margin>
+                        </Button>
+                        <Button fx:id="saveButton" alignment="CENTER" mnemonicParsing="false" onAction="#saveButtonPress" text="Save">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
             </children>
         </VBox>
     </center>
