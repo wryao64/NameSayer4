@@ -43,6 +43,9 @@ public class NameDisplayController extends Controller {
     @FXML private Button compareButton;
     @FXML private Button testMicButton;
     @FXML private Button listenUserButton;
+    @FXML private Button prevButton;
+    @FXML private Button nextButton;
+
 
     @Override
     public void setButtonDisable() {
@@ -82,6 +85,8 @@ public class NameDisplayController extends Controller {
             _selectedName = _nameList.get(newValue.intValue());
             fetchUserRecordings();
             setQualityFlagButtonText();
+            nextButtonCheck();
+            prevButtonCheck();
             Main.getUser().tryDropMeme();
         });
 
@@ -104,6 +109,8 @@ public class NameDisplayController extends Controller {
         nameComboBox.getSelectionModel().select(_selectedNameIndex.intValue());
         fetchUserRecordings();
         setQualityFlagButtonText();
+        nextButtonCheck();
+        prevButtonCheck();
     }
 
     @FXML
@@ -295,5 +302,23 @@ public class NameDisplayController extends Controller {
         Label tempLabel = new Label("No practise recordings");
         tempLabel.setId("temp-label");
         userRecordings.setPlaceholder(tempLabel);
+    }
+
+    // Deals with checking if the previous button should be disabled
+    private void prevButtonCheck(){
+        if(_selectedNameIndex.intValue() == 0) {
+            prevButton.setDisable(true);
+        } else {
+            prevButton.setDisable(false);
+        }
+    }
+
+    // Deals with checking if the next button should be disabled
+    private void nextButtonCheck(){
+        if(_selectedNameIndex.intValue() == _nameList.size() - 1) {
+            nextButton.setDisable(true);
+        } else {
+            nextButton.setDisable(false);
+        }
     }
 }
