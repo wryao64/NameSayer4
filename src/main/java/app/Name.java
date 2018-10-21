@@ -40,7 +40,7 @@ public class Name {
         if(! (obj instanceof Name)){
             return false;
         } else {
-            return this.toString().equals(obj.toString());
+            return this.toString().toLowerCase().equals(obj.toString().toLowerCase());
         }
     }
 
