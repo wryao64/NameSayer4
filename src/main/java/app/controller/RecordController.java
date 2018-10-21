@@ -25,7 +25,6 @@ import java.util.ResourceBundle;
 public class RecordController extends Controller {
     private Stage _stage;
 
-    private boolean _capturing = false;
     private Task _audioCapTask;
 
     private Name _currentName;
@@ -34,6 +33,7 @@ public class RecordController extends Controller {
     @FXML private Label nameLabel;
     @FXML private Button listenButton;
     @FXML private Button recordButton;
+    @FXML private Button saveButton;
     @FXML private Button backButton;
     @FXML ProgressBar bar;
 
@@ -54,7 +54,6 @@ public class RecordController extends Controller {
     public void initialize(URL location, ResourceBundle resources) {
         _stage = Main.getStage();
         nameLabel.setText(_currentName.toString());
-//        stopButton.setDisable(true);
     }
 
     @FXML
@@ -79,23 +78,21 @@ public class RecordController extends Controller {
         });
 
         new Thread(_audioCapTask).start();
-        _capturing = true;
 
         Thread thread = new Thread(new Recording());
         thread.start();
     }
 
-    // can't stop recording
-//    @FXML
-//    private void stopButtonPress() {
-//        _audioCapTask.cancel();
-//        bar.setProgress(0);
-//        _capturing = false;
-//
-//        recordButton.setDisable(false);
-//        stopButton.setDisable(true);
-//        backButton.setDisable(false);
-//    }
+    @FXML
+    private void playButtonPress(){
+        System.out.println("Play button press");
+    }
+
+    @FXML
+    private void saveButtonPress(){
+        System.out.println("Save button press");
+    }
+
 
     @FXML
     private void backButtonPress() {
@@ -150,7 +147,6 @@ public class RecordController extends Controller {
             Platform.runLater(() -> {
                 _audioCapTask.cancel();
                 bar.setProgress(0);
-                _capturing = false;
 
                 // See if user wants to listen to the recording
                 boolean hearRecording = DialogGenerator.showOptionsDialog("Play Recording", "Would you like to listen to the recording?", "Yes", "No");
