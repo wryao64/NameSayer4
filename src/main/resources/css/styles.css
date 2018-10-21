@@ -4,7 +4,7 @@ Color palette: https://www.color-hex.com/color-palette/66147
 */
 
 .border-pane {
-    -fx-background-color:#212121;
+    -fx-background-color:#313131;
 }
 
 .button {
@@ -49,4 +49,8 @@ Color palette: https://www.color-hex.com/color-palette/66147
 
 .redButton:hover {
     -fx-color:#c0392b;
+}
+
+.dialog-pane {
+    -fx-background-color:#313131;
 }
