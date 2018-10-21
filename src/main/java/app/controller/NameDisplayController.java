@@ -30,7 +30,7 @@ public class NameDisplayController extends Controller {
     private List<Name> _nameList;
     private SimpleIntegerProperty _selectedNameIndex;
     private Name _selectedName; // this changes when _selectedNameIndex changes
-    private NamesDatabase _namesDB; // just build it once :) namesDB checking could be refactored to names class
+    private NamesDatabase _namesDB = new NamesDatabase();
 
     @FXML private ComboBox nameComboBox;
     @FXML private ListView<File> userRecordings;
@@ -279,8 +279,7 @@ public class NameDisplayController extends Controller {
     }
 
     private void setQualityFlagButtonText(){
-        NamesDatabase namesDB = new NamesDatabase();
-        if(!namesDB.checkExists(_selectedName.toString())){
+        if(!_namesDB.checkExists(_selectedName.toString())){
             qualityFlagButton.setText("Cannot mark quality");
             qualityFlagButton.setDisable(true);
         } else {
