@@ -60,7 +60,7 @@ public class NameProcessor {
             Name name;
             if(namesInDatabase.size() == 1){
                 // just a single database name so no need for audio concat
-                name = new Name(nameStr, _namesDB.getFile(nameStr));
+                name = new Name(nameStr, _namesDB.getFile(namesInDatabase.get(0)));
 
                 AudioProcessTask aPTask = new AudioProcessTask(name);
                 new Thread(aPTask).start();
@@ -199,8 +199,8 @@ public class NameProcessor {
                 this.normaliseAudio(originalStr, trimmedAudioStr);
 
                 // trims the silence
-                String trimCmd = "ffmpeg -y -hide_banner -i " + trimmedAudioStr +
-                        " -af silenceremove=1:0:-55dB:1:5:-55dB:0 " + trimmedAudioStr;
+                String trimCmd = "ffmpeg -y -hide_banner -i \"" + trimmedAudioStr +
+                        "\" -af silenceremove=1:0:-55dB:1:5:-55dB:0 \"" + trimmedAudioStr + "\"";
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
                 Process process = builder.start();
                 process.waitFor();
@@ -214,8 +214,8 @@ public class NameProcessor {
 
                     this.normaliseAudio(_name.getDBRecording().toString(), trimmedAudioStr);
 
-                    String trimCmdPart = "ffmpeg -y -hide_banner -i " + trimmedAudioStr +
-                            " -af silenceremove=1:0:-55dB:1:5:-55dB:0 " + trimmedAudioStr;
+                    String trimCmdPart = "ffmpeg -y -hide_banner -i \"" + trimmedAudioStr +
+                            "\" -af silenceremove=1:0:-55dB:1:5:-55dB:0 \"" + trimmedAudioStr + "\"";
 
                     if (trimCmd != "") {
                         trimCmd = trimCmd + " && " + trimCmdPart;
@@ -242,7 +242,7 @@ public class NameProcessor {
             int targetVol = 0;
 
             // finds the mean volume of the audio
-            String normCmd = "ffmpeg -i " + originalStr + " -filter:a volumedetect -f null /dev/null 2>&1 | grep mean_volume";
+            String normCmd = "ffmpeg -i \"" + originalStr + "\" -filter:a volumedetect -f null /dev/null 2>&1 | grep mean_volume";
             ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", normCmd);
             Process process = null;
             try {
@@ -261,7 +261,7 @@ public class NameProcessor {
                 int diff = targetVol - Integer.parseInt(meanVol);
 
                 // changes the volume of the audio
-                String volumeCmd = "ffmpeg -y -i " + originalStr + " -filter:a \"volume=" + diff + "dB\" " + normStr;
+                String volumeCmd = "ffmpeg -y -i \"" + originalStr + "\" -filter:a \"volume=" + diff + "dB\" " + "\"" + normStr + "\"";
                 builder = new ProcessBuilder("/bin/bash", "-c", volumeCmd);
                 process = builder.start();
                 process.waitFor();
