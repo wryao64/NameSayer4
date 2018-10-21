@@ -87,6 +87,7 @@ public class NameDisplayController extends Controller {
             setQualityFlagButtonText();
             nextButtonCheck();
             prevButtonCheck();
+            listenButtonCheck();
             Main.getUser().tryDropMeme();
         });
 
@@ -111,6 +112,7 @@ public class NameDisplayController extends Controller {
         setQualityFlagButtonText();
         nextButtonCheck();
         prevButtonCheck();
+        listenButtonCheck();
     }
 
     @FXML
@@ -203,6 +205,16 @@ public class NameDisplayController extends Controller {
         if(!_selectedName.playDBRecording(this)){
             DialogGenerator.showErrorMessage("There are no names in the database matching \""
                     + _selectedName.toString() + "\"");
+        }
+    }
+
+    private void listenButtonCheck(){
+        if(!_selectedName.dbRecordingExists()){
+//            listenButton.setDisable(true);
+            listenButton.setText("Not in database");
+        } else {
+            listenButton.setDisable(false);
+            listenButton.setText("Listen");
         }
     }
 
