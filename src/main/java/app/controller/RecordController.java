@@ -110,13 +110,10 @@ public class RecordController extends Controller {
 
     @FXML
     private void recordButtonPress(){
-        _fileSaved = false;
         // If there is already a recording, check the user has not saved.
-        if(_recordingFile.exists()){
+        giveChanceToSave();
 
-        } else {
-
-        }
+        _fileSaved = false;
         this.setButtonDisable();
         AudioCapture _audioCapture = new AudioCapture();
         _audioCapTask = _audioCapture.callACTask();
@@ -133,7 +130,7 @@ public class RecordController extends Controller {
 
     @FXML
     private void playButtonPress(){
-//        setButtonDisable(); todo: button disable when playing
+//        setButtonDisable(); todo: button disable when playing?
         Media media = new Media(_recordingFile.toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
@@ -163,21 +160,28 @@ public class RecordController extends Controller {
         _recordingFile = new File(_fileName);
     }
 
-
-    @FXML
-    private void backButtonPress() {
-
+    /**
+     * Checks if there is an unsaved recording.
+     * Gives the user a chance to save the recording if it is unsaved.
+     */
+    private void giveChanceToSave(){
         // check there is no unsaved file
         if(!_fileSaved && _recordingFile.exists()){
             boolean saveUnsaved = DialogGenerator.showOptionsDialog("Unsaved recording",
                     "There is still a recording that has not been saved. Would you like to save it?",
-                    "Save", "Cancel");
+                    "Yes", "No");
             if(saveUnsaved) {
                 _currentName.addUserRecording(_recordingFile);
             } else {
                 _recordingFile.delete();
             }
         }
+    }
+
+    @FXML
+    private void backButtonPress() {
+
+        giveChanceToSave();
 
         // go back to list page
         try {
