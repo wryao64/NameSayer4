@@ -13,12 +13,12 @@ import java.util.List;
 
 public class NameProcessor {
     private String listFile;
-
     private NamesDatabase _namesDB = new NamesDatabase();
 
     /**
-     * createName creates a Name object. There is a prompt if the part of the Name is not in the database
-     * asking the user what they want to do ?????
+     * createName creates a Name object.
+     * There is a prompt if the part of the Name is not in the database
+     * asking the user if they still wish to create the name.
      *
      * @param nameStr The name to create a Name object from
      * @return a Name object with the name and audio file setup, null if Name not setup

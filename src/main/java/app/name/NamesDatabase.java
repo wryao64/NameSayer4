@@ -20,7 +20,7 @@ public class NamesDatabase {
     }
 
     public File getFile(String name){
-        return _namesDB.get(name);
+        return _namesDB.get(name.toLowerCase());
     }
 
     public NamesDatabase(){
@@ -52,7 +52,7 @@ public class NamesDatabase {
         }
     }
 
-    public List<String> getAllNames(){
+    private List<String> getAllNames(){
         return new ArrayList<>(_namesDB.keySet());
     }
 
