@@ -25,7 +25,7 @@
          <children>
             <VBox alignment="CENTER" prefHeight="500.0" prefWidth="260.0">
                <children>
-                  <Button fx:id="practiseButton" mnemonicParsing="false" onAction="#practiseButtonPress" styleClass="vertical-button" text="Create Recording">
+                  <Button fx:id="practiseButton" mnemonicParsing="false" onAction="#practiseButtonPress" styleClass="vertical-button" text="Create Recordings">
                      <font>
                         <Font size="16.0" />
                      </font>

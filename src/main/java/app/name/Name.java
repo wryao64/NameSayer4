@@ -1,9 +1,7 @@
 package app.name;
 
-import app.audio.AudioPlayer;
 import app.DialogGenerator;
 import app.Main;
-import app.controller.AudioPlayerController;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,20 +61,20 @@ public class Name {
         }
     }
 
-    public boolean playDBRecording(AudioPlayerController controller){
-        if(dbRecordingExists()){
-            AudioPlayer ap = new AudioPlayer(_dbRecording);
-            Thread thread = new Thread(ap);
-            thread.start();
-
-            ap.setOnSucceeded(e -> {
-                controller.setButtonDisable();
-            });
-        } else {
-            return false;
-        }
-        return true;
-    }
+//    public boolean playDBRecording(AudioPlayerController controller){
+//        if(dbRecordingExists()){
+//            AudioPlayer ap = new AudioPlayer(_dbRecording);
+//            Thread thread = new Thread(ap);
+//            thread.start();
+//
+//            ap.setOnSucceeded(e -> {
+//                controller.setButtonDisable();
+//            });
+//        } else {
+//            return false;
+//        }
+//        return true;
+//    }
 
     public File getDBRecording(){
         return _dbRecording;

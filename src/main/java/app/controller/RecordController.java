@@ -3,6 +3,7 @@ package app.controller;
 import app.audio.AudioCapture;
 import app.DialogGenerator;
 import app.Main;
+import app.audio.AudioPlayer;
 import app.name.Name;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -13,23 +14,26 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 
+import java.awt.*;
+import java.awt.Dialog;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class RecordController extends AudioPlayerController implements Initializable {
+public class RecordController implements Initializable {
     private Stage _stage;
     private String _fileName;
     private File _recordingFile;
     private Task _audioCapTask;
-    private boolean _fileSaved;
+    private boolean _fileSaved = false;
+    private boolean _buttonDisabled = false;
 
     private Name _currentName;
     private List<Name> _selectedNames;
@@ -42,15 +46,20 @@ public class RecordController extends AudioPlayerController implements Initializ
     @FXML private Button backButton;
     @FXML ProgressBar bar;
 
-    @Override
-    public void setButtonDisable() {
+    public void togglePlayButtons() {
         _buttonDisabled = !_buttonDisabled;
         recordButton.setDisable(_buttonDisabled);
-        playButton.setDisable(_buttonDisabled);
-        saveButton.setDisable(_buttonDisabled);
-        backButton.setDisable(_buttonDisabled);
 
-        // Always disable listen button if no db recording
+        // always disable play/save if no recording yet
+        if(!_recordingFile.exists()){
+            playButton.setDisable(true);
+            saveButton.setDisable(true);
+        } else {
+            playButton.setDisable(_buttonDisabled);
+            saveButton.setDisable(_buttonDisabled);
+        }
+
+        // always disable listen button if no db recording
         if(!_currentName.dbRecordingExists()){
             listenButton.setDisable(true);
         } else {
@@ -98,14 +107,12 @@ public class RecordController extends AudioPlayerController implements Initializ
 
     @FXML
     private void listenButtonPress(){
-        this.setButtonDisable();
         Main.getUser().tryDropMeme();
-
-        // TODO: prevent the error below by disabling the button if does not exist
-        if(!_currentName.playDBRecording(this)){
-            DialogGenerator.showOkMessage("Name not in database",
-                    "There is nothing in the database matching \"" + _currentName.toString() + "\"");
-        }
+        togglePlayButtons();
+        AudioPlayer ap = new AudioPlayer(_currentName.getDBRecording());
+        ap.setOnSucceeded(e -> this.togglePlayButtons());
+        Thread thread = new Thread(ap);
+        thread.start();
     }
 
     @FXML
@@ -114,7 +121,7 @@ public class RecordController extends AudioPlayerController implements Initializ
         giveChanceToSave();
 
         _fileSaved = false;
-        this.setButtonDisable();
+        togglePlayButtons();
         AudioCapture _audioCapture = new AudioCapture();
         _audioCapTask = _audioCapture.callACTask();
 
@@ -130,13 +137,15 @@ public class RecordController extends AudioPlayerController implements Initializ
 
     @FXML
     private void playButtonPress(){
-//        setButtonDisable(); todo: button disable when playing?
-        Media media = new Media(_recordingFile.toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.play();
-//        mediaPlayer.setOnEndOfMedia(() -> {
-//            setButtonDisable();
-//        });
+        if(_recordingFile.exists()){
+            togglePlayButtons();
+            AudioPlayer ap = new AudioPlayer(_recordingFile);
+            ap.setOnSucceeded(e -> this.togglePlayButtons());
+            Thread thread = new Thread(ap);
+            thread.start();
+        } else {
+            DialogGenerator.showErrorMessage("No recording found to play.");
+        }
     }
 
     @FXML
@@ -158,6 +167,10 @@ public class RecordController extends AudioPlayerController implements Initializ
                 "/" + _currentName.toString() +
                 "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + Main.AUDIO_FILETYPE;
         _recordingFile = new File(_fileName);
+
+        // disable the buttons again
+        playButton.setDisable(true);
+        saveButton.setDisable(true);
     }
 
     /**
@@ -222,7 +235,7 @@ public class RecordController extends AudioPlayerController implements Initializ
                 bar.setProgress(0);
 
                 // Enable the buttons:
-                setButtonDisable();
+                togglePlayButtons();
             });
         }
     }
