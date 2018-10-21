@@ -4,8 +4,14 @@ import app.controller.Controller;
 import app.controller.NameDisplayController;
 import javafx.fxml.Initializable;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -95,6 +101,32 @@ public class Name {
 
     public void toggleQuality(){
         _isBadQuality = !_isBadQuality;
+
+        // load in quality file to write to
+        Path qualityPath = new File(Main.QUALITY_FILE).toPath();
+        List<String> quality = null;
+        try {
+            quality = new ArrayList<>(Files.readAllLines(qualityPath, StandardCharsets.UTF_8));
+
+            if (_isBadQuality) {
+                // record onto the quality file
+                quality.add(this.getDBRecording().getName());
+            } else {
+                // remove from the quality file if exists
+                for (int i = 0; i < quality.size(); i++) {
+                    if (quality.get(i).equals(this.getDBRecording().getName())) {
+                        quality.remove(i);
+                    }
+                }
+            }
+
+            // write to quality file
+            Collections.sort(quality);
+            Files.write(qualityPath, quality, StandardCharsets.UTF_8);
+
+        } catch (IOException e1) {
+            DialogGenerator.showErrorMessage("Could not write to quality file");
+        }
     }
 
     public boolean isBadQuality(){

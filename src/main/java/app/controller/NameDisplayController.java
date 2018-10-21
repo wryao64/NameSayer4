@@ -238,32 +238,8 @@ public class NameDisplayController extends Controller {
 
     @FXML
     private void qualityButtonPress(){
-        try {
-            _selectedName.toggleQuality();
-            setQualityFlagButtonText();
-
-            // load in quality file
-            Path qualityPath = new File(Main.QUALITY_FILE).toPath();
-            List<String> quality = new ArrayList<>(Files.readAllLines(qualityPath, StandardCharsets.UTF_8));
-
-            if(_selectedName.isBadQuality()){
-                // record onto the quality file
-                quality.add(_selectedName.getDBRecording().getName());
-            } else {
-                // remove from the quality file if exists
-                for (int i = 0; i < quality.size(); i++) {
-                    if(quality.get(i).equals(_selectedName.getDBRecording().getName())){
-                        quality.remove(i);
-                    }
-                }
-            }
-
-            // write to quality file
-            Collections.sort(quality);
-            Files.write(qualityPath, quality, StandardCharsets.UTF_8);
-        } catch(IOException e){
-            DialogGenerator.showErrorMessage("Error writing to quality file");
-        }
+        _selectedName.toggleQuality();
+        setQualityFlagButtonText();
     }
 
     @FXML
