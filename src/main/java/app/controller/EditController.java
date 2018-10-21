@@ -2,6 +2,8 @@ package app.controller;
 
 import app.*;
 import app.meme.UserMemeProfile;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -9,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.fxml.FXML;
@@ -33,6 +36,7 @@ public class EditController implements Initializable {
     @FXML private ListView<Name> selectedNamesList;
     @FXML private TextField nameInput;
     @FXML private Label title;
+    @FXML private Button removeButton;
 
     /**
      * EditController constructor from a single string (for coming from Welcome screen)
@@ -75,6 +79,11 @@ public class EditController implements Initializable {
             selectedNamesList.setItems(_selectedNames);
         });
 
+        // disable remove button until a name on the list is selected
+        removeButton.setDisable(true);
+        selectedNamesList.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> checkRemoveButton());
+
         // setup autocomplete
         TextFields.bindAutoCompletion(nameInput,
                 textField -> _namesDB.getSuggestedNames(nameInput.getText()));
@@ -109,6 +118,14 @@ public class EditController implements Initializable {
             DialogGenerator.showErrorMessage("No name selected.");
         } else {
             _selectedNames.remove(selectedName);
+        }
+    }
+
+    private void checkRemoveButton() {
+        if(selectedNamesList.getSelectionModel().getSelectedItem() != null) {
+            removeButton.setDisable(false);
+        } else {
+            removeButton.setDisable(true);
         }
     }
 
