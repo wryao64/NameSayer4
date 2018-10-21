@@ -69,11 +69,7 @@ public class NameProcessor {
                 String trimmedAudioStr = getTrimmedAudioLocation(name.toString());
                 name = new Name(nameStr, new File(trimmedAudioStr));
 
-                // load in any previous quality
-                File badQualityFile = new File(Main.QUALITY_FILE);
-                if(badQualityFile.exists()){
-                    getQuality(badQualityFile, name);
-                }
+                loadQuality(name);
             } else {
                 // multiple database names, do the concat
                 String output = Main.COMPOSITE_LOCATION + "/" + listAsLine(namesInDatabase) + Main.AUDIO_FILETYPE;
@@ -88,24 +84,32 @@ public class NameProcessor {
                 name = new Name(nameStr, new File(output));
             }
 
-            // Load in any previous user recordings
-            File userDir = new File(Main.RECORDING_LOCATION + "/" + name.toString());
-            if(userDir.exists()){
-                // add in all user recordings that match naming convention
-                File[] listOfUserRecordings = userDir.listFiles();
-                for(int j = 0; j < listOfUserRecordings.length; j++) {
-                    File userRecording = listOfUserRecordings[j];
-                    String format = ".*\\/" + name + "[0-9]+" + Main.AUDIO_FILETYPE + "$";
-                    if(userRecording.toString().matches(format)){
-                        name.addUserRecording(userRecording);
-                    }
-                }
-            }
+            loadUserRecordings(name);
 
             return name;
 
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Load in any previously recorded user recordings saved on disk for a given name
+     * @param name
+     */
+    private void loadUserRecordings(Name name){
+        // Load in any previous user recordings
+        File userDir = new File(Main.RECORDING_LOCATION + "/" + name.toString());
+        if(userDir.exists()){
+            // add in all user recordings that match naming convention
+            File[] listOfUserRecordings = userDir.listFiles();
+            for(int j = 0; j < listOfUserRecordings.length; j++) {
+                File userRecording = listOfUserRecordings[j];
+                String format = ".*\\/" + name + "[0-9]+" + Main.AUDIO_FILETYPE + "$";
+                if(userRecording.toString().matches(format)){
+                    name.addUserRecording(userRecording);
+                }
+            }
         }
     }
 
@@ -142,25 +146,28 @@ public class NameProcessor {
 
     /**
      * Checks if the name is marked as bad quality and changes the quality button accordingly
-     * @param badQualityFile
      * @param name
      */
-    private void getQuality(File badQualityFile, Name name) {
-        try {
-            // get the quality file as a list of strings
-            Path qualityPath = badQualityFile.toPath();
-            List<String> qualityLines = new ArrayList<>(Files.readAllLines(qualityPath, StandardCharsets.UTF_8));
+    private void loadQuality(Name name) {
+        // load in quality file
+        File badQualityFile = new File(Main.QUALITY_FILE);
+        if(badQualityFile.exists()) {
+            try {
+                // get the quality file as a list of strings
+                Path qualityPath = badQualityFile.toPath();
+                List<String> qualityLines = new ArrayList<>(Files.readAllLines(qualityPath, StandardCharsets.UTF_8));
 
-            // check if the name is bad quality
-            for (int k = 0; k < qualityLines.size(); k++) {
-                String line = qualityLines.get(k);
-                if(line.equals(name.getDBRecording().getName())) {
-                    name.toggleQuality();
-                    break;
+                // check if the name is bad quality
+                for (int k = 0; k < qualityLines.size(); k++) {
+                    String line = qualityLines.get(k);
+                    if (line.equals(name.getDBRecording().getName())) {
+                        name.toggleQuality();
+                        break;
+                    }
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 
