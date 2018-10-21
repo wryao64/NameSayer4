@@ -210,8 +210,8 @@ public class NameDisplayController extends Controller {
 
     private void listenButtonCheck(){
         if(!_selectedName.dbRecordingExists()){
-//            listenButton.setDisable(true);
-            listenButton.setText("Not in database");
+            listenButton.setDisable(true);
+            listenButton.setText("Unable to listen");
         } else {
             listenButton.setDisable(false);
             listenButton.setText("Listen");
