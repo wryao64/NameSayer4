@@ -61,7 +61,6 @@ public class NameProcessor {
                 // just a single database name so no need for audio concat
                 name = new Name(nameStr, _namesDB.getFile(nameStr));
 
-                //TODO: ------------------------------------------------------------- SINGLE NAME TRIM
                 AudioProcessTask aPTask = new AudioProcessTask(name);
                 new Thread(aPTask).start();
 
@@ -82,11 +81,6 @@ public class NameProcessor {
                 listFile += listAsLine(namesInDatabase) + ".txt";
                 createConcatTextFile(namesInDatabase);
 
-                // TODO:check if not already a composite name of the same type
-
-                // TODO: normalise audio
-
-                //TODO: ------------------------------------------------------------- COMPOSITE NAME TRIM
                 AudioProcessTask aPTask = new AudioProcessTask(namesInDatabase, output);
                 new Thread(aPTask).start();
 
@@ -125,10 +119,8 @@ public class NameProcessor {
     private void createConcatTextFile(List<String> list){
         try {
             PrintWriter writer = new PrintWriter(listFile, "UTF-8");
-//            System.out.println("LIST FILE IS: " + listFile); // for testing
             for(String str : list){
                 String fileStr = getTrimmedAudioLocation(str);
-//                writer.println("file " + "'" + _namesDB.getFile(str).getAbsolutePath() + "'");
                 writer.println("file " + "'" + fileStr + "'");
             }
             writer.close();
@@ -256,11 +248,9 @@ public class NameProcessor {
                 int start = meanVol.indexOf(':') + 1;
                 int end = meanVol.indexOf('.');
                 meanVol = meanVol.substring(start, end).trim();
-                System.out.println(meanVol);
 
                 // finds the difference between the target volume and audio volume
                 int diff = targetVol - Integer.parseInt(meanVol);
-                System.out.println(diff);
 
                 // changes the volume of the audio
                 String volumeCmd = "ffmpeg -y -i " + originalStr + " -filter:a \"volume=" + diff + "dB\" " + normStr;
