@@ -3,7 +3,7 @@ package app.controller;
 import app.*;
 import app.audio.AudioPlayer;
 import app.audio.RepeatAudioPlayer;
-import app.dog.UserPetCollection;
+import app.pet.UserPetCollection;
 import app.name.Name;
 import app.name.NamesDatabase;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -38,7 +38,7 @@ public class NameDisplayController implements Initializable {
     @FXML private ListView<File> userRecordings;
     @FXML private Spinner<Integer> repeatSpinner;
     @FXML private Button qualityFlagButton;
-    @FXML private Button memeButton;
+    @FXML private Button breakButton;
     @FXML private Button setupButton;
     @FXML private Button listenButton;
     @FXML private Button practiseButton;
@@ -253,10 +253,10 @@ public class NameDisplayController implements Initializable {
     }
 
     @FXML
-    private void memeButtonPress(){
+    private void breakButtonPress(){
         try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MemeViewer.fxml"));
-            loader.setController(new MemeViewerController(_user,_nameList));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ImageViewer.fxml"));
+            loader.setController(new ImageViewerController(_user,_nameList));
             Parent memeView = loader.load();
             _stage.setScene(new Scene(memeView));
         } catch(IOException e) {

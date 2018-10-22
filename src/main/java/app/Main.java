@@ -1,6 +1,6 @@
 package app;
 
-import app.dog.UserPetCollection;
+import app.pet.UserPetCollection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

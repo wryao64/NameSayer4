@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.*;
-import app.dog.UserPetCollection;
+import app.pet.UserPetCollection;
 import app.name.Name;
 import app.name.NameProcessor;
 import app.name.NamesDatabase;

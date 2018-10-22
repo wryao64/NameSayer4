@@ -2,7 +2,7 @@ package app.controller;
 
 import app.Main;
 import app.name.Name;
-import app.dog.UserPetCollection;
+import app.pet.UserPetCollection;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,31 +18,31 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MemeViewerController implements Initializable {
+public class ImageViewerController implements Initializable {
     @FXML ImageView imageView;
     @FXML Label title;
     @FXML Button previousButton;
     @FXML Button nextButton;
     @FXML Label aboutText;
 
-    private SimpleIntegerProperty currentMemeIndex;
+    private SimpleIntegerProperty currentIndex;
     private UserPetCollection _user;
     private List<Name> namesToPassBack;
 
-    public MemeViewerController(UserPetCollection user, List<Name> names){
+    public ImageViewerController(UserPetCollection user, List<Name> names){
         _user = user;
-        currentMemeIndex = new SimpleIntegerProperty(user.getLatestIndex());
+        currentIndex = new SimpleIntegerProperty(user.getLatestIndex());
         namesToPassBack = names;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // bind currentMemeIndex to change the dog and stuff
-        currentMemeIndex.addListener((observable, oldValue, newValue) -> {
+        // bind currentIndex to change the pet and stuff
+        currentIndex.addListener((observable, oldValue, newValue) -> {
             showMeme();
             nextButtonDisablerCheck();
             previousButtonDisableCheck();
-            title.setText("Viewing memes!");
+            title.setText("Viewing cute pets!");
         });
 
         // Initial setup
@@ -50,11 +50,11 @@ public class MemeViewerController implements Initializable {
         nextButtonDisablerCheck();
         previousButtonDisableCheck();
 
-        if(currentMemeIndex.intValue() == 0){
-            title.setText("Here's a starter dog!");
-            aboutText.setText("More memes will randomly drop when you record, listen and practise more names!");
+        if(currentIndex.intValue() == 0){
+            title.setText("Here's a cute animal picture!");
+            aboutText.setText("More pictures will randomly drop when you record, listen and practise more names!");
         } else {
-            title.setText("Here's your fresh dog!");
+            title.setText("Here's your latest picture!");
             aboutText.setText("");
         }
     }
@@ -73,21 +73,21 @@ public class MemeViewerController implements Initializable {
 
     @FXML
     private void next(){
-        currentMemeIndex.set(currentMemeIndex.intValue() + 1);
+        currentIndex.set(currentIndex.intValue() + 1);
     }
 
     @FXML
     private void previous(){
-        currentMemeIndex.set(currentMemeIndex.intValue() - 1);
+        currentIndex.set(currentIndex.intValue() - 1);
     }
 
-    // show a dog on the ImageView
+    // show a pet on the ImageView
     private void showMeme(){
-        imageView.setImage(_user.getPicAtIndex(currentMemeIndex.intValue()));
+        imageView.setImage(_user.getPicAtIndex(currentIndex.intValue()));
     }
 
     private void nextButtonDisablerCheck(){
-        if(currentMemeIndex.intValue() == _user.getLatestIndex()){
+        if(currentIndex.intValue() == _user.getLatestIndex()){
             nextButton.setDisable(true);
         } else {
             nextButton.setDisable(false);
@@ -95,7 +95,7 @@ public class MemeViewerController implements Initializable {
     }
 
     private void previousButtonDisableCheck(){
-        if(currentMemeIndex.intValue() == 0){
+        if(currentIndex.intValue() == 0){
             previousButton.setDisable(true);
         } else {
             previousButton.setDisable(false);

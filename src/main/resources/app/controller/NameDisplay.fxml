@@ -100,7 +100,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="memeButton" mnemonicParsing="false" onAction="#memeButtonPress" prefWidth="150.0" styleClass="pageChangeButton" text="Meme Rewards">
+                  <Button fx:id="breakButton" mnemonicParsing="false" onAction="#breakButtonPress" prefHeight="32.0" prefWidth="150.0" styleClass="pageChangeButton" text="Take a break">
                      <font>
                         <Font size="16.0" />
                      </font>

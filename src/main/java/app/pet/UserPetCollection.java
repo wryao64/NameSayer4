@@ -1,4 +1,4 @@
-package app.dog;
+package app.pet;
 
 import app.Main;
 import javafx.geometry.Pos;
@@ -30,7 +30,7 @@ public class UserPetCollection {
         dropRate = INITIAL_DROP_RATE;
         imageFolder = new File(IMAGE_FOLDER);
 
-        // get a dog to start with
+        // get a pet to start with
         pets.add(getFreshPetPicture());
         latestIndex = 0;
     }
@@ -49,7 +49,7 @@ public class UserPetCollection {
                         .position(Pos.BOTTOM_CENTER)
                         .darkStyle()
                         .title("Dog picture!")
-                        .text("Congrats you got a new dog picture to check out")
+                        .text("Congrats you got a new pet picture to check out")
                         .showConfirm();
             } else {
                 dropRate = dropRate + GAIN_RATE;
