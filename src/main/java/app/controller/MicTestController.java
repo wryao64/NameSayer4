@@ -26,17 +26,10 @@ public class MicTestController implements Initializable {
     private boolean _capturing = false;
     private Task _audioCapTask;
 
-    @FXML
-    ProgressBar bar;
-
-    @FXML
-    Button startButton;
-
-    @FXML
-    Button stopButton;
-
-    @FXML
-    Button backButton;
+    @FXML ProgressBar bar;
+    @FXML Button startButton;
+    @FXML Button stopButton;
+    @FXML Button backButton;
 
     public MicTestController(List<Name> names){
         _names = names; // hold on to information about names to pass back

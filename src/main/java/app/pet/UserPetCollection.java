@@ -48,8 +48,8 @@ public class UserPetCollection {
                 Notifications.create()
                         .position(Pos.BOTTOM_CENTER)
                         .darkStyle()
-                        .title("Dog picture!")
-                        .text("Congrats you got a new pet picture to check out")
+                        .title("Cute animal picture!")
+                        .text("You got a new cute animal picture. Take a break to check it out.")
                         .showConfirm();
             } else {
                 dropRate = dropRate + GAIN_RATE;

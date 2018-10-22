@@ -18,8 +18,7 @@ import java.io.IOException;
 public class WelcomeController {
     private Stage _stage;
 
-    @FXML
-    TextField nameInput;
+    @FXML TextField nameInput;
 
     public void initialize() {
         _stage = Main.getStage();

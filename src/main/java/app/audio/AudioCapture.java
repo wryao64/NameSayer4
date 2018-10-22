@@ -32,7 +32,7 @@ public class AudioCapture {
         boolean bigEndian = false;
         AudioFormat format = new AudioFormat(encoding, sampleRate, sampleSizeInBits,
                 channels, frameSize, frameRate, bigEndian);
-        return format; //TODO: check these values with Catherine's slides
+        return format;
     }
 
     /**

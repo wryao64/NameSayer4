@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="border-pane" stylesheets="@../../css/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="border-pane" stylesheets="@../../css/styles.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <top>
         <VBox alignment="CENTER" prefHeight="120.0" prefWidth="800.0" BorderPane.alignment="CENTER">
             <children>
@@ -32,12 +32,15 @@
         </VBox>
     </top>
    <center>
-      <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+      <ImageView fx:id="imageView" fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets bottom="30.0" />
+         </BorderPane.margin></ImageView>
    </center>
    <left>
       <Button fx:id="previousButton" mnemonicParsing="false" onAction="#previous" text="&lt;" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets left="75.0" />
+            <Insets left="150.0" />
          </BorderPane.margin>
          <font>
             <Font size="20.0" />
@@ -47,7 +50,7 @@
    <right>
       <Button fx:id="nextButton" mnemonicParsing="false" onAction="#next" text="&gt;" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets right="75.0" />
+            <Insets right="150.0" />
          </BorderPane.margin>
          <font>
             <Font size="20.0" />
@@ -57,7 +60,7 @@
    <bottom>
       <Button mnemonicParsing="false" onAction="#backButtonPress" text="Back to Practicing :(" BorderPane.alignment="CENTER">
          <BorderPane.margin>
-            <Insets bottom="20.0" />
+            <Insets bottom="35.0" />
          </BorderPane.margin>
          <font>
             <Font size="16.0" />

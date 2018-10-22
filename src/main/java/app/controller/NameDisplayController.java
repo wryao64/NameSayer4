@@ -175,7 +175,6 @@ public class NameDisplayController implements Initializable {
         } else if(userRecordings.getItems().size() == 0) {
             DialogGenerator.showErrorMessage("There are no practise recordings for " + _selectedName.toString());
         } else {
-            _user.tryDropPetPic();
             File selectedUserRecording = userRecordings.getSelectionModel().getSelectedItem();
             if(selectedUserRecording == null){
                 // default to latest recording if none selected
@@ -188,6 +187,7 @@ public class NameDisplayController implements Initializable {
             rap.setOnSucceeded(e -> togglePlayingButtons());
             Thread thread = new Thread(rap);
             thread.start();
+            _user.tryDropPetPic();
         }
     }
 
@@ -205,13 +205,12 @@ public class NameDisplayController implements Initializable {
 
     @FXML
     private void listenButtonPress(){
-        _user.tryDropPetPic();
-
         togglePlayingButtons();
         AudioPlayer ap = new AudioPlayer(_selectedName.getDBRecording());
         ap.setOnSucceeded(e -> this.togglePlayingButtons());
         Thread thread = new Thread(ap);
         thread.start();
+        _user.tryDropPetPic();
     }
 
     private void listenButtonCheck(){

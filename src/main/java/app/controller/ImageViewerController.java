@@ -42,7 +42,7 @@ public class ImageViewerController implements Initializable {
             showMeme();
             nextButtonDisablerCheck();
             previousButtonDisableCheck();
-            title.setText("Viewing cute pets!");
+            title.setText("Cute animals");
         });
 
         // Initial setup
