@@ -2,6 +2,7 @@ package app.name;
 
 import app.DialogGenerator;
 import app.Main;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 
 import java.io.*;
@@ -270,7 +271,7 @@ public class NameProcessor {
             int targetVol = 0;
 
             // finds the mean volume of the audio
-            String normCmd = "ffmpeg -i \"" + originalStr + "\" -filter:a volumedetect -f null /dev/null 2>&1 | grep mean_volume";
+            String normCmd = "ffmpeg -y -i \"" + originalStr + "\" -filter:a volumedetect -f null /dev/null 2>&1 | grep mean_volume";
             ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", normCmd);
             Process process = null;
             try {
@@ -298,6 +299,16 @@ public class NameProcessor {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+
+        @Override
+        protected void done() {
+            Platform.runLater(() -> {
+                //delete preprocessed audio file
+                if (_userRec) {
+                    new File(_preUserLocStr).delete();
+                }
+            });
         }
     }
 
