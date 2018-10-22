@@ -169,7 +169,14 @@ public class RecordController implements Initializable {
                 .showConfirm();
 
         _fileSaved = true;
+        this.prepNewFile();
 
+        // disable the buttons again
+        playButton.setDisable(true);
+        saveButton.setDisable(true);
+    }
+
+    private void prepNewFile() {
         // prepare another file
         _preprocessedFileName = Main.RECORDING_LOCATION +
                 "/" + _currentName.toString() +
@@ -179,10 +186,6 @@ public class RecordController implements Initializable {
                 "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + Main.AUDIO_FILETYPE;
         _preRecordingFile = new File(_preprocessedFileName);
         _recordingFile = new File(_fileName);
-
-        // disable the buttons again
-        playButton.setDisable(true);
-        saveButton.setDisable(true);
     }
 
     /**
@@ -197,6 +200,7 @@ public class RecordController implements Initializable {
                     "Yes", "No");
             if(saveUnsaved) {
                 _currentName.addUserRecording(_recordingFile);
+                this.prepNewFile();
             } else {
                 _recordingFile.delete();
             }
