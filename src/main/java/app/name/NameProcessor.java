@@ -216,11 +216,11 @@ public class NameProcessor {
                 this.normaliseAudio(_preUserLocStr, _userLocStr);
 
                 // trims the silence
-//                String trimCmd = "ffmpeg -y -hide_banner -i \"" + _userLocStr +
-//                        "\" -af silenceremove=1:0:-55dB:1:5:-55dB:0 \"" + _userLocStr + "\"";
-//                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
-//                Process process = builder.start();
-//                process.waitFor();
+                String trimCmd = "ffmpeg -y -hide_banner -i \"" + _userLocStr +
+                        "\" -af silenceremove=1:0:-55dB:1:5:-55dB:0 \"" + _userLocStr + "\"";
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
+                Process process = builder.start();
+                process.waitFor();
             } else if (!_composite) {
                 String originalStr = _name.getDBRecording().toString();
                 String trimmedAudioStr = getTrimmedAudioLocation(_name.toString());
