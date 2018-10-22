@@ -20,8 +20,6 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 
-import java.awt.*;
-import java.awt.Dialog;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -233,7 +231,6 @@ public class RecordController implements Initializable {
             try {
                 // do the recording
                 String cmd = "ffmpeg -f alsa -i default -t 5 \"" + _preprocessedFileName + "\"";
-                System.out.println(cmd);
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
                 Process process = builder.start();
 
