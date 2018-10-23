@@ -33,7 +33,7 @@
                         <Insets bottom="10.0" top="20.0" />
                      </VBox.margin>
                   </Button>
-                  <Button fx:id="compareButton" mnemonicParsing="false" onAction="#compareButtonPress" text="Compare">
+                  <Button fx:id="compareButton" mnemonicParsing="false" onAction="#compareButtonPress" styleClass="greenButton" text="Compare">
                      <VBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="20.0" />
                      </VBox.margin>
@@ -78,7 +78,7 @@
                      <VBox.margin>
                         <Insets />
                      </VBox.margin></ListView>
-                  <Button fx:id="listenUserButton" mnemonicParsing="false" onAction="#listenUserRecording" text="Listen to my Recording">
+                  <Button fx:id="listenUserButton" mnemonicParsing="false" onAction="#listenUserRecording" styleClass="greenButton" text="Listen to my Recording">
                      <VBox.margin>
                         <Insets top="10.0" />
                      </VBox.margin>
@@ -100,7 +100,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="breakButton" mnemonicParsing="false" onAction="#breakButtonPress" prefHeight="32.0" prefWidth="150.0" styleClass="pageChangeButton" text="Take a break">
+                  <Button fx:id="breakButton" mnemonicParsing="false" onAction="#breakButtonPress" prefHeight="32.0" prefWidth="150.0" text="Take a break">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -125,7 +125,7 @@
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="setupButton" mnemonicParsing="false" onAction="#editButtonPress" prefHeight="32.0" prefWidth="150.0" styleClass="pageChangeButton" text="Setup Names">
+                  <Button fx:id="setupButton" mnemonicParsing="false" onAction="#editButtonPress" prefHeight="32.0" prefWidth="150.0" text="Setup Names">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -137,7 +137,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="listenButton" mnemonicParsing="false" onAction="#listenButtonPress" styleClass="vertical-button" text="Listen">
+                  <Button fx:id="listenButton" mnemonicParsing="false" onAction="#listenButtonPress" styleClass="vertical-button, greenButton"  text="Listen">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -145,7 +145,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="qualityFlagButton" mnemonicParsing="false" onAction="#qualityButtonPress" text="Mark as Bad">
+                  <Button fx:id="qualityFlagButton" mnemonicParsing="false" onAction="#qualityButtonPress" styleClass="orangeButton" text="Mark as Bad">
                      <font>
                         <Font size="20.0" />
                      </font>

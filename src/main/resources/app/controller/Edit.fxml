@@ -30,8 +30,8 @@
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <Button mnemonicParsing="false" onAction="#addButtonPress" text="+" />
-                  <Button mnemonicParsing="false" onAction="#uploadButtonPress" text="Upload File">
+                  <Button mnemonicParsing="false" onAction="#addButtonPress" styleClass="greenButton" text="+" />
+                  <Button mnemonicParsing="false" onAction="#uploadButtonPress" styleClass="greenButton" text="Upload File">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -50,7 +50,7 @@
                   </ListView>
                   <HBox alignment="CENTER" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#shuffleButtonPress" text="Shuffle">
+                        <Button mnemonicParsing="false" onAction="#shuffleButtonPress" styleClass="orangeButton" text="Shuffle">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -99,7 +99,7 @@
                   <Font size="28.0" />
                </font>
             </Label>
-            <Button mnemonicParsing="false" onAction="#backButtonPress" styleClass="pageChangeButton" text="Practise">
+            <Button mnemonicParsing="false" onAction="#backButtonPress" text="Practise">
                <font>
                   <Font size="18.0" />
                </font>

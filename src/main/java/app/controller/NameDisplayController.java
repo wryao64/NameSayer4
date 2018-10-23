@@ -48,6 +48,13 @@ public class NameDisplayController implements Initializable {
     @FXML private Button prevButton;
     @FXML private Button nextButton;
 
+    // for setting of quality button
+    private final String GOOD_QUALITY_STYLE = "-fx-color:#27ae60;";
+    private final String BAD_QUALITY_STYLE = "-fx-color:#c0392b;";
+    private final String GOOD_QUALITY_HOVER_STYLE = "-fx-color:#2ecc71;";
+    private final String BAD_QUALITY_HOVER_STYLE = "-fx-color:#e74c3c;";
+
+
     public NameDisplayController(List<Name> nameList) {
         // namesList should always have at least 1 item enforced by the GUI design
         _nameList = nameList;
@@ -99,7 +106,7 @@ public class NameDisplayController implements Initializable {
     }
 
     private void checkButtons(){
-        setQualityFlagButtonText();
+        setQualityFlagButton();
         nextButtonCheck();
         prevButtonCheck();
         listenButtonCheck();
@@ -240,7 +247,7 @@ public class NameDisplayController implements Initializable {
     @FXML
     private void qualityButtonPress(){
         _selectedName.toggleQuality();
-        setQualityFlagButtonText();
+        setQualityFlagButton();
     }
 
     @FXML
@@ -255,20 +262,37 @@ public class NameDisplayController implements Initializable {
         }
     }
 
-    private void setQualityFlagButtonText(){
+    private void setQualityFlagButton(){
         if(!_namesDB.checkExists(_selectedName.toString())){
             qualityFlagButton.setText("Cannot mark quality");
             qualityFlagButton.setDisable(true);
+            setQualityFlagButtonStyleGood();
         } else {
             qualityFlagButton.setDisable(false);
             if(_selectedName.isBadQuality()) {
                 qualityFlagButton.setTooltip(new Tooltip("The name is currently marked as bad quality"));
                 qualityFlagButton.setText("Mark as Good");
+                setQualityFlagButtonStyleGood();
             } else {
                 qualityFlagButton.setTooltip(new Tooltip("The name is currently marked as good quality"));
                 qualityFlagButton.setText("Mark as Bad");
+                setQualityFlagButtonStyleBad();
             }
         }
+    }
+
+    // setting the styles of the quality button for good marking as good quality
+    private void setQualityFlagButtonStyleGood(){
+        qualityFlagButton.setStyle(GOOD_QUALITY_STYLE);
+        qualityFlagButton.setOnMouseEntered(e -> qualityFlagButton.setStyle(GOOD_QUALITY_HOVER_STYLE));
+        qualityFlagButton.setOnMouseExited(e -> qualityFlagButton.setStyle(GOOD_QUALITY_STYLE));
+    }
+
+    // setting the styles of the quality button for good marking as bad quality
+    private void setQualityFlagButtonStyleBad(){
+        qualityFlagButton.setStyle(BAD_QUALITY_STYLE);
+        qualityFlagButton.setOnMouseEntered(e -> qualityFlagButton.setStyle(BAD_QUALITY_HOVER_STYLE));
+        qualityFlagButton.setOnMouseExited(e -> qualityFlagButton.setStyle(BAD_QUALITY_STYLE));
     }
 
     @FXML
