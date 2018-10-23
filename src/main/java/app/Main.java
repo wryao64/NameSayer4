@@ -16,7 +16,7 @@ public class Main extends Application {
     public static final String ASSETS_LOCATION = new File("assets").getAbsolutePath();
     public static final String DATABASE_LOCATION = new File(ASSETS_LOCATION + "/names").getAbsolutePath();
     public static final String RECORDING_LOCATION = new File(ASSETS_LOCATION + "/user").getAbsolutePath();
-    public static final String COMPOSITE_LOCATION = new File(ASSETS_LOCATION + "/composite_names").getAbsolutePath();
+    public static final String TEMP_LOCATION = new File(ASSETS_LOCATION + "/temp").getAbsolutePath();
     public static final String QUALITY_FILE = new File("badQualityRecordings.txt").getAbsolutePath();
 
     private static Stage _stage;
@@ -62,7 +62,7 @@ public class Main extends Application {
         File assets = new File(ASSETS_LOCATION);
         File dbDirectory = new File(DATABASE_LOCATION);
         File userDirectory = new File(RECORDING_LOCATION);
-        File compositeDirectory = new File(COMPOSITE_LOCATION);
+        File tempDirectory = new File(TEMP_LOCATION);
         File quality = new File(QUALITY_FILE);
 
         if(!assets.exists()){
@@ -77,8 +77,8 @@ public class Main extends Application {
             userDirectory.mkdir();
         }
 
-        if(!compositeDirectory.exists()){
-            compositeDirectory.mkdir();
+        if(!tempDirectory.exists()){
+            tempDirectory.mkdir();
         }
 
         if(!quality.exists()){
@@ -94,8 +94,8 @@ public class Main extends Application {
      * Any cleanup when the program exits
      */
     private void onClose(){
-        // Delete the composite recordings
-        File dir = new File(COMPOSITE_LOCATION);
+        // Delete the temp files
+        File dir = new File(TEMP_LOCATION);
         for(File file: dir.listFiles()){
             file.delete();
         }

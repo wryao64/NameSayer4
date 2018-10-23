@@ -25,7 +25,7 @@ public class NameProcessor {
      * @return a Name object with the name and audio file setup, null if Name not setup
      */
     public Name createName(String nameStr){
-        _listFile = Main.COMPOSITE_LOCATION + "/";
+        _listFile = Main.TEMP_LOCATION + "/";
         List<String> namesInDatabase = new ArrayList<>();
         List<String> namesNotInDatabase = new ArrayList<>();
         boolean createName = true;
@@ -73,7 +73,7 @@ public class NameProcessor {
                 loadQuality(name);
             } else {
                 // multiple database names, do the concat
-                String output = Main.COMPOSITE_LOCATION + "/" + listAsLine(namesInDatabase) + Main.AUDIO_FILETYPE;
+                String output = Main.TEMP_LOCATION + "/" + listAsLine(namesInDatabase) + Main.AUDIO_FILETYPE;
 
                 // create a text file of the names to add
                 _listFile += listAsLine(namesInDatabase) + ".txt";
@@ -150,7 +150,7 @@ public class NameProcessor {
      * @return the trimmed audio location string
      */
     private String getTrimmedAudioLocation(String name) {
-        String trimmedAudioStr = Main.COMPOSITE_LOCATION + "/" + name + Main.AUDIO_FILETYPE;
+        String trimmedAudioStr = Main.TEMP_LOCATION + "/" + name + Main.AUDIO_FILETYPE;
         return trimmedAudioStr;
     }
 
