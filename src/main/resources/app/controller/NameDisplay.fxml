@@ -100,7 +100,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="80.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="breakButton" mnemonicParsing="false" onAction="#breakButtonPress" prefHeight="32.0" prefWidth="150.0" text="Take a break">
+                  <Button fx:id="breakButton" mnemonicParsing="false" onAction="#breakButtonPress" prefHeight="32.0" prefWidth="150.0" text="Take a Break">
                      <font>
                         <Font size="16.0" />
                      </font>
@@ -137,7 +137,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
                <children>
-                  <Button fx:id="listenButton" mnemonicParsing="false" onAction="#listenButtonPress" styleClass="vertical-button, greenButton"  text="Listen">
+                  <Button fx:id="listenButton" mnemonicParsing="false" onAction="#listenButtonPress" styleClass="vertical-button, greenButton" text="Listen">
                      <font>
                         <Font size="20.0" />
                      </font>
