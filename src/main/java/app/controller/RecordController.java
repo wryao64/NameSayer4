@@ -19,8 +19,6 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.controlsfx.control.Notifications;
 
-import java.awt.*;
-import java.awt.Dialog;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -107,7 +105,7 @@ public class RecordController implements Initializable {
 
     @FXML
     private void listenButtonPress(){
-        Main.getUser().tryDropMeme();
+        Main.getUser().tryDropPetPic();
         togglePlayButtons();
         AudioPlayer ap = new AudioPlayer(_currentName.getDBRecording());
         ap.setOnSucceeded(e -> this.togglePlayButtons());

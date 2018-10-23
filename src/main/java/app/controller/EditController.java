@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.*;
-import app.meme.UserMemeProfile;
+import app.pet.UserPetCollection;
 import app.name.Name;
 import app.name.NameProcessor;
 import app.name.NamesDatabase;
@@ -31,7 +31,7 @@ public class EditController implements Initializable {
     private ObservableList<Name> _selectedNames = FXCollections.observableArrayList();
 
     private NamesDatabase _namesDB = new NamesDatabase();
-    private UserMemeProfile user;
+    private UserPetCollection user;
 
     @FXML private ListView<Name> selectedNamesList;
     @FXML private TextField nameInput;

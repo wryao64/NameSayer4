@@ -3,7 +3,7 @@ package app.controller;
 import app.*;
 import app.audio.AudioPlayer;
 import app.audio.RepeatAudioPlayer;
-import app.meme.UserMemeProfile;
+import app.pet.UserPetCollection;
 import app.name.Name;
 import app.name.NamesDatabase;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -26,7 +26,7 @@ import java.util.ResourceBundle;
 public class NameDisplayController implements Initializable {
 
     private Stage _stage;
-    private UserMemeProfile _user;
+    private UserPetCollection _user;
 
     private List<Name> _nameList;
     private SimpleIntegerProperty _selectedNameIndex;
@@ -38,7 +38,7 @@ public class NameDisplayController implements Initializable {
     @FXML private ListView<File> userRecordings;
     @FXML private Spinner<Integer> repeatSpinner;
     @FXML private Button qualityFlagButton;
-    @FXML private Button memeButton;
+    @FXML private Button breakButton;
     @FXML private Button setupButton;
     @FXML private Button listenButton;
     @FXML private Button practiseButton;
@@ -74,7 +74,7 @@ public class NameDisplayController implements Initializable {
             _selectedName = _nameList.get(newValue.intValue());
             fetchUserRecordings();
             checkButtons();
-            _user.tryDropMeme();
+            _user.tryDropPetPic();
         });
 
         // setup user recordings to show by last modified date
@@ -139,7 +139,7 @@ public class NameDisplayController implements Initializable {
 
     @FXML
     private void practiseButtonPress() {
-        _user.tryDropMeme();
+        _user.tryDropPetPic();
         // redirect to RecordController page
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("Record.fxml"));
@@ -175,7 +175,6 @@ public class NameDisplayController implements Initializable {
         } else if(userRecordings.getItems().size() == 0) {
             DialogGenerator.showErrorMessage("There are no practise recordings for " + _selectedName.toString());
         } else {
-            _user.tryDropMeme();
             File selectedUserRecording = userRecordings.getSelectionModel().getSelectedItem();
             if(selectedUserRecording == null){
                 // default to latest recording if none selected
@@ -188,6 +187,7 @@ public class NameDisplayController implements Initializable {
             rap.setOnSucceeded(e -> togglePlayingButtons());
             Thread thread = new Thread(rap);
             thread.start();
+            _user.tryDropPetPic();
         }
     }
 
@@ -205,13 +205,12 @@ public class NameDisplayController implements Initializable {
 
     @FXML
     private void listenButtonPress(){
-        _user.tryDropMeme();
-
         togglePlayingButtons();
         AudioPlayer ap = new AudioPlayer(_selectedName.getDBRecording());
         ap.setOnSucceeded(e -> this.togglePlayingButtons());
         Thread thread = new Thread(ap);
         thread.start();
+        _user.tryDropPetPic();
     }
 
     private void listenButtonCheck(){
@@ -253,10 +252,10 @@ public class NameDisplayController implements Initializable {
     }
 
     @FXML
-    private void memeButtonPress(){
+    private void breakButtonPress(){
         try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("MemeViewer.fxml"));
-            loader.setController(new MemeViewerController(_user,_nameList));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ImageViewer.fxml"));
+            loader.setController(new ImageViewerController(_user,_nameList));
             Parent memeView = loader.load();
             _stage.setScene(new Scene(memeView));
         } catch(IOException e) {
