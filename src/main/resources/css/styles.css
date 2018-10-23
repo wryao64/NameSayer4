@@ -44,16 +44,6 @@ Color palette: https://www.color-hex.com/color-palette/66147
     -fx-color:#e74c3c;
 }
 
-/*
-.orangeButton {
-    -fx-color: #e67e22
-}
-
-.orangeButton:hover {
-    -fx-color: #f39c12
-}
-*/
-
 .dialog-pane {
     -fx-background-color:#313131;
 }

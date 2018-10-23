@@ -145,7 +145,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button fx:id="qualityFlagButton" mnemonicParsing="false" onAction="#qualityButtonPress" styleClass="orangeButton" text="Mark as Bad">
+                  <Button fx:id="qualityFlagButton" mnemonicParsing="false" onAction="#qualityButtonPress" text="Mark as Bad">
                      <font>
                         <Font size="20.0" />
                      </font>

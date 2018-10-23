@@ -50,7 +50,7 @@
                   </ListView>
                   <HBox alignment="CENTER" prefWidth="200.0">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#shuffleButtonPress" styleClass="orangeButton" text="Shuffle">
+                        <Button mnemonicParsing="false" onAction="#shuffleButtonPress" styleClass="greenButton" text="Shuffle">
                            <font>
                               <Font size="16.0" />
                            </font>
