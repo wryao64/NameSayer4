@@ -53,7 +53,7 @@ public class WelcomeController {
                 DialogGenerator.showErrorMessage("Error processing name");
             }
         } else {
-            DialogGenerator.showErrorMessage("Error: Name not inputted.");
+            DialogGenerator.showErrorMessage("Please enter a name.");
         }
     }
 
