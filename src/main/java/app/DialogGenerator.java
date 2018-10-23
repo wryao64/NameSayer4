@@ -24,7 +24,7 @@ public class DialogGenerator {
         alert.setHeaderText(null);
 
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add("../resources/css/styles.css");
+        dialogPane.getStylesheets().add(DialogGenerator.class.getResource("/css/styles.css").toString());
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.orElse(option2Button) == option1Button){
@@ -45,7 +45,7 @@ public class DialogGenerator {
         alert.setContentText(message);
 
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add("../resources/css/styles.css");
+        dialogPane.getStylesheets().add(DialogGenerator.class.getResource("/css/styles.css").toString());
 
         alert.showAndWait();
     }
@@ -62,7 +62,7 @@ public class DialogGenerator {
         alert.setContentText(message);
 
         DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.getStylesheets().add("../resources/css/styles.css");
+        dialogPane.getStylesheets().add(DialogGenerator.class.getResource("/css/styles.css").toString());
 
         alert.showAndWait();
     }
