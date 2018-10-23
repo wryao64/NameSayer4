@@ -98,16 +98,16 @@ public class NameProcessor {
      * @param name
      */
     private void loadUserRecordings(Name name){
-        // Load in any previous user recordings
-        File userDir = new File(Main.RECORDING_LOCATION + "/" + name.toString());
-        if(userDir.exists()){
-            // add in all user recordings that match naming convention
-            File[] listOfUserRecordings = userDir.listFiles();
-            for(int j = 0; j < listOfUserRecordings.length; j++) {
-                File userRecording = listOfUserRecordings[j];
-                String format = ".*\\/" + name + "[0-9]+" + Main.AUDIO_FILETYPE + "$";
-                if(userRecording.toString().matches(format)){
-                    name.addUserRecording(userRecording);
+        // load in any previous user recordings
+        File userDir = new File(Main.RECORDING_LOCATION);
+
+        // loop through looking for matching user recording directories
+        for(String file: userDir.list()){
+            if(file.toLowerCase().equals(name.toString().toLowerCase())){
+                // add in all user recordings from the matching directory
+                File userRecordingDir = new File(userDir + "/" + file);
+                for(File userRecording : userRecordingDir.listFiles()) {
+                        name.addUserRecording(userRecording);
                 }
             }
         }
