@@ -10,6 +10,7 @@ Color palette: https://www.color-hex.com/color-palette/66147
 .button {
     -fx-background-radius:16px;
     -fx-color:#2980b9;
+    -fx-text-fill:#ffffff;
 }
 
 .button:hover {
@@ -25,23 +26,33 @@ Color palette: https://www.color-hex.com/color-palette/66147
     -fx-text-fill:#000000;
 }
 
-.pageChangeButton {
+.greenButton {
     -fx-text-fill:#ffffff;
     -fx-color:#27ae60;
 }
 
-.pageChangeButton:hover {
+.greenButton:hover {
     -fx-color:#2ecc71;
 }
 
 .redButton {
-    -fx-color:#e74c3c;
+    -fx-color:#c0392b;
     -fx-text-fill:#ffffff;
 }
 
 .redButton:hover {
-    -fx-color:#c0392b;
+    -fx-color:#e74c3c;
 }
+
+/*
+.orangeButton {
+    -fx-color: #e67e22
+}
+
+.orangeButton:hover {
+    -fx-color: #f39c12
+}
+*/
 
 .dialog-pane {
     -fx-background-color:#313131;

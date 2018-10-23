@@ -27,7 +27,7 @@
                         <Font size="16.0" />
                      </font>
                   </TextField>
-                  <Button mnemonicParsing="false" onAction="#submitButtonPress" text="Ok!">
+                  <Button mnemonicParsing="false" onAction="#submitButtonPress" styleClass="greenButton" text="Go!">
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin>
@@ -43,7 +43,7 @@
                      <font>
                         <Font size="16.0" />
                      </font></Label>
-                  <Button mnemonicParsing="false" onAction="#uploadButtonPress" text="Upload">
+                  <Button mnemonicParsing="false" onAction="#uploadButtonPress" styleClass="greenButton" text="Upload">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

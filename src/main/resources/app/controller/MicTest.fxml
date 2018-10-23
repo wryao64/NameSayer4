@@ -39,7 +39,7 @@
                 </ProgressBar>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                      <Button fx:id="startButton" alignment="CENTER" mnemonicParsing="false" onAction="#startButtonPress" text="Start">
+                      <Button fx:id="startButton" styleClass="greenButton" alignment="CENTER" mnemonicParsing="false" onAction="#startButtonPress" text="Start">
                           <font>
                               <Font size="16.0" />
                           </font>
@@ -47,7 +47,7 @@
                         <Insets right="10.0" />
                      </HBox.margin>
                       </Button>
-                  <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopButtonPress" text="Stop">
+                  <Button fx:id="stopButton" mnemonicParsing="false" onAction="#stopButtonPress" text="Stop" styleClass="redButton">
                      <font>
                         <Font size="16.0" />
                      </font>
