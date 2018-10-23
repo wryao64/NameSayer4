@@ -13,16 +13,11 @@ You can get Java from https://www.java.com/en/download/
 ## About / Setup
 The target users of this app are students practising the names of their classmates.
 To help it appeal to students, there are features like:
-- a dark background to make it easy on eyes when students are grinding away at nighttime on assignments such as this one!
-- rewards for practising names in the form of memes!
+- a dark background to make it easy on eyes when students are grinding away at night
+- rewards for practising names in the form of pictures of cute animals
 
 NameSayer is an app to help you practise how to pronounce names.
 Names come from a database (that can be found in the assets/names directory).
-
-Features include:
-- You can upload a text file of names (may be buggy)
-- It concatenates audio for names separated by hyphens and spaces together (may also be buggy)
-- You can create your own recordings of names and compare them against the database
 
 The file structure should be all set up for you to start staight away.
 
@@ -43,13 +38,9 @@ You can also test if your mic works by pressing 'Test Mic'. There is a meter to 
 
 Pressing the 'Practise Recording' button will bring you to a screen where you can listen to how the name is pronounced, practise saying it and then record yourself. Press record when you are ready to record. You will be given 5 seconds to say the name you see, and given an option to listen back to the recording before choosing if you want to save the recording. There is a meter to show your mic input while recording.
 
-## Rewards
+## Take a Break / Rewards
 
-Sometimes studying and practising names gets boring so the app has rewards to cheer you up and give you some motivation (really this was an excuse for me to drop memes I'm sorry).
+Sometimes studying and practising names gets boring so the app has rewards to cheer students up as well as provide motavation.
+Pictures of cute animals will randomly be acquired when you use NameSayer. You will be notified once you get a new picture and can view them by pressing "Take a Break".
 
-Memes will randomly drop when you listen, record and practise! You will be notified once you get a new meme and you can view the memes you have collected by clicking the 'Meme Rewards' button while practising.
-
-You could go into the folders and find the memes but that would take away the fun :(
-
-Thanks if you read all the way down to here, love your work <3.
 
