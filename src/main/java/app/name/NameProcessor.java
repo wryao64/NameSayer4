@@ -275,7 +275,6 @@ public class NameProcessor {
             // finds the mean volume of the audio
             String normCmd = "ffmpeg -y -i \"" + originalStr + "\" -filter:a volumedetect -f null /dev/null 2>&1 | grep mean_volume";
             ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", normCmd);
-            System.out.println(normCmd);
             Process process = null;
             try {
                 process = builder.start();
@@ -295,7 +294,6 @@ public class NameProcessor {
                 // changes the volume of the audio
                 String volumeCmd = "ffmpeg -y -i \"" + originalStr + "\" -filter:a \"volume=" + diff + "dB\" " + "\"" + normStr + "\"";
                 builder = new ProcessBuilder("/bin/bash", "-c", volumeCmd);
-                System.out.println(volumeCmd);
                 process = builder.start();
                 process.waitFor();
             } catch (IOException e) {
@@ -311,6 +309,7 @@ public class NameProcessor {
                 //delete preprocessed audio file
                 if (_userRec) {
                     new File(_preUserLocStr).delete();
+                    new File(_halfUserLocStr).delete();
                 }
             });
         }
