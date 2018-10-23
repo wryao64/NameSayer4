@@ -56,6 +56,12 @@ public class NamesDatabase {
         return new ArrayList<>(_namesDB.keySet());
     }
 
+    /**
+     * Gets suggested names for autocomplete functionality to show given a string
+     * which should be the start of a name.
+     * @param name The string the user has typed up to (the start of a name)
+     * @return A list of matching names as a string that begin with the input
+     */
     public List<String> getSuggestedNames(String name) {
         int latestIndex = findLatestSpaceInString(name);
         final String latestName;

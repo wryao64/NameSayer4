@@ -47,6 +47,7 @@ public class RecordController implements Initializable {
     public void togglePlayButtons() {
         _buttonDisabled = !_buttonDisabled;
         recordButton.setDisable(_buttonDisabled);
+        backButton.setDisable(_buttonDisabled);
 
         // always disable play/save if no recording yet
         if(!_recordingFile.exists()){

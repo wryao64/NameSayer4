@@ -175,11 +175,7 @@ public class NameDisplayController implements Initializable {
         } else if(userRecordings.getItems().size() == 0) {
             DialogGenerator.showErrorMessage("There are no practise recordings for " + _selectedName.toString());
         } else {
-            File selectedUserRecording = userRecordings.getSelectionModel().getSelectedItem();
-            if(selectedUserRecording == null){
-                // default to latest recording if none selected
-                selectedUserRecording = _selectedName.getLatestUserRecording();
-            }
+            File selectedUserRecording = getSelectedUserRecording();
             togglePlayingButtons();
             // TODO: Balance the audio volume
             RepeatAudioPlayer rap = new RepeatAudioPlayer(_selectedName.getDBRecording(), selectedUserRecording,
@@ -225,11 +221,7 @@ public class NameDisplayController implements Initializable {
 
     @FXML
     private void listenUserRecording(){
-        File selectedRecording = userRecordings.getSelectionModel().getSelectedItem();
-        if(selectedRecording == null) {
-            selectedRecording = _selectedName.getLatestUserRecording();
-        }
-
+        File selectedRecording = getSelectedUserRecording();
         this.togglePlayingButtons();
         AudioPlayer ap = new AudioPlayer(selectedRecording);
         ap.setOnSucceeded(e -> this.togglePlayingButtons());
@@ -316,5 +308,19 @@ public class NameDisplayController implements Initializable {
         } else {
             nextButton.setDisable(false);
         }
+    }
+
+    /**
+     * Gets the selected user recording from the ListView of user recordings.
+     * Defaults to the latest one if the user has not selected one.
+     * @return The selected user recording.
+     */
+    private File getSelectedUserRecording(){
+        File selectedUserRecording = userRecordings.getSelectionModel().getSelectedItem();
+        if(selectedUserRecording == null){
+            // default to latest recording if none selected
+            selectedUserRecording = userRecordings.getItems().get(0);
+        }
+        return selectedUserRecording;
     }
 }

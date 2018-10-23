@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * A class representing a name.
- * Names have recordings associated with them which are files on disk
+ * Names have recordings associated with them which are files on disk.
  */
 public class Name {
     private String _name;
@@ -61,21 +61,6 @@ public class Name {
         }
     }
 
-//    public boolean playDBRecording(AudioPlayerController controller){
-//        if(dbRecordingExists()){
-//            AudioPlayer ap = new AudioPlayer(_dbRecording);
-//            Thread thread = new Thread(ap);
-//            thread.start();
-//
-//            ap.setOnSucceeded(e -> {
-//                controller.setButtonDisable();
-//            });
-//        } else {
-//            return false;
-//        }
-//        return true;
-//    }
-
     public File getDBRecording(){
         return _dbRecording;
     }
@@ -83,10 +68,6 @@ public class Name {
     public void addUserRecording(File recordingFile){
         _userRecordings.add(recordingFile);
         _nextRecordingIndex++;
-    }
-
-    public File getLatestUserRecording(){
-        return _userRecordings.get(_userRecordings.size() - 1);
     }
 
     public int getNextRecordingIndex(){
