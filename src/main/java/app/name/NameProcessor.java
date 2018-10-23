@@ -2,6 +2,7 @@ package app.name;
 
 import app.DialogGenerator;
 import app.Main;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 
 import java.io.*;
@@ -94,6 +95,15 @@ public class NameProcessor {
     }
 
     /**
+     * normalises and trims user recording
+     * @param recLoc
+     */
+    public void editUserRecording(String preRecLoc, String recLoc) {
+        AudioProcessTask aPTask = new AudioProcessTask(preRecLoc, recLoc);
+        new Thread(aPTask).start();
+    }
+
+    /**
      * Load in any previously recorded user recordings saved on disk for a given name
      * @param name
      */
@@ -173,9 +183,12 @@ public class NameProcessor {
 
     private class AudioProcessTask extends Task<Void> {
         boolean _composite = false;
+        boolean _userRec = false;
         Name _name;
         List<String> _nameList;
         String _outputLocStr;
+        String _preUserLocStr;
+        String _userLocStr;
 
 
         // for single name
@@ -190,9 +203,25 @@ public class NameProcessor {
             _outputLocStr = outputLocStr;
         }
 
+        // for user recordings
+        public AudioProcessTask(String preRecLoc, String recLoc) {
+            _userRec = true;
+            _preUserLocStr = preRecLoc;
+            _userLocStr = recLoc;
+        }
+
         @Override
         protected Void call() throws Exception {
-            if (!_composite) {
+            if (_userRec) {
+                this.normaliseAudio(_preUserLocStr, _userLocStr);
+
+                // trims the silence
+                String trimCmd = "ffmpeg -y -hide_banner -i \"" + _userLocStr +
+                        "\" -af silenceremove=1:0:-55dB:1:5:-55dB:0 \"" + _userLocStr + "\"";
+                ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
+                Process process = builder.start();
+                process.waitFor();
+            } else if (!_composite) {
                 String originalStr = _name.getDBRecording().toString();
                 String trimmedAudioStr = getTrimmedAudioLocation(_name.toString());
 
@@ -242,7 +271,7 @@ public class NameProcessor {
             int targetVol = 0;
 
             // finds the mean volume of the audio
-            String normCmd = "ffmpeg -i \"" + originalStr + "\" -filter:a volumedetect -f null /dev/null 2>&1 | grep mean_volume";
+            String normCmd = "ffmpeg -y -i \"" + originalStr + "\" -filter:a volumedetect -f null /dev/null 2>&1 | grep mean_volume";
             ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", normCmd);
             Process process = null;
             try {
@@ -270,6 +299,16 @@ public class NameProcessor {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+
+        @Override
+        protected void done() {
+            Platform.runLater(() -> {
+                //delete preprocessed audio file
+                if (_userRec) {
+                    new File(_preUserLocStr).delete();
+                }
+            });
         }
     }
 

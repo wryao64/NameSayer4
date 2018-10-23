@@ -5,6 +5,7 @@ import app.DialogGenerator;
 import app.Main;
 import app.audio.AudioPlayer;
 import app.name.Name;
+import app.name.NameProcessor;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -27,7 +28,9 @@ import java.util.ResourceBundle;
 
 public class RecordController implements Initializable {
     private Stage _stage;
+    private String _preprocessedFileName;
     private String _fileName;
+    private File _preRecordingFile;
     private File _recordingFile;
     private Task _audioCapTask;
     private boolean _fileSaved = false;
@@ -50,7 +53,7 @@ public class RecordController implements Initializable {
         backButton.setDisable(_buttonDisabled);
 
         // always disable play/save if no recording yet
-        if(!_recordingFile.exists()){
+        if(!_preRecordingFile.exists() && !_recordingFile.exists()){
             playButton.setDisable(true);
             saveButton.setDisable(true);
         } else {
@@ -95,10 +98,15 @@ public class RecordController implements Initializable {
         }
 
         // set fields correctly
+        _preprocessedFileName = directory.toString()+ "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + "p" + Main.AUDIO_FILETYPE;
         _fileName = directory.toString()+ "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + Main.AUDIO_FILETYPE;
+        _preRecordingFile = new File(_preprocessedFileName);
         _recordingFile = new File(_fileName);
 
         // safety check delete any previous recording with the same name
+        if(_preRecordingFile.exists()){
+            _preRecordingFile.delete();
+        }
         if(_recordingFile.exists()){
             _recordingFile.delete();
         }
@@ -160,16 +168,23 @@ public class RecordController implements Initializable {
                 .showConfirm();
 
         _fileSaved = true;
-
-        // prepare another file
-        _fileName = Main.RECORDING_LOCATION +
-                "/" + _currentName.toString() +
-                "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + Main.AUDIO_FILETYPE;
-        _recordingFile = new File(_fileName);
+        this.prepNewFile();
 
         // disable the buttons again
         playButton.setDisable(true);
         saveButton.setDisable(true);
+    }
+
+    private void prepNewFile() {
+        // prepare another file
+        _preprocessedFileName = Main.RECORDING_LOCATION +
+                "/" + _currentName.toString() +
+                "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + "p" + Main.AUDIO_FILETYPE;
+        _fileName = Main.RECORDING_LOCATION +
+                "/" + _currentName.toString() +
+                "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + Main.AUDIO_FILETYPE;
+        _preRecordingFile = new File(_preprocessedFileName);
+        _recordingFile = new File(_fileName);
     }
 
     /**
@@ -184,6 +199,7 @@ public class RecordController implements Initializable {
                     "Yes", "No");
             if(saveUnsaved) {
                 _currentName.addUserRecording(_recordingFile);
+                this.prepNewFile();
             } else {
                 _recordingFile.delete();
             }
@@ -215,7 +231,7 @@ public class RecordController implements Initializable {
         protected Void call() {
             try {
                 // do the recording
-                String cmd = "ffmpeg -f alsa -i default -t 5 \"" + _fileName + "\"";
+                String cmd = "ffmpeg -f alsa -i default -t 5 \"" + _preprocessedFileName + "\"";
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", cmd);
                 Process process = builder.start();
 
@@ -224,6 +240,10 @@ public class RecordController implements Initializable {
             } catch (IOException|InterruptedException e) {
                 e.printStackTrace();
             }
+
+            NameProcessor np = new NameProcessor();
+            np.editUserRecording(_preprocessedFileName, _fileName);
+
             return null;
         }
 
