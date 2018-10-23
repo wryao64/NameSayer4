@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NameProcessor {
-    private String listFile;
+    private String _listFile;
     private NamesDatabase _namesDB = new NamesDatabase();
 
     /**
@@ -25,7 +25,7 @@ public class NameProcessor {
      * @return a Name object with the name and audio file setup, null if Name not setup
      */
     public Name createName(String nameStr){
-        listFile = Main.COMPOSITE_LOCATION + "/";
+        _listFile = Main.COMPOSITE_LOCATION + "/";
         List<String> namesInDatabase = new ArrayList<>();
         List<String> namesNotInDatabase = new ArrayList<>();
         boolean createName = true;
@@ -76,7 +76,7 @@ public class NameProcessor {
                 String output = Main.COMPOSITE_LOCATION + "/" + listAsLine(namesInDatabase) + Main.AUDIO_FILETYPE;
 
                 // create a text file of the names to add
-                listFile += listAsLine(namesInDatabase) + ".txt";
+                _listFile += listAsLine(namesInDatabase) + ".txt";
                 createConcatTextFile(namesInDatabase);
 
                 AudioProcessTask aPTask = new AudioProcessTask(namesInDatabase, output);
@@ -133,7 +133,7 @@ public class NameProcessor {
 
     private void createConcatTextFile(List<String> list){
         try {
-            PrintWriter writer = new PrintWriter(listFile, "UTF-8");
+            PrintWriter writer = new PrintWriter(_listFile, "UTF-8");
             for(String str : list){
                 String fileStr = getTrimmedAudioLocation(str);
                 writer.println("file " + "'" + fileStr + "'");
@@ -260,7 +260,7 @@ public class NameProcessor {
                 process.waitFor();
 
                 // concatenates all parts of the name together
-                String cmd = "ffmpeg -y -f concat -safe 0 -i " + listFile + " -c copy " + _outputLocStr;
+                String cmd = "ffmpeg -y -f concat -safe 0 -i " + _listFile + " -c copy " + _outputLocStr;
                 builder = new ProcessBuilder("/bin/bash", "-c", cmd);
                 process = builder.start();
                 process.waitFor();

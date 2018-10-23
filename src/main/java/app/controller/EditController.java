@@ -31,7 +31,7 @@ public class EditController implements Initializable {
     private ObservableList<Name> _selectedNames = FXCollections.observableArrayList();
 
     private NamesDatabase _namesDB = new NamesDatabase();
-    private UserPetCollection user;
+    private UserPetCollection _user;
 
     @FXML private ListView<Name> selectedNamesList;
     @FXML private TextField nameInput;

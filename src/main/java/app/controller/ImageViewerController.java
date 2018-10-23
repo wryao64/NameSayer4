@@ -25,20 +25,20 @@ public class ImageViewerController implements Initializable {
     @FXML Button nextButton;
     @FXML Label aboutText;
 
-    private SimpleIntegerProperty currentIndex;
+    private SimpleIntegerProperty _currentIndex;
     private UserPetCollection _user;
-    private List<Name> namesToPassBack;
+    private List<Name> _namesToPassBack;
 
     public ImageViewerController(UserPetCollection user, List<Name> names){
         _user = user;
-        currentIndex = new SimpleIntegerProperty(user.getLatestIndex());
-        namesToPassBack = names;
+        _currentIndex = new SimpleIntegerProperty(user.getLatestIndex());
+        _namesToPassBack = names;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // bind currentIndex to change the pet and stuff
-        currentIndex.addListener((observable, oldValue, newValue) -> {
+        // bind _currentIndex to change the pet and stuff
+        _currentIndex.addListener((observable, oldValue, newValue) -> {
             showMeme();
             nextButtonDisablerCheck();
             previousButtonDisableCheck();
@@ -50,7 +50,7 @@ public class ImageViewerController implements Initializable {
         nextButtonDisablerCheck();
         previousButtonDisableCheck();
 
-        if(currentIndex.intValue() == 0){
+        if(_currentIndex.intValue() == 0){
             title.setText("Here's a cute animal picture!");
             aboutText.setText("More pictures will randomly drop when you record, listen and practise more names!");
         } else {
@@ -63,7 +63,7 @@ public class ImageViewerController implements Initializable {
     private void backButtonPress(){
         try {
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("NameDisplay.fxml"));
-            loader.setController(new NameDisplayController(namesToPassBack));
+            loader.setController(new NameDisplayController(_namesToPassBack));
             Parent nameView = loader.load();
             Main.getStage().setScene(new Scene(nameView));
         } catch (IOException e) {
@@ -73,21 +73,21 @@ public class ImageViewerController implements Initializable {
 
     @FXML
     private void next(){
-        currentIndex.set(currentIndex.intValue() + 1);
+        _currentIndex.set(_currentIndex.intValue() + 1);
     }
 
     @FXML
     private void previous(){
-        currentIndex.set(currentIndex.intValue() - 1);
+        _currentIndex.set(_currentIndex.intValue() - 1);
     }
 
     // show a pet on the ImageView
     private void showMeme(){
-        imageView.setImage(_user.getPicAtIndex(currentIndex.intValue()));
+        imageView.setImage(_user.getPicAtIndex(_currentIndex.intValue()));
     }
 
     private void nextButtonDisablerCheck(){
-        if(currentIndex.intValue() == _user.getLatestIndex()){
+        if(_currentIndex.intValue() == _user.getLatestIndex()){
             nextButton.setDisable(true);
         } else {
             nextButton.setDisable(false);
@@ -95,7 +95,7 @@ public class ImageViewerController implements Initializable {
     }
 
     private void previousButtonDisableCheck(){
-        if(currentIndex.intValue() == 0){
+        if(_currentIndex.intValue() == 0){
             previousButton.setDisable(true);
         } else {
             previousButton.setDisable(false);
