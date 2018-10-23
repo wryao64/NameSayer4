@@ -98,8 +98,8 @@ public class NameProcessor {
      * normalises and trims user recording
      * @param recLoc
      */
-    public void editUserRecording(String preRecLoc, String recLoc) {
-        AudioProcessTask aPTask = new AudioProcessTask(preRecLoc, recLoc);
+    public void editUserRecording(String preRecLoc, String halfRecLoc, String recLoc) {
+        AudioProcessTask aPTask = new AudioProcessTask(preRecLoc, halfRecLoc, recLoc);
         new Thread(aPTask).start();
     }
 
@@ -188,6 +188,7 @@ public class NameProcessor {
         List<String> _nameList;
         String _outputLocStr;
         String _preUserLocStr;
+        String _halfUserLocStr;
         String _userLocStr;
 
 
@@ -204,19 +205,20 @@ public class NameProcessor {
         }
 
         // for user recordings
-        public AudioProcessTask(String preRecLoc, String recLoc) {
+        public AudioProcessTask(String preRecLoc, String halfRecLoc, String recLoc) {
             _userRec = true;
             _preUserLocStr = preRecLoc;
+            _halfUserLocStr = halfRecLoc;
             _userLocStr = recLoc;
         }
 
         @Override
         protected Void call() throws Exception {
             if (_userRec) {
-                this.normaliseAudio(_preUserLocStr, _userLocStr);
+                this.normaliseAudio(_preUserLocStr, _halfUserLocStr);
 
                 // trims the silence
-                String trimCmd = "ffmpeg -y -hide_banner -i \"" + _userLocStr +
+                String trimCmd = "ffmpeg -y -hide_banner -i \"" + _halfUserLocStr +
                         "\" -af silenceremove=1:0:-55dB:1:5:-55dB:0 \"" + _userLocStr + "\"";
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
                 Process process = builder.start();
@@ -273,6 +275,7 @@ public class NameProcessor {
             // finds the mean volume of the audio
             String normCmd = "ffmpeg -y -i \"" + originalStr + "\" -filter:a volumedetect -f null /dev/null 2>&1 | grep mean_volume";
             ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", normCmd);
+            System.out.println(normCmd);
             Process process = null;
             try {
                 process = builder.start();
@@ -292,6 +295,7 @@ public class NameProcessor {
                 // changes the volume of the audio
                 String volumeCmd = "ffmpeg -y -i \"" + originalStr + "\" -filter:a \"volume=" + diff + "dB\" " + "\"" + normStr + "\"";
                 builder = new ProcessBuilder("/bin/bash", "-c", volumeCmd);
+                System.out.println(volumeCmd);
                 process = builder.start();
                 process.waitFor();
             } catch (IOException e) {

@@ -29,8 +29,10 @@ import java.util.ResourceBundle;
 public class RecordController implements Initializable {
     private Stage _stage;
     private String _preprocessedFileName;
+    private String _halfProcessedFileName;
     private String _fileName;
     private File _preRecordingFile;
+    private File _halfRecordingFile;
     private File _recordingFile;
     private Task _audioCapTask;
     private boolean _fileSaved = false;
@@ -99,8 +101,10 @@ public class RecordController implements Initializable {
 
         // set fields correctly
         _preprocessedFileName = directory.toString()+ "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + "p" + Main.AUDIO_FILETYPE;
+        _halfProcessedFileName = directory.toString()+ "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + "h" + Main.AUDIO_FILETYPE;
         _fileName = directory.toString()+ "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + Main.AUDIO_FILETYPE;
         _preRecordingFile = new File(_preprocessedFileName);
+        _halfRecordingFile = new File(_halfProcessedFileName);
         _recordingFile = new File(_fileName);
 
         // safety check delete any previous recording with the same name
@@ -180,10 +184,14 @@ public class RecordController implements Initializable {
         _preprocessedFileName = Main.RECORDING_LOCATION +
                 "/" + _currentName.toString() +
                 "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + "p" + Main.AUDIO_FILETYPE;
+        _halfProcessedFileName = Main.RECORDING_LOCATION +
+                "/" + _currentName.toString() +
+                "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + "h" + Main.AUDIO_FILETYPE;
         _fileName = Main.RECORDING_LOCATION +
                 "/" + _currentName.toString() +
                 "/" + _currentName.toString() + _currentName.getNextRecordingIndex() + Main.AUDIO_FILETYPE;
         _preRecordingFile = new File(_preprocessedFileName);
+        _halfRecordingFile = new File(_halfProcessedFileName);
         _recordingFile = new File(_fileName);
     }
 
@@ -242,7 +250,7 @@ public class RecordController implements Initializable {
             }
 
             NameProcessor np = new NameProcessor();
-            np.editUserRecording(_preprocessedFileName, _fileName);
+            np.editUserRecording(_preprocessedFileName, _halfProcessedFileName,  _fileName);
 
             return null;
         }
