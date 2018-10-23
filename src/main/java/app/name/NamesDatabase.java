@@ -47,7 +47,7 @@ public class NamesDatabase {
             Matcher matcher = pattern.matcher(nameFile.getName());
             while(matcher.find()){
                 String name = matcher.group(1);
-                _namesDB.put(name.toLowerCase(), nameFile);
+                _namesDB.put(name, nameFile);
             }
         }
     }
