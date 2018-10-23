@@ -47,7 +47,7 @@ public class NamesDatabase {
             Matcher matcher = pattern.matcher(nameFile.getName());
             while(matcher.find()){
                 String name = matcher.group(1);
-                _namesDB.put(name, nameFile);
+                _namesDB.put(name.toLowerCase(), nameFile);
             }
         }
     }
@@ -71,13 +71,19 @@ public class NamesDatabase {
             latestName = name.substring(latestIndex+1);
         }
 
-        List<String> suggestions = getAllNames();
+        List<String> matchingNames = getAllNames();
 
         // filter suggestions
-        suggestions = suggestions
+        matchingNames = matchingNames
                 .stream()
                 .filter(s -> s.toLowerCase().startsWith(latestName.toLowerCase()))
                 .collect(Collectors.toList());
+
+        List<String> suggestions = new ArrayList<>();
+
+        for(String str : matchingNames){
+            suggestions.add(str.substring(0,1).toUpperCase() + str.substring(1));
+        }
 
         // add on the previous names
         if(latestIndex != 0){
