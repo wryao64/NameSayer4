@@ -219,7 +219,7 @@ public class NameProcessor {
 
                 // trims the silence
                 String trimCmd = "ffmpeg -y -hide_banner -i \"" + _halfUserLocStr +
-                        "\" -af silenceremove=1:0:-55dB:1:5:-55dB:0 \"" + _userLocStr + "\"";
+                        "\" -af silenceremove=1:0:-30dB:1:5:-30dB:0 \"" + _userLocStr + "\"";
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
                 Process process = builder.start();
                 process.waitFor();
@@ -231,7 +231,7 @@ public class NameProcessor {
 
                 // trims the silence
                 String trimCmd = "ffmpeg -y -hide_banner -i \"" + trimmedAudioStr +
-                        "\" -af silenceremove=1:0:-55dB:1:5:-55dB:0 \"" + trimmedAudioStr + "\"";
+                        "\" -af silenceremove=1:0:-30dB:1:5:-30dB:0 \"" + trimmedAudioStr + "\"";
                 ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", trimCmd);
                 Process process = builder.start();
                 process.waitFor();
@@ -246,7 +246,7 @@ public class NameProcessor {
                     this.normaliseAudio(_name.getDBRecording().toString(), trimmedAudioStr);
 
                     String trimCmdPart = "ffmpeg -y -hide_banner -i \"" + trimmedAudioStr +
-                            "\" -af silenceremove=1:0:-55dB:1:5:-55dB:0 \"" + trimmedAudioStr + "\"";
+                            "\" -af silenceremove=1:0:-30dB:1:5:-30dB:0 \"" + trimmedAudioStr + "\"";
 
                     if (trimCmd != "") {
                         trimCmd = trimCmd + " && " + trimCmdPart;
